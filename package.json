@@ -11,11 +11,18 @@
     "build": "ember build",
     "test": "ember try:testall"
   },
-  "repository": "",
+  "repository": "https://github.com/poteto/ember-metrics",
+  "bugs": "https://github.com/poteto/ember-metrics/issues",
+  "homepage": "https://github.com/poteto/ember-metrics",
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": "Lauren Tan",
+  "contributors": [
+    {
+      "name": "Michael Dupuis Jr"
+    }
+  ],
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.2",
@@ -30,14 +37,19 @@
     "ember-cli-qunit": "0.3.15",
     "ember-cli-release": "0.2.3",
     "ember-cli-uglify": "^1.0.1",
-    "ember-data": "1.13.5",
+    "ember-disable-prototype-extensions": "^1.0.0",
     "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.2",
-    "ember-disable-prototype-extensions": "^1.0.0",
+    "ember-sinon": "0.2.1",
     "ember-try": "0.0.6"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "metrics",
+    "analytics",
+    "segment",
+    "tracking",
+    "google analytics"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.0.0"
