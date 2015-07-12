@@ -154,7 +154,7 @@ export default Ember.Route.extend({
   metrics: Ember.inject.service(),
   afterModel(model) {
     const metrics = Ember.get(this, 'metrics');
-    const id = Ember.get('model', 'googleAnalyticsKey');
+    const id = Ember.get(model, 'googleAnalyticsKey');
 
     metrics.activateAdapters([
       {
