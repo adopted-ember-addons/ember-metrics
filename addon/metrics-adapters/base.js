@@ -22,7 +22,7 @@ export default emberObject.extend({
   toString() {
     const hasToStringExtension = typeOf(this.toStringExtension) === 'function';
     const extension = hasToStringExtension ? ':' + this.toStringExtension() : '';
-    const ret = `ember-metrics@adapter:${extension}:${guidFor(this)}`;
+    const ret = `ember-metrics@metrics-adapter:${extension}:${guidFor(this)}`;
 
     this.toString = makeToString(ret);
     return ret;

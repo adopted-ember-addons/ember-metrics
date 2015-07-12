@@ -1,6 +1,8 @@
 # ember-metrics
 *Send data to multiple analytics services without re-implementing new API*
 
+[![Build Status](https://travis-ci.org/poteto/ember-metrics.svg)](https://travis-ci.org/poteto/ember-metrics)
+
 This addon adds a simple `metrics` service and customized `LinkComponent` to your app that makes it simple to send data to multiple analytics services without having to implement a new API each time.
 
 Using this addon, you can easily use bundled adapters for various analytics services, and one API to track events, page views, and more. When you decide to add another analytics service to your stack, all you need to do is add it to your configuration, and that's it!
@@ -140,6 +142,10 @@ The `metricsAdapters` option in `ENV` accepts an array of objects containing set
 ```
 
 Values in the `config` portion of the object are dependent on the adapter. 
+
+### Lazy Initialization
+
+can also call activateAdapters if your api keys are dynamic
 
 ## Writing Your Own Adapters
 
