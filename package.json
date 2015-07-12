@@ -1,7 +1,7 @@
 {
   "name": "ember-metrics",
-  "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.0.1",
+  "description": "Send data to multiple analytics integrations without re-implementing new API",
   "directories": {
     "doc": "doc",
     "test": "tests"
