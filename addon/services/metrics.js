@@ -8,6 +8,7 @@ const {
   getWithDefault,
   assert,
   isNone,
+  warn,
   A: emberArray
 } = Ember;
 const {
@@ -40,11 +41,19 @@ export default Service.extend({
   },
 
   activateAdapters(adapterOptions = []) {
+    const cachedAdapters = get(this, '_adapters');
     let activatedAdapters = {};
 
     adapterOptions.forEach((adapterOption) => {
       const { name } = adapterOption;
-      const adapter = this._activateAdapter(adapterOption);
+      let adapter;
+
+      if (cachedAdapters[name]) {
+        warn(`[ember-metrics] Metrics adapter ${name} has already been activated.`);
+        adapter = cachedAdapters[name];
+      } else {
+        adapter = this._activateAdapter(adapterOption);
+      }
 
       set(activatedAdapters, name, adapter);
     });
@@ -82,7 +91,7 @@ export default Service.extend({
     } = adapterOption;
 
     const Adapter = this._lookupAdapter(name);
-    assert(`Could not find metrics adapter ${name}`, Adapter);
+    assert(`[ember-metrics] Could not find metrics adapter ${name}.`, Adapter);
 
     return Adapter.create({
       metrics,

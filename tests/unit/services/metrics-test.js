@@ -55,6 +55,33 @@ test('#activateAdapters activates an array of adapters', function(assert) {
   assert.equal(get(service, '_adapters.GoogleAnalytics.config.id'), 'UA-XXXX-Y', 'it passes config options to the GoogleAnalytics adapter');
 });
 
+test('#activateAdapters is idempotent', function(assert) {
+  const service = this.subject({ metricsAdapters });
+  service.activateAdapters([
+    {
+      name: 'GoogleAnalytics',
+      config: {
+        id: 'I like pie'
+      }
+    },
+    {
+      name: 'Mixpanel',
+      config: {
+        id: 'I like pie'
+      }
+    },
+    {
+      name: 'LocalDummyAdapter',
+      config: {
+        id: 'I like pie'
+      }
+    }
+  ]);
+  assert.equal(get(service, '_adapters.GoogleAnalytics.config.id'), 'UA-XXXX-Y', 'it does not override the GoogleAnalytics adapter');
+  assert.equal(get(service, '_adapters.Mixpanel.config.token'), '0f76c037-4d76-4fce-8a0f-a9a8f89d1453', 'it does not override the Mixpanel adapter');
+  assert.equal(get(service, '_adapters.LocalDummyAdapter.config.foo'), 'bar', 'it does not override the LocalDummyAdapter');
+});
+
 test('#invoke invokes the named method on activated adapters', function(assert) {
   const service = this.subject({ metricsAdapters });
   const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'identify');

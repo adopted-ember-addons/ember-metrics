@@ -16,7 +16,7 @@ function makeToString(ret) {
 
 export default emberObject.extend({
   init() {
-    assert(`${this.toString()} must implement the init hook!`);
+    assert(`[ember-metrics] ${this.toString()} must implement the init hook!`);
   },
 
   toString() {
