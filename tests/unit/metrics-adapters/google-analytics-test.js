@@ -1,13 +1,14 @@
 import { moduleFor, test } from 'ember-qunit';
 import sinon from 'sinon';
 
-let sandbox;
+let sandbox, config;
 
-moduleFor('ember-metrics@metrics-adapter:google-analytics', 'google-analytics', {
-  // Specify the other units that are required for this test.
-  // needs: ['serializer:foo']
+moduleFor('ember-metrics@metrics-adapter:google-analytics', 'google-analytics adapter', {
   beforeEach() {
     sandbox = sinon.sandbox.create();
+    config = {
+      id: 'UA-XXXX-Y'
+    };
   },
   afterEach() {
     sandbox.restore();
@@ -15,11 +16,7 @@ moduleFor('ember-metrics@metrics-adapter:google-analytics', 'google-analytics', 
 });
 
 test('#trackEvent returns the correct response shape', function(assert) {
-  const adapter = this.subject({
-    config: {
-      id: 'UA-XXXX-Y'
-    }
-  });
+  const adapter = this.subject({ config });
   const result = adapter.trackEvent({
     category: 'button',
     action: 'click',
@@ -38,11 +35,7 @@ test('#trackEvent returns the correct response shape', function(assert) {
 });
 
 test('#trackPage returns the correct response shape', function(assert) {
-  const adapter = this.subject({
-    config: {
-      id: 'UA-XXXX-Y'
-    }
-  });
+  const adapter = this.subject({ config });
   const result = adapter.trackPage({
     page: '/my-overridden-page?id=1',
     title: 'my overridden page'
