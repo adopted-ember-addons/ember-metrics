@@ -16,12 +16,12 @@ export default LinkComponent.reopen({
 
   click() {
     const attrs = Object.keys(get(this, 'attrs'));
-    const metrics = get(this, 'metrics');
+
     const metricsProperties = this._deserializeEvent(attrs);
     const hasMetricsKeys = isPresent(Object.keys(metricsProperties));
 
     if (hasMetricsKeys) {
-      metrics.trackEvent(metricsProperties);
+      this._trackEvent(metricsProperties);
     }
 
     this._super(...arguments);
@@ -39,5 +39,17 @@ export default LinkComponent.reopen({
     });
 
     return metricsProperties;
+  },
+
+  _trackEvent(metricsProperties) {
+    const metrics = get(this, 'metrics');
+    const { adapterName } = metricsProperties;
+    delete metricsProperties.adapterName;
+
+    if (adapterName) {
+      metrics.trackEvent(adapterName, metricsProperties);
+    } else {
+      metrics.trackEvent(metricsProperties);
+    }
   }
 });
