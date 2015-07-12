@@ -112,5 +112,13 @@ export default Service.extend({
     const adapter = availableAdapter ? availableAdapter : localAdapter;
 
     return adapter;
+  },
+
+  willDestroy() {
+    const adapters = get(this, '_adapters');
+
+    for (let adapterName in adapters) {
+      get(adapters, adapterName).destroy();
+    }
   }
 });
