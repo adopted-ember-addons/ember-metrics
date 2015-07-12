@@ -190,7 +190,7 @@ This method is called when an adapter is activated by the service. It is respons
 
 #### willDestroy
 
-When the adapter is destroyed, it should remove its script tag and property. This is usually defined on the `window`. `
+When the adapter is destroyed, it should remove its script tag and property. This is usually defined on the `window`.
 
 ## Testing
 
