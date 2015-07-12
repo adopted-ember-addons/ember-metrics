@@ -1,6 +1,6 @@
 {
   "name": "ember-metrics",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Send data to multiple analytics integrations without re-implementing new API",
   "directories": {
     "doc": "doc",
@@ -21,6 +21,9 @@
   "contributors": [
     {
       "name": "Michael Dupuis Jr"
+    },
+    {
+      "name": "Mike North"
     }
   ],
   "license": "MIT",
