@@ -1,16 +1,21 @@
 import Ember from 'ember';
 import canUseDOM from '../utils/can-use-dom';
+import objectTransforms from '../utils/object-transforms';
 import BaseAdapter from './base';
 
 const get = Ember.get;
 const {
   String: emberString,
   assert,
-  merge
+  merge,
+  $
 } = Ember;
 const {
   capitalize
 } = emberString;
+const {
+  compact
+} = objectTransforms;
 
 export default BaseAdapter.extend({
   toStringExtension() {
@@ -37,36 +42,37 @@ export default BaseAdapter.extend({
   },
 
   trackEvent(options = {}) {
+    const compactedOptions = compact(options);
     const sendEvent = {
       hitType: 'event'
     };
     let gaEvent = {};
 
-    for (let key in options) {
+    for (let key in compactedOptions) {
       const capitalizedKey = capitalize(key);
-      gaEvent[`event${capitalizedKey}`] = options[key];
+      gaEvent[`event${capitalizedKey}`] = compactedOptions[key];
     }
 
     const event = merge(sendEvent, gaEvent);
-
-    if (canUseDOM) {
-      window.ga('send', event);
-    }
+    window.ga('send', event);
 
     return event;
   },
 
   trackPage(options = {}) {
+    const compactedOptions = compact(options);
     const sendEvent = {
       hitType: 'pageview'
     };
 
-    const event = merge(sendEvent, options);
-
-    if (canUseDOM) {
-      window.ga('send', event);
-    }
+    const event = merge(sendEvent, compactedOptions);
+    window.ga('send', event);
 
     return event;
+  },
+
+  willDestroy() {
+    $('script[src*="google-analytics"]').remove();
+    delete window.ga;
   }
 });

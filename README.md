@@ -1,7 +1,7 @@
 # ember-metrics
 *Send data to multiple analytics services without re-implementing new API*
 
-[![Build Status](https://travis-ci.org/poteto/ember-metrics.svg)](https://travis-ci.org/poteto/ember-metrics)
+[![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) [![Build Status](https://travis-ci.org/poteto/ember-metrics.svg)](https://travis-ci.org/poteto/ember-metrics) 
 
 This addon adds a simple `metrics` service and customized `LinkComponent` to your app that makes it simple to send data to multiple analytics services without having to implement a new API each time.
 
@@ -9,7 +9,7 @@ Using this addon, you can easily use bundled adapters for various analytics serv
 
 Writing your own adapters for currently unsupported analytics services is easy too. If you'd like to then share it with the world, submit a pull request and we'll add it to the bundled adapters.
 
-## Installing the addon
+## Installing The Addon
 
 For Ember CLI >= `0.2.3`:
 
@@ -179,6 +179,18 @@ $ ember generate metrics-adapter foo-bar
 ```
 
 This creates `app/metrics-adapters/foo-bar.js` and a unit test at `tests/unit/metrics-adapters/foo-bar-test.js`, which you should now customize. Apart from the 4 methods that the service expects, you must implement the `init` hook in order to inject the script tag and initialize the analytics service. 
+
+### Required Methods
+
+The standard contracts are optionally defined, but `init` and `willDestroy` must be implemented by your adapter.
+
+#### init
+
+This method is called when an adapter is activated by the service. It is responsible for adding the required script tag used by the integration, and for initializing it.
+
+#### willDestroy
+
+When the adapter is destroyed, it should remove its script tag and property. This is usually defined on the `window`.
 
 ## Testing
 

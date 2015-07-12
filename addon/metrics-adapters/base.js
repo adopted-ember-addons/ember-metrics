@@ -1,9 +1,11 @@
 /* jshint unused: false */
 import Ember from 'ember';
+import canUseDOM from '../utils/can-use-dom';
 
 const set = Ember.set;
 const {
   Object: emberObject,
+  aliasMethod,
   assert,
   guidFor,
   typeOf,
@@ -19,6 +21,10 @@ export default emberObject.extend({
     assert(`[ember-metrics] ${this.toString()} must implement the init hook!`);
   },
 
+  willDestroy() {
+    assert(`[ember-metrics] ${this.toString()} must implement the willDestroy hook!`);
+  },
+
   toString() {
     const hasToStringExtension = typeOf(this.toStringExtension) === 'function';
     const extension = hasToStringExtension ? ':' + this.toStringExtension() : '';
@@ -31,6 +37,7 @@ export default emberObject.extend({
   metrics: null,
   config: null,
   identify: K,
+  track: aliasMethod('trackEvent'),
   trackEvent: K,
   trackPage: K,
   alias: K

@@ -6,5 +6,6 @@ export default BaseAdapter.extend({
     return 'LocalDummy';
   },
 
-  init: Ember.K
+  init: Ember.K,
+  willDestroy: Ember.K
 });
