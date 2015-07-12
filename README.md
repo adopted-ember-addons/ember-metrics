@@ -145,7 +145,30 @@ Values in the `config` portion of the object are dependent on the adapter.
 
 ### Lazy Initialization
 
-can also call activateAdapters if your api keys are dynamic
+If your app implements dynamic API keys for various analytics integration, you can defer the initialization of the adapters. Instead of configuring `ember-metrics` through `config/environment`, you can call the following from any Object registered in the container:
+
+```js
+import Ember from 'ember';
+
+export default Ember.Route.extend({
+  metrics: Ember.inject.service(),
+  afterModel(model) {
+    const metrics = Ember.get(this, 'metrics');
+    const id = Ember.get('model', 'googleAnalyticsKey');
+
+    metrics.activateAdapters([
+      {
+        name: 'GoogleAnalytics',
+        config: {
+          id
+        }
+      }
+    ]);
+  }
+});
+```
+
+Because `activateAdapters` is idempotent, you can call it as many times as you'd like. However, it will not reinstantiate existing adapters.
 
 ## Writing Your Own Adapters
 
@@ -155,7 +178,7 @@ First, generate a new Metrics Adapter:
 $ ember generate metrics-adapter foo-bar
 ```
 
-This creates `app/metrics-adapters/foo-bar.js`, which you should now customize. Apart from the 4 methods that the service expects, you must implement the `init` hook in order to inject the script tag and initialize the analytics service. 
+This creates `app/metrics-adapters/foo-bar.js` and a unit test at `tests/unit/metrics-adapters/foo-bar-test.js`, which you should now customize. Apart from the 4 methods that the service expects, you must implement the `init` hook in order to inject the script tag and initialize the analytics service. 
 
 ## Testing
 
@@ -164,9 +187,9 @@ For unit tests, you will need to specify the adapters in use under `needs`, like
 ```js
 moduleFor('route:foo', 'Unit | Route | foo', {
   needs: [
-    'ember-metrics@metrics-adapter:google-analytics',
-    'ember-metrics@metrics-adapter:mixpanel',
-    'metrics-adapter:local-dummy-adapter'
+    'ember-metrics@metrics-adapter:google-analytics', // bundled adapter
+    'ember-metrics@metrics-adapter:mixpanel', // bundled adapter
+    'metrics-adapter:local-dummy-adapter' // local adapter
   ]
 });
 ```

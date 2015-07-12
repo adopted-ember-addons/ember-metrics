@@ -23,7 +23,7 @@ export default BaseAdapter.extend({
       id
     } = config;
 
-    assert('You must pass a valid `id` to the Google Analytics adapter', id);
+    assert('[ember-metrics@google-analytics] You must pass a valid `id` to the Google Analytics adapter', id);
 
     if (canUseDOM) {
       /* jshint ignore:start */
@@ -50,8 +50,10 @@ export default BaseAdapter.extend({
     const event = merge(sendEvent, gaEvent);
 
     if (canUseDOM) {
-      return window.ga('send', event);
+      window.ga('send', event);
     }
+
+    return event;
   },
 
   trackPage(options = {}) {
@@ -62,7 +64,9 @@ export default BaseAdapter.extend({
     const event = merge(sendEvent, options);
 
     if (canUseDOM) {
-      return window.ga('send', event);
+      window.ga('send', event);
     }
+
+    return event;
   }
 });
