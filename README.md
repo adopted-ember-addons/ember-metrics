@@ -59,13 +59,13 @@ metrics.trackPage('GoogleAnalytics', {
 
 There are 4 main methods implemented by the service, with the same argument signature:
 
-- `trackPage([analyticsName], options)` **alias:** `track`
+- `trackPage([analyticsName], options)` 
   
   This is commonly used by analytics services to track page views. Due to the way Single Page Applications implement routing, you will need to call this on the `activate` hook of each route to track all page views.
 
-- `trackEvent([analyticsName], options)`
+- `trackEvent([analyticsName], options)` **alias:** `track`
   
-  This is a general purpose method for tracking a named event in your application. 
+  This is a general purpose method for tracking a named event in your application. You can also use `track`.
 
 - `identify([analyticsName], options)`
   
@@ -178,7 +178,7 @@ First, generate a new Metrics Adapter:
 $ ember generate metrics-adapter foo-bar
 ```
 
-This creates `app/metrics-adapters/foo-bar.js` and a unit test at `tests/unit/metrics-adapters/foo-bar-test.js`, which you should now customize. Apart from the 4 methods that the service expects, you must implement the `init` hook in order to inject the script tag and initialize the analytics service. 
+This creates `app/metrics-adapters/foo-bar.js` and a unit test at `tests/unit/metrics-adapters/foo-bar-test.js`, which you should now customize. 
 
 ### Required Methods
 
