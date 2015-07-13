@@ -37,7 +37,6 @@ export default emberObject.extend({
   metrics: null,
   config: null,
   identify: K,
-  track: aliasMethod('trackEvent'),
   trackEvent: K,
   trackPage: K,
   alias: K

@@ -1,7 +1,7 @@
 # ember-metrics
 *Send data to multiple analytics services without re-implementing new API*
 
-[![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) [![Build Status](https://travis-ci.org/poteto/ember-metrics.svg)](https://travis-ci.org/poteto/ember-metrics) 
+[![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) [![Build Status](https://travis-ci.org/poteto/ember-metrics.svg)](https://travis-ci.org/poteto/ember-metrics) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics)
 
 This addon adds a simple `metrics` service and customized `LinkComponent` to your app that makes it simple to send data to multiple analytics services without having to implement a new API each time.
 
@@ -59,13 +59,13 @@ metrics.trackPage('GoogleAnalytics', {
 
 There are 4 main methods implemented by the service, with the same argument signature:
 
-- `trackPage([analyticsName], options)`
+- `trackPage([analyticsName], options)` 
   
   This is commonly used by analytics services to track page views. Due to the way Single Page Applications implement routing, you will need to call this on the `activate` hook of each route to track all page views.
 
 - `trackEvent([analyticsName], options)`
   
-  This is a general purpose method for tracking a named event in your application. 
+  This is a general purpose method for tracking a named event in your application.
 
 - `identify([analyticsName], options)`
   
@@ -178,7 +178,7 @@ First, generate a new Metrics Adapter:
 $ ember generate metrics-adapter foo-bar
 ```
 
-This creates `app/metrics-adapters/foo-bar.js` and a unit test at `tests/unit/metrics-adapters/foo-bar-test.js`, which you should now customize. Apart from the 4 methods that the service expects, you must implement the `init` hook in order to inject the script tag and initialize the analytics service. 
+This creates `app/metrics-adapters/foo-bar.js` and a unit test at `tests/unit/metrics-adapters/foo-bar-test.js`, which you should now customize. 
 
 ### Required Methods
 
