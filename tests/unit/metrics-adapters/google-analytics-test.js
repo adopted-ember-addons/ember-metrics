@@ -17,6 +17,7 @@ moduleFor('ember-metrics@metrics-adapter:google-analytics', 'google-analytics ad
 
 test('#trackEvent returns the correct response shape', function(assert) {
   const adapter = this.subject({ config });
+  sandbox.stub(window, 'ga');
   const result = adapter.trackEvent({
     category: 'button',
     action: 'click',
@@ -36,6 +37,7 @@ test('#trackEvent returns the correct response shape', function(assert) {
 
 test('#trackPage returns the correct response shape', function(assert) {
   const adapter = this.subject({ config });
+  sandbox.stub(window, 'ga');
   const result = adapter.trackPage({
     page: '/my-overridden-page?id=1',
     title: 'my overridden page'
