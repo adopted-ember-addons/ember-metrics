@@ -25,7 +25,7 @@ export default BaseAdapter.extend({
       token
     } = config;
 
-    assert('[ember-metrics@google-analytics] You must pass a valid `token` to the Mixpanel adapter', token);
+    assert(`[ember-metrics] You must pass a valid \`token\` to the ${this.toString()} adapter`, token);
 
     if (canUseDOM) {
       /* jshint ignore:start */
