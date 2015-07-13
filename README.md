@@ -63,9 +63,9 @@ There are 4 main methods implemented by the service, with the same argument sign
   
   This is commonly used by analytics services to track page views. Due to the way Single Page Applications implement routing, you will need to call this on the `activate` hook of each route to track all page views.
 
-- `trackEvent([analyticsName], options)` **alias:** `track`
+- `trackEvent([analyticsName], options)`
   
-  This is a general purpose method for tracking a named event in your application. You can also use `track`.
+  This is a general purpose method for tracking a named event in your application.
 
 - `identify([analyticsName], options)`
   

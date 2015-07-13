@@ -84,6 +84,8 @@ test('#activateAdapters is idempotent', function(assert) {
 
 test('#invoke invokes the named method on activated adapters', function(assert) {
   const service = this.subject({ metricsAdapters });
+  const MixpanelStub = sandbox.stub(window.mixpanel, 'identify');
+  const GoogleAnalyticsStub = sandbox.stub(window, 'ga');
   const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'identify');
   const MixpanelSpy = sandbox.spy(get(service, '_adapters.Mixpanel'), 'identify');
   const options = {
@@ -97,26 +99,32 @@ test('#invoke invokes the named method on activated adapters', function(assert) 
   assert.ok(GoogleAnalyticsSpy.calledWith(options), 'it invokes with the correct arguments');
   assert.ok(MixpanelSpy.calledOnce, 'it invokes the identify method on the adapter');
   assert.ok(MixpanelSpy.calledWith(options), 'it invokes with the correct arguments');
+  assert.ok(MixpanelStub.calledOnce, 'it invoked the Mixpanel method');
+  assert.equal(GoogleAnalyticsStub.callCount, 0, 'it does not call methods that are not implemented by the adapter');
 });
 
 test('#invoke invokes the named method on a single activated adapter', function(assert) {
   const service = this.subject({ metricsAdapters });
-  const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'identify');
-  const MixpanelSpy = sandbox.spy(get(service, '_adapters.Mixpanel'), 'identify');
+  const GoogleAnalyticsStub = sandbox.stub(window, 'ga');
+  const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'trackEvent');
+  const MixpanelSpy = sandbox.spy(get(service, '_adapters.Mixpanel'), 'trackEvent');
   const options = {
     userId: '1e810c197e',
     name: 'Bill Limbergh',
     email: 'bill@initech.com'
   };
-  service.invoke('identify', 'GoogleAnalytics', options);
+  service.invoke('trackEvent', 'GoogleAnalytics', options);
 
-  assert.ok(GoogleAnalyticsSpy.calledOnce, 'it invokes the identify method on the adapter');
+  assert.ok(GoogleAnalyticsSpy.calledOnce, 'it invokes the track method on the adapter');
   assert.ok(GoogleAnalyticsSpy.calledWith(options), 'it invokes with the correct arguments');
+  assert.ok(GoogleAnalyticsStub.calledOnce, 'it invoked the Google Analytics method');
   assert.equal(MixpanelSpy.callCount, 0, 'it does not invoke other adapters');
 });
 
 test('it implements standard contracts', function(assert) {
   const service = this.subject({ metricsAdapters });
+  sandbox.stub(window.mixpanel);
+  sandbox.stub(window, 'ga');
   const spy = sandbox.spy(service, 'invoke');
   const expectedContracts = [ 'identify', 'alias', 'trackEvent', 'trackPage' ];
 
