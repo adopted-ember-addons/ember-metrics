@@ -4,7 +4,7 @@ import objectTransforms from '../utils/object-transforms';
 import BaseAdapter from './base';
 
 const get = Ember.get;
-const { assert } = Ember;
+const { assert, $ } = Ember;
 const { isPresent } = objectTransforms;
 
 export default BaseAdapter.extend({
@@ -20,7 +20,8 @@ export default BaseAdapter.extend({
 
     if (canUseDOM) {
       /* jshint ignore:start */
-      var _cio = _cio || [];
+      window._cio = window._cio || [];
+
       (function() {
         var a,b,c;a=function(f){return function(){_cio.push([f].
         concat(Array.prototype.slice.call(arguments,0)))}};b=["identify",
@@ -49,7 +50,7 @@ export default BaseAdapter.extend({
     window._cio.track(name, options);
   },
 
-  willdestroy() {
+  willDestroy() {
     $('script[src*="customer.io"]').remove();
     delete window._cio;
   }

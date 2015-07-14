@@ -31,6 +31,6 @@ test('#identify calls `_cio.identify` with the right arguments', function(assert
 
   adapter.identify(options);
 
-  assert.ok(stub.firstCall.calledWith('production_34', options), 'it sends the correct arguments and options');
+  assert.ok(stub.firstCall.calledWith(options), 'it sends the correct arguments and options');
 });
 
