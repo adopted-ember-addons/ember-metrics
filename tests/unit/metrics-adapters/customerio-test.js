@@ -34,3 +34,20 @@ test('#identify calls `_cio.identify` with the right arguments', function(assert
   assert.ok(stub.firstCall.calledWith(options), 'it sends the correct arguments and options');
 });
 
+test('#trackEvent calls `_cio.track` with the right arguments', function(assert) {
+  let adapter = this.subject({ config });
+  const stub = sandbox.stub(window._cio, 'track', () => {
+    return true;
+  });
+
+  let options = {
+    name: 'signed_up',
+    plan: 'free',
+    onboarding: true
+  };
+
+  adapter.trackEvent(options);
+
+  assert.ok(stub.firstCall.calledWith('signed_up', { plan: 'free', onboarding: true }), 'it sends the correct arguments and options');
+});
+

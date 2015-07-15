@@ -23,9 +23,9 @@ export default BaseAdapter.extend({
       window._cio = window._cio || [];
 
       (function() {
-        var a,b,c;a=function(f){return function(){_cio.push([f].
+        var a,b,c;a=function(f){return function(){window._cio.push([f].
         concat(Array.prototype.slice.call(arguments,0)))}};b=["identify",
-        "track"];for(c=0;c<b.length;c++){_cio[b[c]]=a(b[c])};
+        "track"];for(c=0;c<b.length;c++){window._cio[b[c]]=a(b[c])};
         var t = document.createElement('script'),
             s = document.getElementsByTagName('script')[0];
         t.async = true;
@@ -44,7 +44,11 @@ export default BaseAdapter.extend({
     window._cio.identify(options);
   },
 
-  trackEvent(name, options = {}) {
+  trackEvent(options = {}) {
+    let { name } = options;
+
+    delete options.name;
+
     assert('You must provide a name for your event', name);
 
     window._cio.track(name, options);
