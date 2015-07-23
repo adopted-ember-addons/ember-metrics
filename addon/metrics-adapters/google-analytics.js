@@ -28,7 +28,7 @@ export default BaseAdapter.extend({
       id
     } = config;
 
-    assert('[ember-metrics@google-analytics] You must pass a valid `id` to the Google Analytics adapter', id);
+    assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
     if (canUseDOM) {
       /* jshint ignore:start */
