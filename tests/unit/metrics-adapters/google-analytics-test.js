@@ -50,3 +50,14 @@ test('#trackPage returns the correct response shape', function(assert) {
 
   assert.deepEqual(result, expectedResult, 'it sends the correct response shape');
 });
+
+test('#trackPage returns the correct response shape', function(assert) {
+  const adapter = this.subject({ config });
+  sandbox.stub(window, 'ga');
+  const result = adapter.trackPage();
+  const expectedResult = {
+    hitType: 'pageview'
+  };
+
+  assert.deepEqual(result, expectedResult, 'it sends the correct response shape');
+});
