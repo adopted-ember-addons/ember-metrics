@@ -74,11 +74,9 @@ export default Service.extend({
       const adapter = get(adaptersObj, adapterName);
 
       adapter[methodName](options);
-    } else if (args.length === 1) {
-      const options = args.pop();
-
+    } else {
       adapters.forEach((adapter) => {
-        adapter[methodName](options);
+        adapter[methodName](...args);
       });
     }
   },
