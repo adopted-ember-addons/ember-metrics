@@ -3,10 +3,10 @@ import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
 import BaseAdapter from './base';
 
-const get = Ember.get;
 const {
   assert,
-  $
+  $,
+  get
 } = Ember;
 const {
   without,
@@ -21,9 +21,7 @@ export default BaseAdapter.extend({
 
   init() {
     const config = get(this, 'config');
-    const {
-      token
-    } = config;
+    const { token } = config;
 
     assert(`[ember-metrics] You must pass a valid \`token\` to the ${this.toString()} adapter`, token);
 
