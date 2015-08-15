@@ -1,19 +1,16 @@
 import Ember from 'ember';
 
-const get = Ember.get;
-const set = Ember.set;
 const {
-  String: emberString,
   Service,
   getWithDefault,
   assert,
   isNone,
   warn,
-  A: emberArray
+  get,
+  set,
+  A: emberArray,
+  String: { dasherize }
 } = Ember;
-const {
-  dasherize
-} = emberString;
 
 export default Service.extend({
   _adapters: {},
@@ -83,18 +80,11 @@ export default Service.extend({
 
   _activateAdapter(adapterOption = {}) {
     const metrics = this;
-    const {
-      name,
-      config
-    } = adapterOption;
-
+    const { name, config } = adapterOption;
     const Adapter = this._lookupAdapter(name);
     assert(`[ember-metrics] Could not find metrics adapter ${name}.`, Adapter);
 
-    return Adapter.create({
-      metrics,
-      config
-    });
+    return Adapter.create({ metrics, config });
   },
 
   _lookupAdapter(adapterName = '') {

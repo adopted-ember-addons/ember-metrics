@@ -4,18 +4,14 @@ import objectTransforms from '../utils/object-transforms';
 import BaseAdapter from './base';
 
 const {
-  String: emberString,
   assert,
   get,
   merge,
   set,
-  $
+  $,
+  getWithDefault,
+  String: { capitalize }
 } = Ember;
-
-const {
-  capitalize
-} = emberString;
-
 const {
   compact
 } = objectTransforms;
@@ -29,14 +25,10 @@ export default BaseAdapter.extend({
 
   init() {
     const config = get(this, 'config');
-
-    const {
-      id
-    } = config;
+    const { id } = config;
+    const dataLayer = getWithDefault(config,'dataLayer', 'dataLayer');
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
-
-    const dataLayer = config['dataLayer'] || 'dataLayer';
 
     set(this, 'dataLayer', dataLayer);
 
@@ -53,9 +45,7 @@ export default BaseAdapter.extend({
 
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
-
     const dataLayer = get(this, 'dataLayer');
-
     const gtmEvent = {'event': compactedOptions['event']};
 
     delete compactedOptions['event'];
@@ -72,9 +62,7 @@ export default BaseAdapter.extend({
 
   trackPage(options = {}) {
     const compactedOptions = compact(options);
-
     const dataLayer = get(this, 'dataLayer');
-
     const sendEvent = {
       event: compactedOptions['event'] || 'pageview'
     };

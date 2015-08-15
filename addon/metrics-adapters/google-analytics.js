@@ -3,19 +3,14 @@ import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
 import BaseAdapter from './base';
 
-const get = Ember.get;
 const {
-  String: emberString,
   assert,
   merge,
-  $
+  get,
+  $,
+  String: { capitalize },
 } = Ember;
-const {
-  capitalize
-} = emberString;
-const {
-  compact
-} = objectTransforms;
+const { compact } = objectTransforms;
 
 export default BaseAdapter.extend({
   toStringExtension() {
@@ -24,9 +19,7 @@ export default BaseAdapter.extend({
 
   init() {
     const config = get(this, 'config');
-    const {
-      id
-    } = config;
+    const { id } = config;
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
@@ -43,9 +36,7 @@ export default BaseAdapter.extend({
 
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
-    const sendEvent = {
-      hitType: 'event'
-    };
+    const sendEvent = { hitType: 'event' };
     let gaEvent = {};
 
     for (let key in compactedOptions) {
@@ -61,9 +52,7 @@ export default BaseAdapter.extend({
 
   trackPage(options = {}) {
     const compactedOptions = compact(options);
-    const sendEvent = {
-      hitType: 'pageview'
-    };
+    const sendEvent = { hitType: 'pageview' };
 
     const event = merge(sendEvent, compactedOptions);
     window.ga('send', event);

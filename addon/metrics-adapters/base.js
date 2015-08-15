@@ -2,18 +2,18 @@
 import Ember from 'ember';
 import canUseDOM from '../utils/can-use-dom';
 
-const set = Ember.set;
 const {
   Object: emberObject,
   aliasMethod,
   assert,
   guidFor,
   typeOf,
+  set,
   K
 } = Ember;
 
 function makeToString(ret) {
-  return function() { return ret; };
+  return (() => ret);
 }
 
 export default emberObject.extend({
