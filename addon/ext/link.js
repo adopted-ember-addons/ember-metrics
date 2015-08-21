@@ -1,22 +1,18 @@
 import Ember from 'ember';
 
-const get = Ember.get;
 const {
   LinkComponent,
   inject,
   isPresent,
-  String: emberString
+  get,
+  String: { camelize }
 } = Ember;
-const {
-  camelize
-} = emberString;
 
 export default LinkComponent.reopen({
   metrics: inject.service(),
 
   click() {
     const attrs = Object.keys(get(this, 'attrs'));
-
     const metricsProperties = this._deserializeEvent(attrs);
     const hasMetricsKeys = isPresent(Object.keys(metricsProperties));
 
