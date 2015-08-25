@@ -34,6 +34,13 @@ export default BaseAdapter.extend({
     }
   },
 
+  identify(options = {}) {
+    const compactedOptions = compact(options);
+    const { distinctId } = compactedOptions;
+
+    window.ga('set', 'userId', distinctId);
+  },
+
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
     const sendEvent = { hitType: 'event' };
