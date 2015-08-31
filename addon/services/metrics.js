@@ -97,7 +97,7 @@ export default Service.extend({
     const dasherizedAdapterName = dasherize(adapterName);
     const availableAdapter = container.lookupFactory(`ember-metrics@metrics-adapter:${dasherizedAdapterName}`);
     const localAdapter = container.lookupFactory(`metrics-adapter:${dasherizedAdapterName}`);
-    const adapter = availableAdapter ? availableAdapter : localAdapter;
+    const adapter = localAdapter ? localAdapter : availableAdapter;
 
     return adapter;
   },
