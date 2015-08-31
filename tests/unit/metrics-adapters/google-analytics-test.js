@@ -16,7 +16,7 @@ moduleFor('ember-metrics@metrics-adapter:google-analytics', 'google-analytics ad
 });
 
 test('#identify calls ga with the right arguments', function(assert) {
-  var adapter = this.subject({ config });
+  const adapter = this.subject({ config });
   const stub = sandbox.stub(window, 'ga', () => {
     return true;
   });
