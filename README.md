@@ -25,22 +25,33 @@ ember install:addon ember-metrics
 
 ## Usage
 
-In order to use the addon, you must first [configure](#configuration) it, then inject it into any Object registered in the container that you wish to track. For example, you can call a `trackPage` event across all your analytics services like so:
+In order to use the addon, you must first [configure](#configuration) it, then inject it into any Object registered in the container that you wish to track. For example, you can call a `trackPage` event across all your analytics services whenever you transition into a route, like so:
 
 ```js
+// app/router.js
 import Ember from 'ember';
+import config from './config/environment';
 
-export default Ember.Route.extend({
-  metrics: Ember.inject.service(),
-  
-  activate() {
-    const metrics = get(this, 'metrics');
+const Router = Ember.Router.extend({
+  location: config.locationType,
+  metrics: inject.service(),
 
-    metrics.trackPage({
-      title: 'My Awesome App'
+  didTransition() {
+    this._super(...arguments);
+    this._trackPage();
+  },
+
+  _trackPage() {
+    Ember.run.scheduleOnce('afterRender', this, () => {
+      const page = document.location.href;
+      const title = Ember.getWithDefault(this, 'routeName', 'unknown');
+
+      Ember.get(this, 'metrics').trackPage({ page, title });
     });
   }
 });
+
+export default Router.map(/* ... */);
 ```
 
 If you wish to only call a single service, just specify it's name as the first argument:
