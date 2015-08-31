@@ -4,6 +4,7 @@ import objectTransforms from '../utils/object-transforms';
 import BaseAdapter from './base';
 
 const {
+  isPresent,
   copy,
   assert,
   merge,
@@ -26,7 +27,7 @@ export default BaseAdapter.extend({
 
     delete config.id;
 
-    const hasOptions = Ember.isPresent(Object.keys(config));
+    const hasOptions = isPresent(Object.keys(config));
 
     if (canUseDOM) {
       /* jshint ignore:start */
@@ -36,7 +37,7 @@ export default BaseAdapter.extend({
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
       /* jshint ignore:end */
       
-      if(hasOptions){
+      if (hasOptions) {
         window.ga('create', id, config);
       } else {
         window.ga('create', id, 'auto');
