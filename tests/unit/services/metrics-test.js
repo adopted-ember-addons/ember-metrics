@@ -97,10 +97,10 @@ test('#invoke invokes the named method on activated adapters', function(assert) 
 
   assert.ok(GoogleAnalyticsSpy.calledOnce, 'it invokes the identify method on the adapter');
   assert.ok(GoogleAnalyticsSpy.calledWith(options), 'it invokes with the correct arguments');
+  assert.ok(GoogleAnalyticsStub.calledOnce, 'it invoked the GoogleAnalytics method');
   assert.ok(MixpanelSpy.calledOnce, 'it invokes the identify method on the adapter');
   assert.ok(MixpanelSpy.calledWith(options), 'it invokes with the correct arguments');
   assert.ok(MixpanelStub.calledOnce, 'it invoked the Mixpanel method');
-  assert.equal(GoogleAnalyticsStub.callCount, 0, 'it does not call methods that are not implemented by the adapter');
 });
 
 test('#invoke invokes the named method on a single activated adapter', function(assert) {
