@@ -34,7 +34,7 @@ import config from './config/environment';
 
 const Router = Ember.Router.extend({
   location: config.locationType,
-  metrics: inject.service(),
+  metrics: Ember.inject.service(),
 
   didTransition() {
     this._super(...arguments);
