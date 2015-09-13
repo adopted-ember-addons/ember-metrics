@@ -9,6 +9,25 @@ Using this addon, you can easily use bundled adapters for various analytics serv
 
 Writing your own adapters for currently unsupported analytics services is easy too. If you'd like to then share it with the world, submit a pull request and we'll add it to the bundled adapters.
 
+#### Currently supported services and options
+
+1. `GoogleAnalytics`
+  - `id`: [Property ID](https://support.google.com/analytics/answer/1032385?hl=en), e.g. `UA-XXXX-Y`
+2. `Mixpanel`
+  - `token`: [Mixpanel token](https://mixpanel.com/help/questions/articles/where-can-i-find-my-project-token)
+3. `GoogleTagManager`
+  - `id`: [Container ID](https://developers.google.com/tag-manager/quickstart), e.g. `GTM-XXXX`
+
+  - `dataLayer`: An array containing a single POJO of information, e.g.:
+    ```js
+    dataLayer = [{
+      'pageCategory': 'signup',
+      'visitorType': 'high-value'
+    }];
+    ```
+4. `KISSMetrics` (WIP)
+5. `CrazyEgg` (WIP)
+
 ## Installing The Addon
 
 For Ember CLI >= `0.2.3`:
@@ -21,6 +40,65 @@ For Ember CLI < `0.2.3`:
 
 ```shell
 ember install:addon ember-metrics
+```
+
+## Configuration
+
+To setup, you should first configure the service through `config/environment`:
+
+```javascript
+module.exports = function(environment) {
+  var ENV = {
+    metricsAdapters: [
+      {
+        name: 'GoogleAnalytics',
+        config: {
+          id: 'UA-XXXX-Y'
+        }
+      },
+      {
+        name: 'Mixpanel',
+        config: {
+          token: '0f76c037-4d76-4fce-8a0f-a9a8f89d1453'
+        }
+      },
+      {
+        name: 'LocalAdapter',
+        config: {
+          foo: 'bar'
+        }
+      }
+    ]
+  }
+}
+```
+
+Adapter names are PascalCased. Refer to the [list of supported adapters](#currently-supported-services-and-options) above for more information.
+
+The `metricsAdapters` option in `ENV` accepts an array of objects containing settings for each analytics service you want to use in your app in the following format:
+
+```js
+/** 
+ * @param {String} name Adapter name
+ * @param {Object} config Configuration options for the service
+ */
+{
+  name: 'Analytics',
+  config: {}
+}
+```
+
+Values in the `config` portion of the object are dependent on the adapter. If you're writing your own adapter, you will be able to retrieve the options passed into it:
+
+```js
+// Example adapter
+export default BaseAdapter.extend({
+  init() {
+    const { apiKey, options } = Ember.get(this, 'config');
+    this.setupService(apiKey);
+    this.setOptions(options);
+  }
+});
 ```
 
 ## Usage
@@ -109,51 +187,6 @@ ga('send', {
 
 To add an attribute, just prefix it with `metrics` and enter it in camelcase. 
 
-## Configuration
-
-To setup, you should first configure the service through `config/environment`:
-
-```javascript
-module.exports = function(environment) {
-  var ENV = {
-    metricsAdapters: [
-      {
-        name: 'GoogleAnalytics',
-        config: {
-          id: 'UA-XXXX-Y'
-        }
-      },
-      {
-        name: 'Mixpanel',
-        config: {
-          token: '0f76c037-4d76-4fce-8a0f-a9a8f89d1453'
-        }
-      },
-      {
-        name: 'LocalAdapter',
-        config: {
-          foo: 'bar'
-        }
-      }
-    ]
-  }
-}
-```
-
-The `metricsAdapters` option in `ENV` accepts an array of objects containing settings for each analytics service you want to use in your app in the following format:
-
-```js
-{
-  name: 'Analytics',
-  config: {
-    anyKey: 'someValue',
-    apiKey: 'eb4bb7f1'
-  }
-}
-```
-
-Values in the `config` portion of the object are dependent on the adapter. 
-
 ### Lazy Initialization
 
 If your app implements dynamic API keys for various analytics integration, you can defer the initialization of the adapters. Instead of configuring `ember-metrics` through `config/environment`, you can call the following from any Object registered in the container:
@@ -202,6 +235,28 @@ This method is called when an adapter is activated by the service. It is respons
 #### willDestroy
 
 When the adapter is destroyed, it should remove its script tag and property. This is usually defined on the `window`.
+
+### Usage
+
+Once you have implemented your adapter, you can add it to your [app's config](#configuration), like so:
+
+```js
+module.exports = function(environment) {
+  var ENV = {
+    metricsAdapters: [
+      {
+        name: 'MyAdapter',
+        config: {
+          secret: '29fJs90qnfEa',
+          options: {
+            foo: 'bar'
+          }
+        }
+      }
+    ]
+  }
+}
+```
 
 ## Testing
 
