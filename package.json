@@ -1,6 +1,6 @@
 {
   "name": "ember-metrics",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Send data to multiple analytics integrations without re-implementing new API",
   "directories": {
     "doc": "doc",
@@ -52,7 +52,9 @@
     "analytics",
     "segment",
     "tracking",
-    "google analytics"
+    "google analytics",
+    "google tag manager",
+    "mixpanel"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.3"
