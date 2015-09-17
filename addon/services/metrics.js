@@ -8,17 +8,20 @@ const {
   warn,
   get,
   set,
+  merge,
   A: emberArray,
   String: { dasherize }
 } = Ember;
 
 export default Service.extend({
   _adapters: {},
+  context: null,
 
   init() {
     const adapters = getWithDefault(this, 'metricsAdapters', emberArray([]));
     this._super(...arguments);
     this.activateAdapters(adapters);
+    set(this, 'context', {});
   },
 
   identify(...args) {
@@ -60,22 +63,18 @@ export default Service.extend({
 
   invoke(methodName, ...args) {
     const adaptersObj = get(this, '_adapters');
-    const adapterNames = Object.keys(adaptersObj);
+    const allAdapterNames = Object.keys(adaptersObj);
+    const [selectedAdapterNames, options] = args.length > 1 ? [[args[0]], args[1]] : [allAdapterNames, args[0]];
+    const context = get(this, 'context');
+    const mergedOptions = merge(context, options);
 
-    const adapters = adapterNames.map((adapterName) => {
+    const selectedAdapters = selectedAdapterNames.map((adapterName) => {
       return get(adaptersObj, adapterName);
     });
 
-    if (args.length > 1) {
-      let [ adapterName, options ] = args;
-      const adapter = get(adaptersObj, adapterName);
-
-      adapter[methodName](options);
-    } else {
-      adapters.forEach((adapter) => {
-        adapter[methodName](...args);
-      });
-    }
+    selectedAdapters.forEach((adapter) => {
+      adapter[methodName](mergedOptions);
+    });
   },
 
   _activateAdapter(adapterOption = {}) {
