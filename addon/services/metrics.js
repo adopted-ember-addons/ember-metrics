@@ -4,24 +4,52 @@ const {
   Service,
   getWithDefault,
   assert,
-  isNone,
-  warn,
   get,
   set,
   merge,
   A: emberArray,
   String: { dasherize }
 } = Ember;
+const { keys } = Object;
 
 export default Service.extend({
-  _adapters: {},
+  /**
+   * Cached adapters to reduce multiple expensive lookups.
+   *
+   * @property _adapters
+   * @private
+   * @type Object
+   * @default null
+   */
+  _adapters: null,
+
+  /**
+   * Contextual information attached to each call to an adapter. Often you'll
+   * want to include things like `currentUser.name` with every event or page
+   * view  that's tracked. Any properties that you bind to `metrics.context`
+   * will be merged into the options for every service call.
+   *
+   * @property context
+   * @type Object
+   * @default null
+   */
   context: null,
 
+  /**
+   * When the Service is created, activate adapters that were specified in the
+   * configuration. This config is injected into the Service as
+   * `metricsAdapters`.
+   *
+   * @method init
+   * @param {Void}
+   * @return {Void}
+   */
   init() {
     const adapters = getWithDefault(this, 'metricsAdapters', emberArray([]));
-    this._super(...arguments);
-    this.activateAdapters(adapters);
+    set(this, '_adapters', {});
     set(this, 'context', {});
+    this.activateAdapters(adapters);
+    this._super(...arguments);
   },
 
   identify(...args) {
@@ -40,20 +68,21 @@ export default Service.extend({
     this.invoke('trackPage', ...args);
   },
 
+  /**
+   * Instantiates the adapters specified in the configuration and caches them
+   * for future retrieval.
+   *
+   * @method activateAdapters
+   * @param {Array} adapterOptions
+   * @return {Object} instantiated adapters
+   */
   activateAdapters(adapterOptions = []) {
     const cachedAdapters = get(this, '_adapters');
-    let activatedAdapters = {};
+    const activatedAdapters = {};
 
     adapterOptions.forEach((adapterOption) => {
       const { name } = adapterOption;
-      let adapter;
-
-      if (cachedAdapters[name]) {
-        warn(`[ember-metrics] Metrics adapter ${name} has already been activated.`);
-        adapter = cachedAdapters[name];
-      } else {
-        adapter = this._activateAdapter(adapterOption);
-      }
+      const adapter = cachedAdapters[name] ? cachedAdapters[name] : this._activateAdapter(adapterOption);
 
       set(activatedAdapters, name, adapter);
     });
@@ -61,51 +90,74 @@ export default Service.extend({
     return set(this, '_adapters', activatedAdapters);
   },
 
+  /**
+   * Invokes a method across all activated adapters.
+   *
+   * @method invoke
+   * @param {String} methodName
+   * @param {Rest} args
+   * @return {Void}
+   */
   invoke(methodName, ...args) {
-    const adaptersObj = get(this, '_adapters');
-    const allAdapterNames = Object.keys(adaptersObj);
+    const cachedAdapters = get(this, '_adapters');
+    const allAdapterNames = keys(cachedAdapters);
     const [selectedAdapterNames, options] = args.length > 1 ? [[args[0]], args[1]] : [allAdapterNames, args[0]];
-    const context = get(this, 'context');
-    const mergedOptions = merge(context, options);
+    const mergedOptions = merge(get(this, 'context'), options);
 
-    const selectedAdapters = selectedAdapterNames.map((adapterName) => {
-      return get(adaptersObj, adapterName);
-    });
-
-    selectedAdapters.forEach((adapter) => {
-      adapter[methodName](mergedOptions);
-    });
+    selectedAdapterNames
+      .map((adapterName) => get(cachedAdapters, adapterName))
+      .forEach((adapter) => adapter[methodName](mergedOptions));
   },
 
-  _activateAdapter(adapterOption = {}) {
-    const metrics = this;
-    const { name, config } = adapterOption;
+  /**
+   * On teardown, destroy cached adapters together with the Service.
+   *
+   * @method willDestroy
+   * @param {Void}
+   * @return {Void}
+   */
+  willDestroy() {
+    const cachedAdapters = get(this, '_adapters');
+
+    for (let adapterName in cachedAdapters) {
+      get(cachedAdapters, adapterName).destroy();
+    }
+  },
+
+  /**
+   * Instantiates an adapter if one is found.
+   *
+   * @method _activateAdapter
+   * @param {Object}
+   * @private
+   * @return {Adapter}
+   */
+  _activateAdapter({ name, config } = {}) {
     const Adapter = this._lookupAdapter(name);
     assert(`[ember-metrics] Could not find metrics adapter ${name}.`, Adapter);
 
-    return Adapter.create({ metrics, config });
+    return Adapter.create({ this, config });
   },
 
-  _lookupAdapter(adapterName = '') {
-    const container = get(this, 'container');
+  /**
+   * Looks up the adapter from the container. Prioritizes the consuming app's
+   * adapters over the addon's adapters.
+   *
+   * @method _lookupAdapter
+   * @param {String} adapterName
+   * @private
+   * @return {Adapter} a local adapter or an adapter from the addon
+   */
+  _lookupAdapter(adapterName) {
+    const { container } = this;
 
-    if (isNone(container)) {
-      return;
-    }
+    assert('[ember-metrics] The service is missing its container.', container);
+    assert('[ember-metrics] Could not find metrics adapter without a name.', adapterName);
 
     const dasherizedAdapterName = dasherize(adapterName);
     const availableAdapter = container.lookupFactory(`ember-metrics@metrics-adapter:${dasherizedAdapterName}`);
     const localAdapter = container.lookupFactory(`metrics-adapter:${dasherizedAdapterName}`);
-    const adapter = localAdapter ? localAdapter : availableAdapter;
 
-    return adapter;
-  },
-
-  willDestroy() {
-    const adapters = get(this, '_adapters');
-
-    for (let adapterName in adapters) {
-      get(adapters, adapterName).destroy();
-    }
+    return localAdapter ? localAdapter : availableAdapter;
   }
 });

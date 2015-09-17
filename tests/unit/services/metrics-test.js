@@ -135,10 +135,10 @@ test('#invoke includes `context` properties', function(assert){
   const service = this.subject({ metricsAdapters });
   const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'trackPage');
 
-  set(service, 'context.userName', "Jimbo");
-  service.invoke('trackPage', 'GoogleAnalytics', {page: 'page/1', title: 'page one'});
+  set(service, 'context.userName', 'Jimbo');
+  service.invoke('trackPage', 'GoogleAnalytics', { page: 'page/1', title: 'page one' });
 
-  assert.ok(GoogleAnalyticsSpy.calledWith({userName: "Jimbo", page: 'page/1', title: 'page one'}));
+  assert.ok(GoogleAnalyticsSpy.calledWith({ userName: 'Jimbo', page: 'page/1', title: 'page one' }), 'it includes context properties');
 });
 
 test('it implements standard contracts', function(assert) {
