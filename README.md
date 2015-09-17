@@ -78,7 +78,7 @@ Adapter names are PascalCased. Refer to the [list of supported adapters](#curren
 The `metricsAdapters` option in `ENV` accepts an array of objects containing settings for each analytics service you want to use in your app in the following format:
 
 ```js
-/** 
+/**
  * @param {String} name Adapter name
  * @param {Object} config Configuration options for the service
  */
@@ -142,26 +142,34 @@ metrics.trackPage('GoogleAnalytics', {
 });
 ```
 
+#### Context
+Often, you may want to include information like the current user's name with every event or page view that's tracked. Any properties that are set on `metrics.context` will be merged into options for every Service call.
+
+```js
+Ember.set(this, 'metrics.context.userName', 'Jimbo');
+Ember.get(this, 'metrics').trackPage({ page: 'page/1' }); // { userName: 'Jimbo', page: 'page/1' }
+```
+
 ### API
 
 #### Service API
 
 There are 4 main methods implemented by the service, with the same argument signature:
 
-- `trackPage([analyticsName], options)` 
-  
+- `trackPage([analyticsName], options)`
+
   This is commonly used by analytics services to track page views. Due to the way Single Page Applications implement routing, you will need to call this on the `activate` hook of each route to track all page views.
 
 - `trackEvent([analyticsName], options)`
-  
+
   This is a general purpose method for tracking a named event in your application.
 
 - `identify([analyticsName], options)`
-  
+
   For analytics services that have identification functionality.
 
 - `alias([analyticsName], options)`
-  
+
   For services that implement it, this method notifies the analytics service that an anonymous user now has a unique identifier.
 
 #### `link-to` API
@@ -185,7 +193,7 @@ ga('send', {
 });
 ```
 
-To add an attribute, just prefix it with `metrics` and enter it in camelcase. 
+To add an attribute, just prefix it with `metrics` and enter it in camelcase.
 
 ### Lazy Initialization
 
@@ -222,7 +230,7 @@ First, generate a new Metrics Adapter:
 $ ember generate metrics-adapter foo-bar
 ```
 
-This creates `app/metrics-adapters/foo-bar.js` and a unit test at `tests/unit/metrics-adapters/foo-bar-test.js`, which you should now customize. 
+This creates `app/metrics-adapters/foo-bar.js` and a unit test at `tests/unit/metrics-adapters/foo-bar-test.js`, which you should now customize.
 
 ### Required Methods
 

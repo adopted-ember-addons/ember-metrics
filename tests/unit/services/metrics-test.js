@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
 import sinon from 'sinon';
 
-const get = Ember.get;
+const { get, set } = Ember;
 let sandbox, metricsAdapters;
 
 moduleFor('service:metrics', 'Unit | Service | metrics', {
@@ -129,6 +129,16 @@ test('#invoke invokes the named method on a single activated adapter with no arg
 
   assert.ok(GoogleAnalyticsSpy.calledOnce, 'it invokes the track method on the adapter');
   assert.ok(GoogleAnalyticsStub.calledOnce, 'it invoked the Google Analytics method');
+});
+
+test('#invoke includes `context` properties', function(assert){
+  const service = this.subject({ metricsAdapters });
+  const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'trackPage');
+
+  set(service, 'context.userName', 'Jimbo');
+  service.invoke('trackPage', 'GoogleAnalytics', { page: 'page/1', title: 'page one' });
+
+  assert.ok(GoogleAnalyticsSpy.calledWith({ userName: 'Jimbo', page: 'page/1', title: 'page one' }), 'it includes context properties');
 });
 
 test('it implements standard contracts', function(assert) {
