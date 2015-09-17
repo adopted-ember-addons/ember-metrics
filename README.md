@@ -142,6 +142,14 @@ metrics.trackPage('GoogleAnalytics', {
 });
 ```
 
+#### Context
+Often, you may want to include information like the current user's name with every event or page view that's tracked. Any properties that are set on `metrics.context` will be merged into options for every Service call.
+
+```js
+Ember.set(this, 'metrics.context.userName', 'Jimbo');
+Ember.get(this, 'metrics').trackPage({ page: 'page/1' }); // { userName: 'Jimbo', page: 'page/1' }
+```
+
 ### API
 
 #### Service API
@@ -163,14 +171,6 @@ There are 4 main methods implemented by the service, with the same argument sign
 - `alias([analyticsName], options)`
 
   For services that implement it, this method notifies the analytics service that an anonymous user now has a unique identifier.
-
-##### Context
-
-Often you'll want to include things like `currentUser.name` with every event or page view that's tracked. Any properties that you bind to `metrics.context` will be merged into the options for every service call.
-
-    set('metrics.context.userName', 'Jimbo');
-    get('metrics').trackPage({page: 'page/1'});
-    // => {userName: 'Jimbo', page: 'page/1'}
 
 #### `link-to` API
 
