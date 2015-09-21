@@ -42,6 +42,9 @@ For Ember CLI < `0.2.3`:
 ember install:addon ember-metrics
 ```
 
+## Compatibility
+This addon is tested against the `release`, `beta`, and `canary` channels, as well as `~1.11.0`, and `1.12.1`. 
+
 ## Configuration
 
 To setup, you should first configure the service through `config/environment`:
