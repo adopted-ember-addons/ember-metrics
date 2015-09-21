@@ -1,18 +1,19 @@
 import Ember from 'ember';
 
 const {
-  LinkComponent,
   inject,
   isPresent,
   get,
+  getWithDefault,
   String: { camelize }
 } = Ember;
+const LinkComponent = Ember.LinkComponent || Ember.LinkView;
 
 export default LinkComponent.reopen({
   metrics: inject.service(),
 
   click() {
-    const attrs = Object.keys(get(this, 'attrs'));
+    const attrs = Object.keys(getWithDefault(this, 'attrs', this));
     const metricsProperties = this._deserializeEvent(attrs);
     const hasMetricsKeys = isPresent(Object.keys(metricsProperties));
 
@@ -28,8 +29,7 @@ export default LinkComponent.reopen({
 
     attrs.forEach((attr) => {
       if (attr.indexOf('metrics') !== -1) {
-        const strippedAttr = attr.replace('metrics', '');
-        const camelizedAttr = camelize(strippedAttr);
+        const camelizedAttr = camelize(attr.replace('metrics', ''));
         metricsProperties[camelizedAttr] = get(this, attr);
       }
     });
