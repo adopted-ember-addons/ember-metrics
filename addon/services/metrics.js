@@ -61,7 +61,7 @@ export default Service.extend({
   invoke(methodName, ...args) {
     const adaptersObj = get(this, '_adapters');
     const adapterNames = Object.keys(adaptersObj);
-    const environment = get(this, 'environment')
+    const environment = get(this, 'environment');
 
     const adapters = adapterNames.map((adapterName) => {
       return get(adaptersObj, adapterName);
@@ -71,16 +71,30 @@ export default Service.extend({
       let [ adapterName, options ] = args;
       const adapter = get(adaptersObj, adapterName);
 
-      if (environment in adapter.environments)
+      if (environment && adapter.environments){
+        if (environment in adapter.environments) {
+          adapter[methodName](options);
+        }
+        else {
+          Ember.Logger.info(`[ember-metrics] ${adapter.name} ${options}`);
+        }
+      }
+      else {
         adapter[methodName](options);
-      else
-        Ember.Logger.info(`[ember-metrics] ${adapter.name} ${options}`)
+      }
     } else {
       adapters.forEach((adapter) => {
-        if (environment in adapter.environments)
+        if (environment && adapter.environments){
+          if (environment in adapter.environments){
+            adapter[methodName](...args);
+          }
+          else {
+            Ember.Logger.info(`[ember-metrics] ${adapter.name} ${args}`);
+          }
+        }
+        else {
           adapter[methodName](...args);
-        else
-          Ember.Logger.info(`[ember-metrics] ${adapter.name} ${args}`)
+        }
       });
     }
   },
