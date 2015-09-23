@@ -141,6 +141,17 @@ test('#invoke includes `context` properties', function(assert){
   assert.ok(GoogleAnalyticsSpy.calledWith({ userName: 'Jimbo', page: 'page/1', title: 'page one' }), 'it includes context properties');
 });
 
+test('#invoke does not leak options between calls', function(assert){
+  const service = this.subject({ metricsAdapters });
+  const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'trackPage');
+
+  set(service, 'context.userName', 'Jimbo');
+  service.invoke('trackPage', 'GoogleAnalytics', { page: 'page/1', title: 'page one', callOne: true });
+  service.invoke('trackPage', 'GoogleAnalytics', { page: 'page/1', title: 'page one', callTwo: true });
+
+  assert.ok(GoogleAnalyticsSpy.calledWith({ userName: 'Jimbo', page: 'page/1', title: 'page one', callTwo: true }), 'it does not include options from previous call');
+});
+
 test('it implements standard contracts', function(assert) {
   const service = this.subject({ metricsAdapters });
   sandbox.stub(window.mixpanel);
