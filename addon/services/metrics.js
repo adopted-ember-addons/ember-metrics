@@ -37,6 +37,15 @@ export default Service.extend({
   context: null,
 
   /**
+   * Indicates whether calls to the service will be forwarded to the adapters
+   *
+   * @property context
+   * @type Boolean
+   * @default true
+   */
+  enabled: true,
+
+  /**
    * When the Service is created, activate adapters that were specified in the
    * configuration. This config is injected into the Service as
    * `metricsAdapters`.
@@ -100,6 +109,8 @@ export default Service.extend({
    * @return {Void}
    */
   invoke(methodName, ...args) {
+    if (!get(this, 'enabled')) { return; }
+
     const cachedAdapters = get(this, '_adapters');
     const allAdapterNames = keys(cachedAdapters);
     const [selectedAdapterNames, options] = args.length > 1 ? [[args[0]], args[1]] : [allAdapterNames, args[0]];

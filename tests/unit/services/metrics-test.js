@@ -152,6 +152,16 @@ test('#invoke does not leak options between calls', function(assert){
   assert.ok(GoogleAnalyticsSpy.calledWith({ userName: 'Jimbo', page: 'page/1', title: 'page one', callTwo: true }), 'it does not include options from previous call');
 });
 
+test('it can be disabled', function(assert){
+  const service = this.subject({ metricsAdapters });
+  const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'trackPage');
+
+  set(service, 'enabled', false);
+  service.invoke('trackPage', 'GoogleAnalytics', { page: 'page/1', title: 'page one' });
+
+  assert.notOk(GoogleAnalyticsSpy.called, 'it does not call adapters');
+});
+
 test('it implements standard contracts', function(assert) {
   const service = this.subject({ metricsAdapters });
   sandbox.stub(window.mixpanel);
