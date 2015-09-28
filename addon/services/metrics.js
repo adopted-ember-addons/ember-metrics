@@ -71,8 +71,10 @@ export default Service.extend({
       let [ adapterName, options ] = args;
       const adapter = get(adaptersObj, adapterName);
 
+
+
       if (environment && adapter.environments){
-        if (environment in adapter.environments) {
+        if (this._adapterUsedForEnvironment(adapter, environment)) {
           adapter[methodName](options);
         }
         else {
@@ -85,7 +87,7 @@ export default Service.extend({
     } else {
       adapters.forEach((adapter) => {
         if (environment && adapter.environments){
-          if (environment in adapter.environments){
+          if (this._adapterUsedForEnvironment(adapter, environment)){
             adapter[methodName](...args);
           }
           else {
@@ -97,6 +99,10 @@ export default Service.extend({
         }
       });
     }
+  },
+
+  _adapterUsedForEnvironment(adapter, environment){
+    return adapter.get('environments').contains(environment);
   },
 
   _activateAdapter(adapterOption = {}) {
