@@ -71,38 +71,33 @@ export default Service.extend({
       let [ adapterName, options ] = args;
       const adapter = get(adaptersObj, adapterName);
 
-
-
-      if (environment && adapter.environments){
-        if (this._adapterUsedForEnvironment(adapter, environment)) {
-          adapter[methodName](options);
-        }
-        else {
-          Ember.Logger.info(`[ember-metrics] ${adapter.name} ${options}`);
-        }
-      }
-      else {
+      if (this._adapterUsedForEnvironment(adapter, environment)) {
         adapter[methodName](options);
       }
-    } else {
+      else {
+        Ember.Logger.info(`[ember-metrics] ${adapter.name} ${options}`);
+      }
+    }
+    else {
       adapters.forEach((adapter) => {
-        if (environment && adapter.environments){
-          if (this._adapterUsedForEnvironment(adapter, environment)){
-            adapter[methodName](...args);
-          }
-          else {
-            Ember.Logger.info(`[ember-metrics] ${adapter.name} ${args}`);
-          }
+        if (this._adapterUsedForEnvironment(adapter, environment)){
+          adapter[methodName](...args);
         }
         else {
-          adapter[methodName](...args);
+          Ember.Logger.info(`[ember-metrics] ${adapter.name} ${args}`);
         }
       });
     }
   },
 
   _adapterUsedForEnvironment(adapter, environment){
-    return adapter.get('environments').contains(environment);
+    let environments = adapter.get('environments');
+    if(isNone(environments)){
+      return false;
+    }
+    else{
+      return environments.contains(environment);
+    }
   },
 
   _activateAdapter(adapterOption = {}) {
