@@ -39,7 +39,7 @@ export default Service.extend({
   /**
    * Indicates whether calls to the service will be forwarded to the adapters
    *
-   * @property context
+   * @property enabled
    * @type Boolean
    * @default true
    */
@@ -48,14 +48,15 @@ export default Service.extend({
   /**
    * When the Service is created, activate adapters that were specified in the
    * configuration. This config is injected into the Service as
-   * `metricsAdapters`.
+   * `options`.
    *
    * @method init
    * @param {Void}
    * @return {Void}
    */
   init() {
-    const adapters = getWithDefault(this, 'metricsAdapters', emberArray([]));
+    const adapters = getWithDefault(this, 'options.metricsAdapters', emberArray());
+    set(this, 'appEnvironment', getWithDefault(this, 'options.environment', 'development'));
     set(this, '_adapters', {});
     set(this, 'context', {});
     this.activateAdapters(adapters);
@@ -87,15 +88,18 @@ export default Service.extend({
    * @return {Object} instantiated adapters
    */
   activateAdapters(adapterOptions = []) {
+    const appEnvironment = get(this, 'appEnvironment');
     const cachedAdapters = get(this, '_adapters');
     const activatedAdapters = {};
 
-    adapterOptions.forEach((adapterOption) => {
-      const { name } = adapterOption;
-      const adapter = cachedAdapters[name] ? cachedAdapters[name] : this._activateAdapter(adapterOption);
+    adapterOptions
+      .filter((adapterOption) => this._filterEnvironments(adapterOption, appEnvironment))
+      .forEach((adapterOption) => {
+        const { name } = adapterOption;
+        const adapter = cachedAdapters[name] ? cachedAdapters[name] : this._activateAdapter(adapterOption);
 
-      set(activatedAdapters, name, adapter);
-    });
+        set(activatedAdapters, name, adapter);
+      });
 
     return set(this, '_adapters', activatedAdapters);
   },
@@ -172,5 +176,24 @@ export default Service.extend({
     const localAdapter = container.lookupFactory(`metrics-adapter:${dasherizedAdapterName}`);
 
     return localAdapter ? localAdapter : availableAdapter;
+  },
+
+  /**
+   * Predicate that Filters out adapters that should not be activated in the
+   * current application environment. Defaults to all environments if the option
+   * is `all` or undefined.
+   *
+   * @method _filterEnvironments
+   * @param {Object} adapterOption
+   * @param {String} appEnvironment
+   * @private
+   * @return {Boolean} should an adapter be activated
+   */
+  _filterEnvironments(adapterOption, appEnvironment) {
+    let { environments } = adapterOption;
+    environments = environments || ['all'];
+    const wrappedEnvironments = emberArray(environments);
+
+    return wrappedEnvironments.contains('all') || wrappedEnvironments.contains(appEnvironment);
   }
 });
