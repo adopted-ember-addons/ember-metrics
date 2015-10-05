@@ -21,18 +21,22 @@ module.exports = function(environment) {
     metricsAdapters: [
       {
         name: 'GoogleAnalytics',
+        environments: ['all'],
         config: {
           id: 'UA-XXXX-Y'
         }
       },
       {
+        // if `environments` is undefined, it defaults to all
         name: 'Mixpanel',
+        // environments: ['all'],
         config: {
           token: '0f76c037-4d76-4fce-8a0f-a9a8f89d1453'
         }
       },
       {
         name: 'LocalDummyAdapter',
+        environments: ['all'],
         config: {
           foo: 'bar'
         }

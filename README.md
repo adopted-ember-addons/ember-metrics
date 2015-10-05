@@ -3,7 +3,7 @@
 
 [![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) [![Build Status](https://travis-ci.org/poteto/ember-metrics.svg)](https://travis-ci.org/poteto/ember-metrics) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics)
 
-This addon adds a simple `metrics` service and customized `LinkComponent` to your app that makes it simple to send data to multiple analytics services without having to implement a new API each time.
+This addon adds a simple `metrics` service to your app that makes it simple to send data to multiple analytics services without having to implement a new API each time.
 
 Using this addon, you can easily use bundled adapters for various analytics services, and one API to track events, page views, and more. When you decide to add another analytics service to your stack, all you need to do is add it to your configuration, and that's it!
 
@@ -55,18 +55,21 @@ module.exports = function(environment) {
     metricsAdapters: [
       {
         name: 'GoogleAnalytics',
+        environments: ['development', 'production']
         config: {
           id: 'UA-XXXX-Y'
         }
       },
       {
         name: 'Mixpanel',
+        environments: ['production']
         config: {
           token: '0f76c037-4d76-4fce-8a0f-a9a8f89d1453'
         }
       },
       {
         name: 'LocalAdapter',
+        environments: ['all'] // default
         config: {
           foo: 'bar'
         }
@@ -83,10 +86,12 @@ The `metricsAdapters` option in `ENV` accepts an array of objects containing set
 ```js
 /**
  * @param {String} name Adapter name
+ * @param {Array} environments Environments that the adapter should be activated in
  * @param {Object} config Configuration options for the service
  */
 {
   name: 'Analytics',
+  environments: ['all'],
   config: {}
 }
 ```
@@ -103,6 +108,13 @@ export default BaseAdapter.extend({
   }
 });
 ```
+
+To only activate adapters in specific environments, you can add an array of environment names to the config, as the `environments` key. Valid environments are:
+
+- `development`
+- `test,`
+- `production`
+- `all` (default, will be activated in all environments)
 
 ## Usage
 
@@ -124,9 +136,9 @@ const Router = Ember.Router.extend({
 
   _trackPage() {
     Ember.run.scheduleOnce('afterRender', this, () => {
-      const page = document.location.href;
-      const title = Ember.getWithDefault(this, 'routeName', 'unknown');
-
+      const page = document.location.pathname;
+      const title = this.getWithDefault('currentRouteName', 'unknown');
+      
       Ember.get(this, 'metrics').trackPage({ page, title });
     });
   }
@@ -175,29 +187,6 @@ There are 4 main methods implemented by the service, with the same argument sign
 
   For services that implement it, this method notifies the analytics service that an anonymous user now has a unique identifier.
 
-#### `link-to` API
-
-To use the augmented `link-to`, just use the same helper, but add some extra `metrics` attributes:
-
-```hbs
-{{#link-to 'index' metricsAdapterName="GoogleAnalytics" metricsCategory="Home Button" metricsAction="click" metricsLabel="Top Nav"}}
-  Home
-{{/link-to}}
-```
-
-This is the equivalent of sending:
-
-```js
-ga('send', {
-  'hitType': 'event',
-  'eventCategory': 'Home Button',
-  'eventAction': 'click',
-  'eventLabel': 'Top Nav'
-});
-```
-
-To add an attribute, just prefix it with `metrics` and enter it in camelcase.
-
 ### Lazy Initialization
 
 If your app implements dynamic API keys for various analytics integration, you can defer the initialization of the adapters. Instead of configuring `ember-metrics` through `config/environment`, you can call the following from any Object registered in the container:
@@ -214,6 +203,7 @@ export default Ember.Route.extend({
     metrics.activateAdapters([
       {
         name: 'GoogleAnalytics',
+        environments: ['all'],
         config: {
           id
         }
@@ -257,6 +247,7 @@ module.exports = function(environment) {
     metricsAdapters: [
       {
         name: 'MyAdapter',
+        environments: ['all'],
         config: {
           secret: '29fJs90qnfEa',
           options: {
@@ -276,6 +267,7 @@ For unit tests, you will need to specify the adapters in use under `needs`, like
 ```js
 moduleFor('route:foo', 'Unit | Route | foo', {
   needs: [
+    'service:metrics',
     'ember-metrics@metrics-adapter:google-analytics', // bundled adapter
     'ember-metrics@metrics-adapter:mixpanel', // bundled adapter
     'metrics-adapter:local-dummy-adapter' // local adapter
