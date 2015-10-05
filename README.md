@@ -247,6 +247,7 @@ module.exports = function(environment) {
     metricsAdapters: [
       {
         name: 'MyAdapter',
+        environments: ['all'],
         config: {
           secret: '29fJs90qnfEa',
           options: {
