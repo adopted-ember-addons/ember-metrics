@@ -57,6 +57,11 @@ export default BaseAdapter.extend({
     const sendEvent = { hitType: 'event' };
     let gaEvent = {};
 
+    if (compactedOptions.nonInteraction) {
+      gaEvent.nonInteraction = compactedOptions.nonInteraction;
+      delete compactedOptions.nonInteraction;
+    }
+
     for (let key in compactedOptions) {
       const capitalizedKey = capitalize(key);
       gaEvent[`event${capitalizedKey}`] = compactedOptions[key];
