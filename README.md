@@ -43,7 +43,7 @@ ember install:addon ember-metrics
 ```
 
 ## Compatibility
-This addon is tested against the `release`, `beta`, and `canary` channels, as well as `~1.11.0`, and `1.12.1`. 
+This addon is tested against the `release`, `beta`, and `canary` channels, as well as `~1.11.0`, and `1.12.1`.
 
 ## Configuration
 
@@ -116,6 +116,23 @@ To only activate adapters in specific environments, you can add an array of envi
 - `production`
 - `all` (default, will be activated in all environments)
 
+## Content Security Policy
+
+If you're using [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy), you'll need to modify the content security policy to allow loading of any remote scripts.  In `config/environment.js`, add this to the `ENV` hash.
+
+```js
+// example for loading Google Analytics
+contentSecurityPolicy: {
+  'default-src': "'none'",
+  'script-src': "'self' www.google-analytics.com",
+  'font-src': "'self'",
+  'connect-src': "'self' www.google-analytics.com",
+  'img-src': "'self'",
+  'style-src': "'self'",
+  'media-src': "'self'"
+}
+```
+
 ## Usage
 
 In order to use the addon, you must first [configure](#configuration) it, then inject it into any Object registered in the container that you wish to track. For example, you can call a `trackPage` event across all your analytics services whenever you transition into a route, like so:
@@ -138,7 +155,7 @@ const Router = Ember.Router.extend({
     Ember.run.scheduleOnce('afterRender', this, () => {
       const page = document.location.pathname;
       const title = this.getWithDefault('currentRouteName', 'unknown');
-      
+
       Ember.get(this, 'metrics').trackPage({ page, title });
     });
   }
