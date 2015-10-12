@@ -118,7 +118,7 @@ To only activate adapters in specific environments, you can add an array of envi
 
 ## Content Security Policy
 
-If you're using [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy), you'll need to modify the content security policy to allow loading of any remote scripts.  In `config/environment.js`, add this to the `ENV` hash.
+If you're using [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy), you'll need to modify the content security policy to allow loading of any remote scripts.  In `config/environment.js`, add this to the `ENV` hash (modify as necessary):
 
 ```js
 // example for loading Google Analytics
