@@ -13,9 +13,9 @@ Writing your own adapters for currently unsupported analytics services is easy t
 
 1. `GoogleAnalytics`
   - `id`: [Property ID](https://support.google.com/analytics/answer/1032385?hl=en), e.g. `UA-XXXX-Y`
-2. `Mixpanel`
+1. `Mixpanel`
   - `token`: [Mixpanel token](https://mixpanel.com/help/questions/articles/where-can-i-find-my-project-token)
-3. `GoogleTagManager`
+1. `GoogleTagManager`
   - `id`: [Container ID](https://developers.google.com/tag-manager/quickstart), e.g. `GTM-XXXX`
 
   - `dataLayer`: An array containing a single POJO of information, e.g.:
@@ -25,8 +25,10 @@ Writing your own adapters for currently unsupported analytics services is easy t
       'visitorType': 'high-value'
     }];
     ```
-4. `KISSMetrics` (WIP)
-5. `CrazyEgg` (WIP)
+1. `Segment`
+  - `key`: [Segment key](https://segment.com/docs/libraries/analytics.js/quickstart/)
+1. `KISSMetrics` (WIP)
+1. `CrazyEgg` (WIP)
 
 ## Installing The Addon
 
@@ -65,6 +67,13 @@ module.exports = function(environment) {
         environments: ['production']
         config: {
           token: '0f76c037-4d76-4fce-8a0f-a9a8f89d1453'
+        }
+      },
+      {
+        name: 'Segment',
+        environments: ['production']
+        config: {
+          key: '4fce-8a0f-a9a8f89d1453'
         }
       },
       {
