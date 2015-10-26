@@ -1,7 +1,7 @@
 # ember-metrics
 *Send data to multiple analytics services without re-implementing new API*
 
-[![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) [![Build Status](https://travis-ci.org/poteto/ember-metrics.svg)](https://travis-ci.org/poteto/ember-metrics) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics)
+[![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) [![Build Status](https://travis-ci.org/poteto/ember-metrics.svg?branch=master)](https://travis-ci.org/poteto/ember-metrics) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics)
 
 This addon adds a simple `metrics` service to your app that makes it simple to send data to multiple analytics services without having to implement a new API each time.
 
@@ -13,9 +13,9 @@ Writing your own adapters for currently unsupported analytics services is easy t
 
 1. `GoogleAnalytics`
   - `id`: [Property ID](https://support.google.com/analytics/answer/1032385?hl=en), e.g. `UA-XXXX-Y`
-2. `Mixpanel`
+1. `Mixpanel`
   - `token`: [Mixpanel token](https://mixpanel.com/help/questions/articles/where-can-i-find-my-project-token)
-3. `GoogleTagManager`
+1. `GoogleTagManager`
   - `id`: [Container ID](https://developers.google.com/tag-manager/quickstart), e.g. `GTM-XXXX`
 
   - `dataLayer`: An array containing a single POJO of information, e.g.:
@@ -25,8 +25,10 @@ Writing your own adapters for currently unsupported analytics services is easy t
       'visitorType': 'high-value'
     }];
     ```
-4. `KISSMetrics` (WIP)
-5. `CrazyEgg` (WIP)
+1. `Segment`
+  - `key`: [Segment key](https://segment.com/docs/libraries/analytics.js/quickstart/)
+1. `KISSMetrics` (WIP)
+1. `CrazyEgg` (WIP)
 
 ## Installing The Addon
 
@@ -43,7 +45,7 @@ ember install:addon ember-metrics
 ```
 
 ## Compatibility
-This addon is tested against the `release`, `beta`, and `canary` channels, as well as `~1.11.0`, and `1.12.1`. 
+This addon is tested against the `release`, `beta`, and `canary` channels, as well as `~1.11.0`, and `1.12.1`.
 
 ## Configuration
 
@@ -65,6 +67,13 @@ module.exports = function(environment) {
         environments: ['production']
         config: {
           token: '0f76c037-4d76-4fce-8a0f-a9a8f89d1453'
+        }
+      },
+      {
+        name: 'Segment',
+        environments: ['production']
+        config: {
+          key: '4fce-8a0f-a9a8f89d1453'
         }
       },
       {
@@ -116,6 +125,23 @@ To only activate adapters in specific environments, you can add an array of envi
 - `production`
 - `all` (default, will be activated in all environments)
 
+## Content Security Policy
+
+If you're using [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy), you'll need to modify the content security policy to allow loading of any remote scripts.  In `config/environment.js`, add this to the `ENV` hash (modify as necessary):
+
+```js
+// example for loading Google Analytics
+contentSecurityPolicy: {
+  'default-src': "'none'",
+  'script-src': "'self' www.google-analytics.com",
+  'font-src': "'self'",
+  'connect-src': "'self' www.google-analytics.com",
+  'img-src': "'self'",
+  'style-src': "'self'",
+  'media-src': "'self'"
+}
+```
+
 ## Usage
 
 In order to use the addon, you must first [configure](#configuration) it, then inject it into any Object registered in the container that you wish to track. For example, you can call a `trackPage` event across all your analytics services whenever you transition into a route, like so:
@@ -138,7 +164,7 @@ const Router = Ember.Router.extend({
     Ember.run.scheduleOnce('afterRender', this, () => {
       const page = document.location.pathname;
       const title = this.getWithDefault('currentRouteName', 'unknown');
-      
+
       Ember.get(this, 'metrics').trackPage({ page, title });
     });
   }
