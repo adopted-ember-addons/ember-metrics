@@ -1,6 +1,7 @@
 import config from '../config/environment';
 
-export function initialize(_container, application ) {
+export function initialize() {
+  const application = arguments[1] || arguments[0];
   const { metricsAdapters = {} } = config;
   const { environment = 'development' } = config;
   const options = { metricsAdapters, environment };
