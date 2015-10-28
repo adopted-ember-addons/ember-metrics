@@ -57,28 +57,28 @@ module.exports = function(environment) {
     metricsAdapters: [
       {
         name: 'GoogleAnalytics',
-        environments: ['development', 'production']
+        environments: ['development', 'production'],
         config: {
           id: 'UA-XXXX-Y'
         }
       },
       {
         name: 'Mixpanel',
-        environments: ['production']
+        environments: ['production'],
         config: {
           token: '0f76c037-4d76-4fce-8a0f-a9a8f89d1453'
         }
       },
       {
         name: 'Segment',
-        environments: ['production']
+        environments: ['production'],
         config: {
           key: '4fce-8a0f-a9a8f89d1453'
         }
       },
       {
         name: 'LocalAdapter',
-        environments: ['all'] // default
+        environments: ['all'], // default
         config: {
           foo: 'bar'
         }
