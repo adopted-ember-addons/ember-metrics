@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import getOwner from 'ember-getowner-polyfill';
 
 const {
   Service,
@@ -56,6 +57,9 @@ export default Service.extend({
    */
   init() {
     const adapters = getWithDefault(this, 'options.metricsAdapters', emberArray());
+    const owner = getOwner(this);
+    owner.registerOptionsForType('ember-metrics@metrics-adapter', { instantiate: false });
+    owner.registerOptionsForType('metrics-adapter', { instantiate: false });
     set(this, 'appEnvironment', getWithDefault(this, 'options.environment', 'development'));
     set(this, '_adapters', {});
     set(this, 'context', {});
@@ -166,14 +170,11 @@ export default Service.extend({
    * @return {Adapter} a local adapter or an adapter from the addon
    */
   _lookupAdapter(adapterName) {
-    const { container } = this;
-
-    assert('[ember-metrics] The service is missing its container.', container);
     assert('[ember-metrics] Could not find metrics adapter without a name.', adapterName);
 
     const dasherizedAdapterName = dasherize(adapterName);
-    const availableAdapter = container.lookupFactory(`ember-metrics@metrics-adapter:${dasherizedAdapterName}`);
-    const localAdapter = container.lookupFactory(`metrics-adapter:${dasherizedAdapterName}`);
+    const availableAdapter = getOwner(this).lookup(`ember-metrics@metrics-adapter:${dasherizedAdapterName}`);
+    const localAdapter = getOwner(this).lookup(`metrics-adapter:${dasherizedAdapterName}`);
 
     return localAdapter ? localAdapter : availableAdapter;
   },
