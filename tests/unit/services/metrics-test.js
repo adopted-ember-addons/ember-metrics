@@ -178,6 +178,7 @@ test('it can be disabled', function(assert) {
 
 test('it implements standard contracts', function(assert) {
   const service = this.subject({ options });
+  delete window.mixpanel.toString;
   sandbox.stub(window.mixpanel);
   sandbox.stub(window, 'ga');
   const spy = sandbox.spy(service, 'invoke');
