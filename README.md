@@ -136,7 +136,7 @@ contentSecurityPolicy: {
   'script-src': "'self' www.google-analytics.com",
   'font-src': "'self'",
   'connect-src': "'self' www.google-analytics.com",
-  'img-src': "'self'",
+  'img-src': "'self' www.google-analytics.com",
   'style-src': "'self'",
   'media-src': "'self'"
 }
