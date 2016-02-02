@@ -241,6 +241,20 @@ export default Ember.Route.extend({
 
 Because `activateAdapters` is idempotent, you can call it as many times as you'd like. However, it will not reinstantiate existing adapters.
 
+Since ember-metrics now automatically removes all unused adapters, it's also important to force the inclusion of the adapter via `config/environment`.  NOTE: If the adapter is already defined in the `metricsAdapters` array of `config/environment` then this step is not necessary.
+
+```js
+// config/environment
+module.exports = function(environment) {
+  var ENV = {
+    'ember-metrics': {
+      includeAdapters: ['google-analytics']
+    }
+  };
+
+  return ENV;
+```
+
 ## Writing Your Own Adapters
 
 First, generate a new Metrics Adapter:
