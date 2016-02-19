@@ -19,7 +19,7 @@ module.exports = function(environment) {
     },
 
     'ember-metrics': {
-      includeAdapters: ['segment', 'google-tag-manager']
+      includeAdapters: ['segment', 'google-tag-manager', 'piwik']
     },
 
     metricsAdapters: [

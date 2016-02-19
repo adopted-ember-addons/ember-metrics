@@ -56,7 +56,8 @@
     "tracking",
     "google analytics",
     "google tag manager",
-    "mixpanel"
+    "mixpanel",
+    "piwik"
   ],
   "dependencies": {
     "broccoli-funnel": "^1.0.1",
