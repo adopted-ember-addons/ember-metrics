@@ -6,7 +6,8 @@ import BaseAdapter from './base';
 const {
   assert,
   $,
-  get
+  get,
+  merge
 } = Ember;
 const {
   without,
@@ -46,7 +47,7 @@ export default BaseAdapter.extend({
     }
   },
 
-  trackEvent(options ={}) {
+  trackEvent(options = {}) {
     const compactedOptions = compact(options);
     const { event } = compactedOptions;
     const props = without(compactedOptions, 'event');
@@ -56,6 +57,13 @@ export default BaseAdapter.extend({
     } else {
       window.mixpanel.track(event);
     }
+  },
+
+  trackPage(options = {}) {
+    const event = { event: 'page viewed' };
+    const mergedOptions = merge(event, options);
+
+    this.trackEvent(mergedOptions);
   },
 
   alias(options = {}) {
