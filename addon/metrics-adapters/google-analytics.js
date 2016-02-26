@@ -21,6 +21,7 @@ export default BaseAdapter.extend({
 
   init() {
     const config = copy(get(this, 'config'));
+    console.log(config);
     const { id } = config;
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
