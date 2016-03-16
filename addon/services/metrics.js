@@ -109,7 +109,7 @@ export default Service.extend({
   },
 
   /**
-   * Invokes a method across all activated adapters.
+   * Invokes a method on the passed adapter, or across all activated adapters if not passed.
    *
    * @method invoke
    * @param {String} methodName

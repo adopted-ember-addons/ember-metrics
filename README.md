@@ -226,6 +226,17 @@ There are 4 main methods implemented by the service, with the same argument sign
 
   For services that implement it, this method notifies the analytics service that an anonymous user now has a unique identifier.
 
+
+If an adapter implements specific methods you wish to call, then you can use `invoke`
+
+- `invoke(method, [analyticsName], options)`
+
+  ```js
+
+  metrics.invoke('trackLink', 'Piwik', { url: 'my_favorite_link' , linkType: 'download' });
+  ```
+
+
 ### Lazy Initialization
 
 If your app implements dynamic API keys for various analytics integration, you can defer the initialization of the adapters. Instead of configuring `ember-metrics` through `config/environment`, you can call the following from any Object registered in the container:
