@@ -7,13 +7,13 @@ const {
   assert,
   $,
   get,
-  merge
 } = Ember;
 const {
   without,
   compact,
   isPresent
 } = objectTransforms;
+const assign = Ember.assign || Ember.merge;
 
 export default BaseAdapter.extend({
   toStringExtension() {
@@ -61,7 +61,7 @@ export default BaseAdapter.extend({
 
   trackPage(options = {}) {
     const event = { event: 'page viewed' };
-    const mergedOptions = merge(event, options);
+    const mergedOptions = assign(event, options);
 
     this.trackEvent(mergedOptions);
   },
