@@ -7,12 +7,12 @@ const {
   isPresent,
   copy,
   assert,
-  merge,
   get,
   $,
   String: { capitalize },
 } = Ember;
 const { compact } = objectTransforms;
+const assign = Ember.assign || Ember.merge;
 
 export default BaseAdapter.extend({
   toStringExtension() {
@@ -36,7 +36,7 @@ export default BaseAdapter.extend({
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
       /* jshint ignore:end */
-      
+
       if (hasOptions) {
         window.ga('create', id, config);
       } else {
@@ -67,7 +67,7 @@ export default BaseAdapter.extend({
       gaEvent[`event${capitalizedKey}`] = compactedOptions[key];
     }
 
-    const event = merge(sendEvent, gaEvent);
+    const event = assign(sendEvent, gaEvent);
     window.ga('send', event);
 
     return event;
@@ -77,7 +77,7 @@ export default BaseAdapter.extend({
     const compactedOptions = compact(options);
     const sendEvent = { hitType: 'pageview' };
 
-    const event = merge(sendEvent, compactedOptions);
+    const event = assign(sendEvent, compactedOptions);
     window.ga('send', event);
 
     return event;

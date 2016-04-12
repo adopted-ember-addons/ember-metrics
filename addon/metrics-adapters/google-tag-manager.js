@@ -6,12 +6,12 @@ import BaseAdapter from './base';
 const {
   assert,
   get,
-  merge,
   set,
   $,
   getWithDefault,
   String: { capitalize }
 } = Ember;
+const assign = Ember.assign || Ember.merge;
 const {
   compact
 } = objectTransforms;
@@ -67,7 +67,7 @@ export default BaseAdapter.extend({
       event: compactedOptions['event'] || 'pageview'
     };
 
-    const pageEvent = merge(sendEvent, compactedOptions);
+    const pageEvent = assign(sendEvent, compactedOptions);
 
     window[dataLayer].push(pageEvent);
 
