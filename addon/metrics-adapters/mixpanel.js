@@ -41,7 +41,8 @@ export default BaseAdapter.extend({
     const props = without(compactedOptions, 'distinctId');
 
     if (isPresent(props)) {
-      window.mixpanel.identify(distinctId, props);
+      window.mixpanel.identify(distinctId);
+      window.mixpanel.people.set(props);
     } else {
       window.mixpanel.identify(distinctId);
     }

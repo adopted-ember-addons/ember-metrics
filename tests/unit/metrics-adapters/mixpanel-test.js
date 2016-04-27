@@ -15,9 +15,12 @@ moduleFor('ember-metrics@metrics-adapter:mixpanel', 'mixpanel adapter', {
   }
 });
 
-test('#identify calls `mixpanel.identify` with the right arguments', function(assert) {
+test('#identify calls `mixpanel.identify` and `mixpanel.people.set` with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window.mixpanel, 'identify', () => {
+  const identify_stub = sandbox.stub(window.mixpanel, 'identify', () => {
+    return true;
+  });
+  const people_set_stub = sandbox.stub(window.mixpanel.people, 'set', () => {
     return true;
   });
   adapter.identify({
@@ -28,8 +31,10 @@ test('#identify calls `mixpanel.identify` with the right arguments', function(as
   adapter.identify({
     distinctId: 123
   });
-  assert.ok(stub.firstCall.calledWith(123, { cookie: 'chocolate chip', foo: 'bar' }), 'it sends the correct arguments and options');
-  assert.ok(stub.secondCall.calledWith(123), 'it sends the correct arguments');
+  assert.ok(identify_stub.firstCall.calledWith(123), 'it sends the correct arguments and options');
+  assert.ok(identify_stub.secondCall.calledWith(123), 'it sends the correct arguments');
+  assert.ok(people_set_stub.firstCall.calledWith({ cookie: 'chocolate chip', foo: 'bar' }), 'it sends the correct arguments and options');
+  assert.equal(people_set_stub.secondCall, null, 'people.set does not fire if there are no additional options');
 });
 
 test('#trackEvent calls `mixpanel.track` with the right arguments', function(assert) {
