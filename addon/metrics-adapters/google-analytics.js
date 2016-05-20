@@ -49,7 +49,9 @@ export default BaseAdapter.extend({
     const compactedOptions = compact(options);
     const { distinctId } = compactedOptions;
 
-    window.ga('set', 'userId', distinctId);
+    if (canUseDOM) {
+      window.ga('set', 'userId', distinctId);
+    }
   },
 
   trackEvent(options = {}) {
@@ -68,7 +70,9 @@ export default BaseAdapter.extend({
     }
 
     const event = assign(sendEvent, gaEvent);
-    window.ga('send', event);
+    if (canUseDOM) {
+      window.ga('send', event);
+    }
 
     return event;
   },
@@ -78,13 +82,17 @@ export default BaseAdapter.extend({
     const sendEvent = { hitType: 'pageview' };
 
     const event = assign(sendEvent, compactedOptions);
-    window.ga('send', event);
+    if (canUseDOM) {
+      window.ga('send', event);
+    }
 
     return event;
   },
 
   willDestroy() {
-    $('script[src*="google-analytics"]').remove();
-    delete window.ga;
+    if (canUseDOM) {
+      $('script[src*="google-analytics"]').remove();
+      delete window.ga;
+    }
   }
 });

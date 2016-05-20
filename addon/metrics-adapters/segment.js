@@ -33,9 +33,9 @@ export default BaseAdapter.extend({
     const compactedOptions = compact(options);
     const { alias, original } = compactedOptions;
 
-    if (original) {
+    if (original && canUseDOM) {
       window.analytics.alias(alias, original);
-    } else {
+    } else if (canUseDOM){
       window.analytics.alias(alias);
     }
   },
@@ -44,8 +44,9 @@ export default BaseAdapter.extend({
     const compactedOptions = compact(options);
     const { distinctId } = compactedOptions;
     delete compactedOptions.distinctId;
-
-    window.analytics.identify(distinctId, compactedOptions);
+    if(canUseDOM) {
+      window.analytics.identify(distinctId, compactedOptions);
+    }
   },
 
   trackEvent(options = {}) {
@@ -53,7 +54,9 @@ export default BaseAdapter.extend({
     const { event } = compactedOptions;
     delete compactedOptions.event;
 
-    window.analytics.track(event, compactedOptions);
+    if(canUseDOM) {
+      window.analytics.track(event, compactedOptions);
+    }
   },
 
   trackPage(options = {}) {
@@ -61,11 +64,15 @@ export default BaseAdapter.extend({
     const { page } = compactedOptions;
     delete compactedOptions.page;
 
-    window.analytics.page(page, compactedOptions);
+    if(canUseDOM) {
+      window.analytics.page(page, compactedOptions);
+    }
   },
 
   willDestroy() {
-    $('script[src*="segment.com"]').remove();
-    delete window.analytics;
+    if(canUseDOM) {
+      $('script[src*="segment.com"]').remove();
+      delete window.analytics;
+    }
   }
 });
