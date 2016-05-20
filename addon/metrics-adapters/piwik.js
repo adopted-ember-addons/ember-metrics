@@ -19,8 +19,8 @@ export default BaseAdapter.extend({
 
     assert(`[ember-metrics] You must pass a \`piwikUrl\` and a \`siteId\` to the ${this.toString()} adapter`, piwikUrl && siteId);
 
-    window._paq = window._paq || [];
     if(canUseDOM) {
+      window._paq = window._paq || [];
       (function() {
         window._paq.push(['setTrackerUrl', `${piwikUrl}/piwik.php`]);
         window._paq.push(['setSiteId', siteId]);
@@ -31,20 +31,28 @@ export default BaseAdapter.extend({
   },
 
   identify(options = {}) {
-    window._paq.push(['setUserId', options.userId]);
+    if(canUseDOM) {
+      window._paq.push(['setUserId', options.userId]);
+    }
   },
 
   trackEvent(options = {}) {
-    window._paq.push(['trackEvent', options.category, options.action, options.name, options.value]);
+    if(canUseDOM) {
+      window._paq.push(['trackEvent', options.category, options.action, options.name, options.value]);
+    }
   },
 
   trackPage(options = {}) {
-    window._paq.push(['setCustomUrl', options.page]);
-    window._paq.push(['trackPageView', options.title]);
+    if(canUseDOM) {
+      window._paq.push(['setCustomUrl', options.page]);
+      window._paq.push(['trackPageView', options.title]);
+    }
   },
 
   willDestroy() {
-    $('script[src*="piwik"]').remove();
-    delete window._paq;
+    if(canUseDOM) {
+      $('script[src*="piwik"]').remove();
+      delete window._paq;
+    }
   }
 });

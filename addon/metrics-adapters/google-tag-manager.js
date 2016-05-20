@@ -55,7 +55,9 @@ export default BaseAdapter.extend({
       gtmEvent[`event${capitalizedKey}`] = compactedOptions[key];
     }
 
-    window[dataLayer].push(gtmEvent);
+    if (canUseDOM) {
+      window[dataLayer].push(gtmEvent);
+    }
 
     return gtmEvent;
   },
@@ -69,13 +71,17 @@ export default BaseAdapter.extend({
 
     const pageEvent = assign(sendEvent, compactedOptions);
 
-    window[dataLayer].push(pageEvent);
+    if (canUseDOM) {
+      window[dataLayer].push(pageEvent);
+    }
 
     return pageEvent;
   },
 
   willDestroy() {
-    $('script[src*="gtm.js"]').remove();
-    delete window.dataLayer;
+    if (canUseDOM) {
+      $('script[src*="gtm.js"]').remove();
+      delete window.dataLayer;
+    }
   }
 });

@@ -40,10 +40,10 @@ export default BaseAdapter.extend({
     const { distinctId } = compactedOptions;
     const props = without(compactedOptions, 'distinctId');
 
-    if (isPresent(props)) {
+    if (isPresent(props) && canUseDOM) {
       window.mixpanel.identify(distinctId);
       window.mixpanel.people.set(props);
-    } else {
+    } else if (canUseDOM){
       window.mixpanel.identify(distinctId);
     }
   },
@@ -53,9 +53,9 @@ export default BaseAdapter.extend({
     const { event } = compactedOptions;
     const props = without(compactedOptions, 'event');
 
-    if (isPresent(props)) {
+    if (isPresent(props) && canUseDOM) {
       window.mixpanel.track(event, props);
-    } else {
+    } else if (canUseDOM){
       window.mixpanel.track(event);
     }
   },
@@ -71,15 +71,17 @@ export default BaseAdapter.extend({
     const compactedOptions = compact(options);
     const { alias, original } = compactedOptions;
 
-    if (original) {
+    if (original && canUseDOM) {
       window.mixpanel.alias(alias, original);
-    } else {
+    } else if (canUseDOM){
       window.mixpanel.alias(alias);
     }
   },
 
   willDestroy() {
-    $('script[src*="mixpanel"]').remove();
-    delete window.mixpanel;
+    if (canUseDOM) {
+      $('script[src*="mixpanel"]').remove();
+      delete window.mixpanel;
+    }
   }
 });
