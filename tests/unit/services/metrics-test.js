@@ -135,6 +135,12 @@ test('#invoke invokes the named method on a single activated adapter', function(
   assert.equal(MixpanelSpy.callCount, 0, 'it does not invoke other adapters');
 });
 
+test("#invoke doesn't error when asked to use a single deactivated adapter", function(assert) {
+  const service = this.subject({ options });
+  service.invoke('trackEvent', 'Trackmaster2000', {});
+  assert.ok(true, 'No exception was thrown');
+});
+
 test('#invoke invokes the named method on a single activated adapter with no arguments', function(assert) {
   const service = this.subject({ options });
   const GoogleAnalyticsStub = sandbox.stub(window, 'ga');
