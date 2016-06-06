@@ -127,7 +127,7 @@ export default Service.extend({
 
     selectedAdapterNames
       .map((adapterName) => get(cachedAdapters, adapterName))
-      .forEach((adapter) => adapter[methodName](mergedOptions));
+      .forEach((adapter) => adapter && adapter[methodName](mergedOptions));
   },
 
   /**
