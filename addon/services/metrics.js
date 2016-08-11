@@ -75,6 +75,10 @@ export default Service.extend({
     this.invoke('alias', ...args);
   },
 
+  reset(...args) {
+    this.invoke('reset', ...args);
+  },
+
   trackEvent(...args) {
     this.invoke('trackEvent', ...args);
   },

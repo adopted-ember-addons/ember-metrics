@@ -78,6 +78,10 @@ export default BaseAdapter.extend({
     }
   },
 
+  reset() {
+    window.mixpanel.reset();
+  },
+
   willDestroy() {
     if (canUseDOM) {
       $('script[src*="mixpanel"]').remove();
