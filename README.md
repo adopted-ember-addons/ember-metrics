@@ -226,6 +226,9 @@ There are 4 main methods implemented by the service, with the same argument sign
 
   For services that implement it, this method notifies the analytics service that an anonymous user now has a unique identifier.
 
+- `reset([analyticsName], options)`
+
+  For services that implement it, this method resets user unique identifier (useful when user logged out from the app).
 
 If an adapter implements specific methods you wish to call, then you can use `invoke`
 
