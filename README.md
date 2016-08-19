@@ -1,7 +1,7 @@
 # ember-metrics
 *Send data to multiple analytics services without re-implementing new API*
 
-[![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) [![Build Status](https://travis-ci.org/poteto/ember-metrics.svg?branch=master)](https://travis-ci.org/poteto/ember-metrics) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics)
+![Download count all time](https://img.shields.io/npm/dt/ember-metrics.svg) [![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) [![CircleCI](https://circleci.com/gh/poteto/ember-metrics.svg?style=shield)](https://circleci.com/gh/poteto/ember-metrics) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics)
 
 This addon adds a simple `metrics` service to your app that makes it simple to send data to multiple analytics services without having to implement a new API each time.
 
