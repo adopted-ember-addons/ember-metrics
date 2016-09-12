@@ -1,6 +1,6 @@
 {
   "name": "ember-metrics",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Send data to multiple analytics integrations without re-implementing new API",
   "directories": {
     "doc": "doc",
