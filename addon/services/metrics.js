@@ -195,6 +195,6 @@ export default Service.extend({
     environments = environments || ['all'];
     const wrappedEnvironments = emberArray(environments);
 
-    return wrappedEnvironments.contains('all') || wrappedEnvironments.contains(appEnvironment);
+    return wrappedEnvironments.includes('all') || wrappedEnvironments.includes(appEnvironment);
   }
 });
