@@ -6,29 +6,27 @@ import BaseAdapter from './base';
 const {
   assert,
   get,
-  set
+  set,
+  A: emberArray
 } = Ember;
 const {
   compact
 } = objectTransforms;
 
 export default BaseAdapter.extend({
-
-  eventQueue: [],
-
   toStringExtension() {
     return 'DynamicTagManager';
   },
 
-  init  () {
+  init() {
     const config = get(this, 'config');
     const { src } = config;
 
     assert(`[ember-metrics] You must pass a valid \`src\` to the ${this.toString()} adapter`, src);
     set(this, 'dtmSrc', src);
 
-    set(this, 'dataLayerNameString', config['dataLayerName'] || 'dtmDataLayer');
-    window[get(this, 'dataLayerNameString')] = {};
+    let dataLayerNameString = set(this, 'dataLayerNameString', config['dataLayerName'] || 'dtmDataLayer');
+    window[dataLayerNameString] = {};
 
     if (canUseDOM) {
       /* jshint ignore:start */
@@ -39,7 +37,7 @@ export default BaseAdapter.extend({
       /* jshint ignore:end */
     }
 
-    this.checkForQueue();
+    this.eventQueue = emberArray();
   },
 
   pushAndCheck(dtmEvent) {
@@ -48,7 +46,6 @@ export default BaseAdapter.extend({
   },
 
   checkForQueue() {
-
     if (this.get('eventQueue').length) {
       if (this.isSatelliteDefined()) {
         this.sendEvents();
@@ -70,27 +67,12 @@ export default BaseAdapter.extend({
     this.set('eventQueue', []);
   },
 
-  dtmObject(compactedOptions) {
-
-    const dtmEvent = {'event': compactedOptions['event']};
-    delete compactedOptions['event'];
-    for (let key in compactedOptions) {
-      dtmEvent[`${key}`] = compactedOptions[key];
-    }
-    return dtmEvent;
-
-  },
-
   isSatelliteDefined() {
-    if (typeof(window._satellite) === "object") {
-      return true;
-    } else {
-      return false;
-    }
+    return typeof(window._satellite) === "object";
   },
 
   trackEvent(options = {}) {
-    const dtmEvent = this.dtmObject(compact(options));
+    const dtmEvent = compact(options);
     this.pushAndCheck(dtmEvent);
     return dtmEvent;
   },
@@ -102,7 +84,7 @@ export default BaseAdapter.extend({
   },
 
   trackPage(options = {}) {
-    const dtmEvent = this.dtmObject(compact(options));
+    const dtmEvent = compact(options);
     dtmEvent['event'] = 'vpv';
     this.pushAndCheck(dtmEvent);
     return dtmEvent;
@@ -112,5 +94,4 @@ export default BaseAdapter.extend({
     delete window['_satellite'];
     delete window[get(this, 'dataLayerNameString')];
   }
-
 });
