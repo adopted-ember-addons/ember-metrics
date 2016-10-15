@@ -155,9 +155,13 @@ contentSecurityPolicy: {
 }
 ```
 
-## Usage
+## Track route changes:
 
-In order to use the addon, you must first [configure](#configuration) it, then inject it into any Object registered in the container that you wish to track. For example, you can call a `trackPage` event across all your analytics services whenever you transition into a route, like so:
+In order to use the addon, you must first [configure](#configuration)
+it, then inject it into any Object registered in the container that
+you wish to track. For example, you can call a `trackPage` event across
+ all your analytics services whenever you transition into a route,
+ like so:
 
 ```js
 // app/router.js
@@ -193,6 +197,16 @@ If you wish to only call a single service, just specify it's name as the first a
 
 metrics.trackPage('GoogleAnalytics', {
   title: 'My Awesome App'
+});
+```
+
+### Track events:
+```js
+metrics.trackEvent({
+  category: 'Video',
+  action: 'Play',
+  label: 'Name of video', 
+  value: 2
 });
 ```
 
