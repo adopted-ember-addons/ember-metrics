@@ -59,7 +59,7 @@ export default BaseAdapter.extend({
     let eventData = { hitType: 'event' };
 
     ['category', 'action', 'label', 'value'].forEach((key) => {
-      if (compactedOptions[key] != undefined) {
+      if (compactedOptions[key] !== undefined && compactedOptions[key] !== null) {
         const capitalizedKey = capitalize(key);
         eventData[`event${capitalizedKey}`] = compactedOptions[key];
         delete compactedOptions[key];
