@@ -23,5 +23,9 @@ export default <%= baseClass %>.extend({
 
   alias() {
 
+  },
+
+  willDestroy() {
+    
   }
 });
