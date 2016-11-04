@@ -58,7 +58,8 @@
     "google analytics",
     "google tag manager",
     "mixpanel",
-    "piwik"
+    "piwik",
+    "intercom"
   ],
   "dependencies": {
     "broccoli-funnel": "^1.0.1",

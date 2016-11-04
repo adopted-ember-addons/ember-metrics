@@ -39,6 +39,14 @@ module.exports = function(environment) {
         }
       },
       {
+        // if `environments` is undefined, it defaults to all
+        name: 'Intercom',
+        // environments: ['all'],
+        config: {
+          appId: 'def1abc2'
+        }
+      },
+      {
         name: 'LocalDummyAdapter',
         environments: ['all'],
         config: {

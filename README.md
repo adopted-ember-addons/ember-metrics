@@ -32,6 +32,9 @@ Writing your own adapters for currently unsupported analytics services is easy t
   - `piwikUrl`: [Tracker URL](http://developer.piwik.org/guides/tracking-javascript-guide)
   - `siteId`: [Site Id](http://developer.piwik.org/guides/tracking-javascript-guide)
 
+1. `Intercom`
+  - `appId`: [App ID](https://docs.intercom.com/help-and-faqs/getting-set-up/where-can-i-find-my-app-id)
+
 1. `KISSMetrics` (WIP)
 1. `CrazyEgg` (WIP)
 
@@ -87,6 +90,13 @@ module.exports = function(environment) {
         config: {
           piwikUrl: 'http://piwik.my.com',
           siteId: 42
+        }
+      },
+      {
+        name: 'Intercom',
+        environments: ['production'],
+        config: {
+          appId: 'def1abc2'
         }
       },
       {
