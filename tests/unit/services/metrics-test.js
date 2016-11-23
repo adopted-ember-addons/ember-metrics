@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
 import sinon from 'sinon';
 
-const { get, set, K } = Ember;
+const { get, set } = Ember;
 const environment = 'test';
 let sandbox, metricsAdapters, options;
 
@@ -44,7 +44,7 @@ moduleFor('service:metrics', 'Unit | Service | metrics', {
       environment
     };
 
-    window.ga = window.ga || K;
+    window.ga = window.ga || function() {};
   },
 
   afterEach() {

@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import BaseAdapter from 'ember-metrics/metrics-adapters/base';
 
 export default BaseAdapter.extend({
@@ -6,6 +5,6 @@ export default BaseAdapter.extend({
     return 'LocalDummy';
   },
 
-  init: Ember.K,
-  willDestroy: Ember.K
+  init() {},
+  willDestroy() {}
 });
