@@ -35,6 +35,9 @@ Writing your own adapters for currently unsupported analytics services is easy t
 1. `Intercom`
   - `appId`: [App ID](https://docs.intercom.com/help-and-faqs/getting-set-up/where-can-i-find-my-app-id)
 
+1. `Facebook Pixel`
+  - `id`: [ID](https://www.facebook.com/ads/manager/pixel/facebook_pixel/?act=129849836&pid=p1)
+
 1. `KISSMetrics` (WIP)
 1. `CrazyEgg` (WIP)
 
@@ -99,6 +102,14 @@ module.exports = function(environment) {
           appId: 'def1abc2'
         }
       },
+      {
+        name: 'FacebookPixel',
+        environments: ['production'],
+        config: {
+          id: '1234567890'
+        }
+      },
+
       {
         name: 'LocalAdapter',
         environments: ['all'], // default
