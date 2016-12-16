@@ -25,8 +25,9 @@ export default BaseAdapter.extend({
 
   init() {
     const config = get(this, 'config');
-    const { id } = config;
-    const dataLayer = getWithDefault(config,'dataLayer', 'dataLayer');
+    const { id, envParams } = config;
+    const dataLayer = getWithDefault(config, 'dataLayer', 'dataLayer');
+    const envParamsString = envParams ? `&${envParams}`: '';
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
@@ -43,7 +44,7 @@ export default BaseAdapter.extend({
             j = d.createElement(s),
             dl = l !== 'dataLayer' ? '&l=' + l : '';
         j.async = true;
-        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl + envParamsString;
         f.parentNode.insertBefore(j, f);
       })(window, document, 'script', get(this, 'dataLayer'), id);
     }
