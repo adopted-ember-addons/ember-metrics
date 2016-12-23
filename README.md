@@ -225,6 +225,13 @@ Ember.set(this, 'metrics.context.userName', 'Jimbo');
 Ember.get(this, 'metrics').trackPage({ page: 'page/1' }); // { userName: 'Jimbo', page: 'page/1' }
 ```
 
+To include the same context in every call, add the metrics service and set the context in the beforeModel hook of your application.js route.  For example:
+```
+beforeModel() {
+  this.set('metrics.context', {userName: 'Jimbo'});
+}
+```
+
 ### API
 
 #### Service API
