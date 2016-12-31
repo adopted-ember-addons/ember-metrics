@@ -8,8 +8,7 @@ const {
   assert,
   guidFor,
   typeOf,
-  set,
-  K
+  set
 } = Ember;
 
 function makeToString(ret) {
@@ -36,8 +35,8 @@ export default emberObject.extend({
 
   metrics: null,
   config: null,
-  identify: K,
-  trackEvent: K,
-  trackPage: K,
-  alias: K
+  identify() {},
+  trackEvent() {},
+  trackPage() {},
+  alias() {}
 });
