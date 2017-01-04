@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import getOwner from 'ember-getowner-polyfill';
 
 const {
   Service,
@@ -9,7 +8,8 @@ const {
   set,
   copy,
   A: emberArray,
-  String: { dasherize }
+  String: { dasherize },
+  getOwner
 } = Ember;
 const { keys } = Object;
 const assign = Ember.assign || Ember.merge;
