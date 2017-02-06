@@ -72,6 +72,7 @@ export default BaseAdapter.extend({
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
     const sendEvent = { hitType: 'event' };
+    const eventKeys = ['category', 'action', 'label', 'value'];
     let gaEvent = {};
 
     if (compactedOptions.nonInteraction) {
@@ -80,8 +81,12 @@ export default BaseAdapter.extend({
     }
 
     for (let key in compactedOptions) {
-      const capitalizedKey = capitalize(key);
-      gaEvent[`event${capitalizedKey}`] = compactedOptions[key];
+      if (eventKeys.includes(key)) {
+        const capitalizedKey = capitalize(key);
+        gaEvent[`event${capitalizedKey}`] = compactedOptions[key];
+      } else {
+        gaEvent[key] = compactedOptions[key];
+      }
     }
 
     const event = assign(sendEvent, gaEvent);
