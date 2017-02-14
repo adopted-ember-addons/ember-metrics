@@ -45,10 +45,17 @@ function getEach(arr, propName) {
 module.exports = {
   name: 'ember-metrics',
 
-  included: function(app) {
+  included: function(app, parentAddon) {
     this._super.included.apply(this, arguments);
 
-    var config = this.app.project.config(app.env) || {};
+    var target = parentAddon || app;
+
+    // allow addon to be nested - see: https://github.com/ember-cli/ember-cli/issues/3718
+    if (target.app) {
+      target = target.app;
+    }
+
+    var config = target.project.config(target.env) || {};
     var addonConfig = config[this.name] || {};
     var discovered = ['base'];
 
