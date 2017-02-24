@@ -121,7 +121,7 @@ export default Service.extend({
 
     const cachedAdapters = get(this, '_adapters');
     const allAdapterNames = keys(cachedAdapters);
-    const [selectedAdapterNames, options] = args.length > 1 ? [[args[0]], args[1]] : [allAdapterNames, args[0]];
+    const [selectedAdapterNames, options] = args.length > 1 ? [Ember.makeArray(args[0]), args[1]] : [allAdapterNames, args[0]];
     const context = copy(get(this, 'context'));
     const mergedOptions = assign(context, options);
 
