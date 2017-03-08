@@ -33,14 +33,16 @@ test('#trackEvent returns the correct response shape', function(assert) {
     category: 'button',
     action: 'click',
     label: 'nav buttons',
-    value: 4
+    value: 4,
+    dimension1: true
   });
   const expectedResult = {
     hitType: 'event',
     eventCategory: 'button',
     eventAction: 'click',
     eventLabel: 'nav buttons',
-    eventValue: 4
+    eventValue: 4,
+    dimension1: true
   };
 
   assert.deepEqual(result, expectedResult, 'it sends the correct response shape');

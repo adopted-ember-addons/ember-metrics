@@ -21,27 +21,42 @@ export default BaseAdapter.extend({
 
   init() {
     const config = copy(get(this, 'config'));
-    const { id } = config;
+    const { id, sendHitTask, trace } = config;
+    let { debug } = config;
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
     delete config.id;
 
+    if (debug) { delete config.debug; }
+    if (sendHitTask) { delete config.sendHitTask; }
+    if (trace) { delete config.trace; }
+
     const hasOptions = isPresent(Object.keys(config));
 
     if (canUseDOM) {
+
       /* jshint ignore:start */
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      })(window,document,'script',`https://www.google-analytics.com/analytics${debug ? '_debug' : ''}.js`,'ga');
       /* jshint ignore:end */
+
+      if (trace === true) {
+        window.ga_debug = { trace: true };
+      }
 
       if (hasOptions) {
         window.ga('create', id, config);
       } else {
         window.ga('create', id, 'auto');
       }
+
+      if (sendHitTask === false) {
+        window.ga('set', 'sendHitTask', null);
+      }
+
     }
   },
 
@@ -57,6 +72,7 @@ export default BaseAdapter.extend({
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
     const sendEvent = { hitType: 'event' };
+    const eventKeys = ['category', 'action', 'label', 'value'];
     let gaEvent = {};
 
     if (compactedOptions.nonInteraction) {
@@ -65,8 +81,12 @@ export default BaseAdapter.extend({
     }
 
     for (let key in compactedOptions) {
-      const capitalizedKey = capitalize(key);
-      gaEvent[`event${capitalizedKey}`] = compactedOptions[key];
+      if (eventKeys.includes(key)) {
+        const capitalizedKey = capitalize(key);
+        gaEvent[`event${capitalizedKey}`] = compactedOptions[key];
+      } else {
+        gaEvent[key] = compactedOptions[key];
+      }
     }
 
     const event = assign(sendEvent, gaEvent);
