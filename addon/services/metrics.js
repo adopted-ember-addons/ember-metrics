@@ -7,6 +7,7 @@ const {
   get,
   set,
   copy,
+  getOwner,
   A: emberArray,
   String: { dasherize },
   getOwner
