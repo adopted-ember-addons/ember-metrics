@@ -135,6 +135,29 @@ test('#invoke invokes the named method on a single activated adapter', function(
   assert.equal(MixpanelSpy.callCount, 0, 'it does not invoke other adapters');
 });
 
+test('#invoke invokes the named methods on a whitelist of activated adapters', function(assert) {
+  const service = this.subject({ options });
+  const MixpanelStub = sandbox.stub(window.mixpanel, 'identify');
+  const GoogleAnalyticsStub = sandbox.stub(window, 'ga');
+  const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'identify');
+  const MixpanelSpy = sandbox.spy(get(service, '_adapters.Mixpanel'), 'identify');
+  const LocalDummyAdapterSpy = sandbox.spy(get(service, '_adapters.LocalDummyAdapter'), 'trackEvent');
+  const opts = {
+    userId: '1e810c197e',
+    name: 'Bill Limbergh',
+    email: 'bill@initech.com'
+  };
+  service.invoke('identify', ['GoogleAnalytics', 'Mixpanel'], opts);
+
+  assert.ok(GoogleAnalyticsSpy.calledOnce, 'it invokes the identify method on the adapter');
+  assert.ok(GoogleAnalyticsSpy.calledWith(opts), 'it invokes with the correct arguments');
+  assert.ok(GoogleAnalyticsStub.calledOnce, 'it invoked the GoogleAnalytics method');
+  assert.ok(MixpanelSpy.calledOnce, 'it invokes the identify method on the adapter');
+  assert.ok(MixpanelSpy.calledWith(opts), 'it invokes with the correct arguments');
+  assert.ok(MixpanelStub.calledOnce, 'it invoked the Mixpanel method');
+  assert.equal(LocalDummyAdapterSpy.callCount, 0, 'it does not invoke other adapters');
+});
+
 test("#invoke doesn't error when asked to use a single deactivated adapter", function(assert) {
   const service = this.subject({ options });
   service.invoke('trackEvent', 'Trackmaster2000', {});
