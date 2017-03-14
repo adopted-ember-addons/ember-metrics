@@ -10,7 +10,8 @@ const {
   makeArray,
   A: emberArray,
   String: { dasherize },
-  getOwner
+  getOwner,
+  typeOf
 } = Ember;
 const { keys } = Object;
 const assign = Ember.assign || Ember.merge;
@@ -193,9 +194,19 @@ export default Service.extend({
    */
   _filterEnvironments(adapterOption, appEnvironment) {
     let { environments } = adapterOption;
-    environments = environments || ['all'];
-    const wrappedEnvironments = emberArray(environments);
 
-    return wrappedEnvironments.indexOf('all') > -1 || wrappedEnvironments.indexOf(appEnvironment) > -1;
+    if (typeOf(environments) === 'boolean') {
+      return environments;
+
+    } else if (typeOf(environments) === 'function') {
+      return environments();
+
+    } else {
+      environments = environments || ['all'];
+      const wrappedEnvironments = emberArray(environments);
+      return wrappedEnvironments.indexOf('all') > -1 || wrappedEnvironments.indexOf(appEnvironment) > -1;
+
+    }
+
   }
 });
