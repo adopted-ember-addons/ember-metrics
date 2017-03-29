@@ -69,6 +69,12 @@ export default BaseAdapter.extend({
     }
   },
 
+  reset() {
+    if(canUseDOM) {
+      window.analytics.reset();
+    }
+  },
+
   willDestroy() {
     if(canUseDOM) {
       $('script[src*="segment.com"]').remove();
