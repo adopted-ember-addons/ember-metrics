@@ -197,16 +197,12 @@ export default Service.extend({
 
     if (typeOf(environments) === 'boolean') {
       return environments;
-
     } else if (typeOf(environments) === 'function') {
       return environments();
-
-    } else {
-      environments = environments || ['all'];
-      const wrappedEnvironments = emberArray(environments);
-      return wrappedEnvironments.indexOf('all') > -1 || wrappedEnvironments.indexOf(appEnvironment) > -1;
-
     }
-
+        
+    environments = environments || ['all'];
+    const wrappedEnvironments = emberArray(environments);
+    return wrappedEnvironments.indexOf('all') > -1 || wrappedEnvironments.indexOf(appEnvironment) > -1;
   }
 });
