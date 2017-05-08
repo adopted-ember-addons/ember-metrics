@@ -9,7 +9,7 @@ const {
   assert,
   get,
   $,
-  String: { capitalize },
+  String: { capitalize }
 } = Ember;
 const { compact } = objectTransforms;
 const assign = Ember.assign || Ember.merge;
@@ -21,26 +21,39 @@ export default BaseAdapter.extend({
 
   init() {
     const config = copy(get(this, 'config'));
-    const { id, sendHitTask, trace } = config;
+    const { id, sendHitTask, trace, enableOnStart } = config;
     let { debug } = config;
+
+    const enabled = (typeof enableOnStart != 'undefined' ? enableOnStart : true);
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
     delete config.id;
 
-    if (debug) { delete config.debug; }
-    if (sendHitTask) { delete config.sendHitTask; }
-    if (trace) { delete config.trace; }
+    if (debug) {
+      delete config.debug;
+    }
+    if (sendHitTask) {
+      delete config.sendHitTask;
+    }
+    if (trace) {
+      delete config.trace;
+    }
+    if (enableOnStart) {
+      delete config.enableOnStart;
+    }
 
     const hasOptions = isPresent(Object.keys(config));
 
-    if (canUseDOM) {
+    if (canUseDOM && enabled) {
 
       /* jshint ignore:start */
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script',`https://www.google-analytics.com/analytics${debug ? '_debug' : ''}.js`,'ga');
+      (function(i, s, o, g, r, a, m) {
+        i.GoogleAnalyticsObject = r; i[r] = i[r] || function() {
+          (i[r].q = i[r].q || []).push(arguments);
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m);
+      })(window, document, 'script', `https://www.google-analytics.com/analytics${debug ? '_debug' : ''}.js`, 'ga');
       /* jshint ignore:end */
 
       if (trace === true) {
@@ -56,7 +69,6 @@ export default BaseAdapter.extend({
       if (sendHitTask === false) {
         window.ga('set', 'sendHitTask', null);
       }
-
     }
   },
 
