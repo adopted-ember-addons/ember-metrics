@@ -19,12 +19,14 @@ export default BaseAdapter.extend({
     return 'GoogleAnalytics';
   },
 
+  name() {
+    const config = copy(get(this, 'config'));
+    return typeof config.name === 'undefined' ? this.toStringExtension() : config.name;
+  },
+
   init() {
     const config = copy(get(this, 'config'));
-    const { id, sendHitTask, trace, enableOnStart } = config;
-    let { debug } = config;
-
-    const enabled = (typeof enableOnStart != 'undefined' ? enableOnStart : true);
+    const { id, sendHitTask, trace, debug } = config;
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
@@ -39,14 +41,10 @@ export default BaseAdapter.extend({
     if (trace) {
       delete config.trace;
     }
-    if (enableOnStart) {
-      delete config.enableOnStart;
-    }
 
     const hasOptions = isPresent(Object.keys(config));
 
-    if (canUseDOM && enabled) {
-
+    if (canUseDOM) {
       /* jshint ignore:start */
       (function(i, s, o, g, r, a, m) {
         i.GoogleAnalyticsObject = r; i[r] = i[r] || function() {
@@ -67,7 +65,7 @@ export default BaseAdapter.extend({
       }
 
       if (sendHitTask === false) {
-        window.ga('set', 'sendHitTask', null);
+        window.ga(`${this.name()}.set`, 'sendHitTask', null);
       }
     }
   },
@@ -77,7 +75,7 @@ export default BaseAdapter.extend({
     const { distinctId } = compactedOptions;
 
     if (canUseDOM) {
-      window.ga('set', 'userId', distinctId);
+      window.ga(`${this.name()}.set`, 'userId', distinctId);
     }
   },
 
@@ -103,7 +101,7 @@ export default BaseAdapter.extend({
 
     const event = assign(sendEvent, gaEvent);
     if (canUseDOM) {
-      window.ga('send', event);
+      window.ga(`${this.name()}.send`, event);
     }
 
     return event;
@@ -115,7 +113,7 @@ export default BaseAdapter.extend({
 
     const event = assign(sendEvent, compactedOptions);
     if (canUseDOM) {
-      window.ga('send', event);
+      window.ga(`${this.name()}.send`, event);
     }
 
     return event;

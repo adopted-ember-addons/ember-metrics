@@ -57,13 +57,14 @@ export default Service.extend({
    * @return {Void}
    */
   init() {
+    const adapters = getWithDefault(this, 'options.metricsAdapters', emberArray());
     const owner = getOwner(this);
     owner.registerOptionsForType('ember-metrics@metrics-adapter', { instantiate: false });
     owner.registerOptionsForType('metrics-adapter', { instantiate: false });
     set(this, 'appEnvironment', getWithDefault(this, 'options.environment', 'development'));
     set(this, '_adapters', {});
     set(this, 'context', {});
-    this.activateAdapters(this._adapterOptions());
+    this.activateAdapters(adapters);
     this._super(...arguments);
   },
 
@@ -92,49 +93,20 @@ export default Service.extend({
    * @return {Object} instantiated adapters
    */
   activateAdapters(adapterOptions = []) {
-    this.willDestroy();
-
     const appEnvironment = get(this, 'appEnvironment');
     const cachedAdapters = get(this, '_adapters');
     const activatedAdapters = {};
 
-
     adapterOptions
       .filter((adapterOption) => this._filterEnvironments(adapterOption, appEnvironment))
       .forEach((adapterOption) => {
-        const { name, config } = adapterOption;
+        const { name } = adapterOption;
         const adapter = cachedAdapters[name] ? cachedAdapters[name] : this._activateAdapter(adapterOption);
 
         set(activatedAdapters, name, adapter);
       });
 
     return set(this, '_adapters', activatedAdapters);
-  },
-
-  /**
-   * Activates the given adapter that supports enableOnStart flag
-   *
-   * @method activateAdapter
-   * @param {String} adapterName
-   * @return {Void}
-   */
-  activateAdapter(adapterName) {
-    if ( this._adapterEnableStateWillChange(adapterName, true) ) {
-      this.activateAdapters(this._changeAdapterEnableState(adapterName, true));
-    }
-  },
-
-  /**
-   * Deactives the given adapter that supports enableOnStart flag
-   *
-   * @method deactivateAdapter
-   * @param {String} adapterName
-   * @return {Void}
-   */
-  deactivateAdapter(adapterName) {
-    if ( this._adapterEnableStateWillChange(adapterName, false) ) {
-      this.activateAdapters(this._changeAdapterEnableState(adapterName, false));
-    }
   },
 
   /**
@@ -146,7 +118,7 @@ export default Service.extend({
    * @return {Void}
    */
   invoke(methodName, ...args) {
-    if ( !get(this, 'enabled') ) { return; }
+    if (!get(this, 'enabled')) { return; }
 
     const cachedAdapters = get(this, '_adapters');
     const allAdapterNames = keys(cachedAdapters);
@@ -172,8 +144,6 @@ export default Service.extend({
     for (let adapterName in cachedAdapters) {
       get(cachedAdapters, adapterName).destroy();
     }
-
-    set(this, '_adapters', {});
   },
 
   /**
@@ -189,53 +159,6 @@ export default Service.extend({
     assert(`[ember-metrics] Could not find metrics adapter ${name}.`, Adapter);
 
     return Adapter.create({ this, config });
-  },
-
-  /**
-   * Change the enableOnStart state of the given adapter to the given state
-   *
-   * @method _changeAdapterEnableState
-   * @param {String} adapterName
-   * @param {Boolean} state
-   * @return {Object} instantiated adapters
-   */
-  _changeAdapterEnableState(adapterName, state) {
-    let adapters = this._adapterOptions();
-
-    adapters.forEach((adapter) => {
-      if ( adapter.name == adapterName ) {
-        set(adapter.config, 'enableOnStart', state);
-      }
-    });
-
-    return adapters;
-  },
-
-  /**
-   * Compare the enableOnStart state of the given adapter
-   *
-   * @method _adapterEnableStateWillChange
-   * @param {String} adapterName
-   * @param {Boolean} state
-   * @return {Boolean} true if adapter enableOnStart state will change
-   */
-  _adapterEnableStateWillChange(adapterName, state) {
-    let adapterOption = this._adapterOptions().filter((adapterOption) => {
-      return adapterOption.name === adapterName;
-    })[0];
-
-    return adapterOption.config.enableOnStart !== state;
-  },
-
-  /**
-   * The current state of metricsAdapter options
-   *
-   * @method _adapterOptions
-   * @param {Void}
-   * @return {Array} adapter options
-   */
-  _adapterOptions() {
-    return getWithDefault(this, 'options.metricsAdapters', emberArray());
   },
 
   /**
