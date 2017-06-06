@@ -1,14 +1,10 @@
-/* jshint unused: false */
 import Ember from 'ember';
-import canUseDOM from '../utils/can-use-dom';
 
 const {
   Object: emberObject,
-  aliasMethod,
   assert,
   guidFor,
   typeOf,
-  set
 } = Ember;
 
 function makeToString(ret) {
