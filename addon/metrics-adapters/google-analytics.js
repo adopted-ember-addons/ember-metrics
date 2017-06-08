@@ -102,8 +102,13 @@ export default BaseAdapter.extend({
     const sendEvent = { hitType: 'pageview' };
 
     const event = assign(sendEvent, compactedOptions);
+    for (let key in compactedOptions) {
+      if (compactedOptions.hasOwnProperty(key)) {
+        window.ga('set', key, compactedOptions[key]);
+      }
+    }
     if (canUseDOM) {
-      window.ga('send', event);
+      window.ga('send', sendEvent);
     }
 
     return event;
