@@ -1,4 +1,4 @@
-/*jshint node:true*/
+/* eslint-env node */
 module.exports = {
   scenarios: [
     {
@@ -63,18 +63,6 @@ module.exports = {
         },
         resolutions: {
           "ember": "canary"
-        }
-      }
-    },
-    {
-      name: 'ember-alpha',
-      allowedToFail: true,
-      bower: {
-        dependencies: {
-          "ember": "alpha"
-        },
-        resolutions: {
-          "ember": "alpha"
         }
       }
     }
