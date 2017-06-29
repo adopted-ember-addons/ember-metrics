@@ -131,7 +131,7 @@ test('#invoke invokes the named method on a single activated adapter', function(
 
   assert.ok(GoogleAnalyticsSpy.calledOnce, 'it invokes the track method on the adapter');
   assert.ok(GoogleAnalyticsSpy.calledWith(opts), 'it invokes with the correct arguments');
-  assert.ok(GoogleAnalyticsStub.calledOnce, 'it invoked the Google Analytics method');
+  assert.ok(GoogleAnalyticsStub.withArgs('send').calledOnce, 'it invoked the Google Analytics method');
   assert.equal(MixpanelSpy.callCount, 0, 'it does not invoke other adapters');
 });
 
@@ -171,7 +171,7 @@ test('#invoke invokes the named method on a single activated adapter with no arg
   service.invoke('trackPage', 'GoogleAnalytics');
 
   assert.ok(GoogleAnalyticsSpy.calledOnce, 'it invokes the track method on the adapter');
-  assert.ok(GoogleAnalyticsStub.calledOnce, 'it invoked the Google Analytics method');
+  assert.ok(GoogleAnalyticsStub.withArgs('send').calledOnce, 'it invoked the Google Analytics method');
 });
 
 test('#invoke includes `context` properties', function(assert) {
