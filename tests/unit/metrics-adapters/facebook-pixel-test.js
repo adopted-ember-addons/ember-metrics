@@ -22,19 +22,30 @@ moduleFor('ember-metrics@metrics-adapter:facebook-pixel', 'facebook-pixel adapte
 
 function waitForScripts() {
   return new Ember.RSVP.Promise(resolve => {
+    function init() {
+      fbq = sinon.spy(window, 'fbq');
+      resolve();
+    }
+
     (function wait() {
       // check for the generic script
-      // easiest check to prevent race condition
-      if (window.fbq.version > '2.0') {
+      if (window.fbq.instance) {
         // now check for the custom script
-        // `fbq.on` is now ready (`fbq.once` would be better but has a bug)
-        window.fbq.on('configLoaded', name => {
-          if (name === config.id) {
-            fbq = sinon.spy(window, 'fbq');
-            resolve();
-          }
-        });
+        // it may have already loaded and
+        // registering a listener will never fire
+        if (window.fbq.instance.configsLoaded[config.id]) {
+          init();
+        } else {
+          // not ready, so use the event system
+          // (`fbq.once` would be better but has a bug)
+          window.fbq.on('configLoaded', name => {
+            if (name === config.id) {
+              init();
+            }
+          });
+        }
       } else {
+        // generic script hasn't run yet
         Ember.run.later(wait, 10);
       }
     })();
