@@ -6,5 +6,12 @@ export default BaseAdapter.extend({
   },
 
   init() {},
+
+  trackEvent({ controller }) {
+    if (controller) {
+      controller.set('foo', 'bar');
+    }
+  },
+
   willDestroy() {}
 });
