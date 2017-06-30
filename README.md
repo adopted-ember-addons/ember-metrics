@@ -38,6 +38,9 @@ Writing your own adapters for currently unsupported analytics services is easy t
 1. `Facebook Pixel`
   - `id`: [ID](https://www.facebook.com/ads/manager/pixel/facebook_pixel/?act=129849836&pid=p1)
 
+1. `DynamicTagManager` (WIP)
+  - `src`: [Header embed script src](https://blogs.adobe.com/digitalmarketing/analytics/getting-started-adobe-dynamic-tag-management-part-1/)
+
 ## Installing The Addon
 
 For Ember CLI >= `0.2.3`:
@@ -100,6 +103,13 @@ module.exports = function(environment) {
         environments: ['production'],
         config: {
           appId: 'def1abc2'
+        }
+      },
+      {
+        name: 'DynamicTagManager',
+        environments: ['production'],
+        config: {
+          src: '//assets.adobedtm.com/123/satelliteLib-456-production.js'
         }
       },
       {
