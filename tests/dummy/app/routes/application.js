@@ -1,9 +1,11 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
-  metrics: Ember.inject.service(),
+const { Route, inject: { service }, get } = Ember
+
+export default Route.extend({
+  metrics: service(),
 
   setupController(controller) {
-    this.get('metrics').trackEvent({ controller });
+    get(this, 'metrics').trackEvent({ controller });
   }
 });

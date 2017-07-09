@@ -6,7 +6,7 @@ moduleForAcceptance('Acceptance | application');
 test('visiting /', function(assert) {
   visit('/');
 
-  andThen(function() {
+  andThen(() => {
     assert.equal(find('*').text(), 'bar');
   });
 });
