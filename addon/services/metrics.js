@@ -158,7 +158,7 @@ export default Service.extend({
     const Adapter = this._lookupAdapter(name);
     assert(`[ember-metrics] Could not find metrics adapter ${name}.`, Adapter);
 
-    return Adapter.create({ this: this, config });
+    return Adapter.create(getOwner(this).ownerInjection(), { this: this, config });
   },
 
   /**

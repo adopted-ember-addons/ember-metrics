@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
 import sinon from 'sinon';
 
-const { get, set } = Ember;
+const { get, set, getOwner } = Ember;
 const environment = 'test';
 let sandbox, metricsAdapters, options;
 
@@ -10,7 +10,8 @@ moduleFor('service:metrics', 'Unit | Service | metrics', {
   needs: [
     'ember-metrics@metrics-adapter:google-analytics',
     'ember-metrics@metrics-adapter:mixpanel',
-    'metrics-adapter:local-dummy-adapter'
+    'metrics-adapter:local-dummy-adapter',
+    'service:application'
   ],
   beforeEach() {
     sandbox = sinon.sandbox.create();
@@ -50,6 +51,15 @@ moduleFor('service:metrics', 'Unit | Service | metrics', {
   afterEach() {
     sandbox.restore();
   }
+});
+
+test('it creates adapters with owners (for container/injection purposes)', function(assert) {
+  const service = this.subject({ options });
+
+  let adapter = get(service, '_adapters.LocalDummyAdapter');
+  let owner = getOwner(adapter);
+
+  assert.ok(owner);
 });
 
 test('it activates local adapters', function(assert) {
