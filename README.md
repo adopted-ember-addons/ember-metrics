@@ -38,9 +38,6 @@ Writing your own adapters for currently unsupported analytics services is easy t
 1. `Facebook Pixel`
   - `id`: [ID](https://www.facebook.com/ads/manager/pixel/facebook_pixel/?act=129849836&pid=p1)
 
-1. `KISSMetrics` (WIP)
-1. `CrazyEgg` (WIP)
-
 ## Installing The Addon
 
 For Ember CLI >= `0.2.3`:
