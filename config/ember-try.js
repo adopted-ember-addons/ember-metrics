@@ -10,6 +10,11 @@ module.exports = {
         resolutions: {
           'ember': '~1.13.0'
         }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
+        }
       }
     },
     {
@@ -21,6 +26,11 @@ module.exports = {
         resolutions: {
           'ember': '~2.0.0'
         }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
+        }
       }
     },
     {
@@ -28,6 +38,11 @@ module.exports = {
       bower: {
         dependencies: {
           "ember": "~2.4.0"
+        }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
         }
       }
     },
@@ -40,11 +55,15 @@ module.exports = {
         resolutions: {
           "ember": "release"
         }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
+        }
       }
     },
     {
       name: 'ember-beta',
-      allowedToFail: true,
       bower: {
         dependencies: {
           "ember": "beta"
@@ -52,17 +71,26 @@ module.exports = {
         resolutions: {
           "ember": "beta"
         }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
+        }
       }
     },
     {
       name: 'ember-canary',
-      allowedToFail: true,
       bower: {
         dependencies: {
           "ember": "canary"
         },
         resolutions: {
           "ember": "canary"
+        }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
         }
       }
     }
