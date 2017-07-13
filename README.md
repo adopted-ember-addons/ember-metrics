@@ -25,6 +25,10 @@ Writing your own adapters for currently unsupported analytics services is easy t
       'visitorType': 'high-value'
     }];
     ```
+  - `envParams`: A string with custom arguments for configuring GTM environments (Live, Dev, etc), e.g.: 
+    ```
+    envParams: "gtm_auth=xxxxx&gtm_preview=env-xx&gtm_cookies_win=x"
+    ```    
 1. `Segment`
   - `key`: [Segment key](https://segment.com/docs/libraries/analytics.js/quickstart/)
 
