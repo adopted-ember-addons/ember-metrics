@@ -70,7 +70,9 @@ module.exports = function(environment) {
           // Use verbose tracing of GA events
           trace: environment === 'development',
           // Ensure development env hits aren't sent to GA
-          sendHitTask: environment !== 'development'
+          sendHitTask: environment !== 'development',
+          // Specify Google Analytics plugins
+          require: ['ecommerce']
         }
       },
       {
