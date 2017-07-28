@@ -12,35 +12,42 @@ Writing your own adapters for currently unsupported analytics services is easy t
 #### Currently supported services and options
 
 1. `GoogleAnalytics`
-  - `id`: [Property ID](https://support.google.com/analytics/answer/1032385?hl=en), e.g. `UA-XXXX-Y`
-1. `Mixpanel`
-  - `token`: [Mixpanel token](https://mixpanel.com/help/questions/articles/where-can-i-find-my-project-token)
-1. `GoogleTagManager`
-  - `id`: [Container ID](https://developers.google.com/tag-manager/quickstart), e.g. `GTM-XXXX`
 
-  - `dataLayer`: An array containing a single POJO of information, e.g.:
+    - `id`: [Property ID](https://support.google.com/analytics/answer/1032385?hl=en), e.g. `UA-XXXX-Y`
+1. `Mixpanel`
+
+    - `token`: [Mixpanel token](https://mixpanel.com/help/questions/articles/where-can-i-find-my-project-token)
+1. `GoogleTagManager`
+
+    - `id`: [Container ID](https://developers.google.com/tag-manager/quickstart), e.g. `GTM-XXXX`
+
+    - `dataLayer`: An array containing a single POJO of information, e.g.:
     ```js
     dataLayer = [{
       'pageCategory': 'signup',
       'visitorType': 'high-value'
     }];
     ```
-  - `envParams`: A string with custom arguments for configuring GTM environments (Live, Dev, etc), e.g.: 
+    - `envParams`: A string with custom arguments for configuring GTM environments (Live, Dev, etc), e.g.: 
     ```
     envParams: "gtm_auth=xxxxx&gtm_preview=env-xx&gtm_cookies_win=x"
     ```    
 1. `Segment`
-  - `key`: [Segment key](https://segment.com/docs/libraries/analytics.js/quickstart/)
+
+    - `key`: [Segment key](https://segment.com/docs/libraries/analytics.js/quickstart/)
 
 1. `Piwik`
-  - `piwikUrl`: [Tracker URL](http://developer.piwik.org/guides/tracking-javascript-guide)
-  - `siteId`: [Site Id](http://developer.piwik.org/guides/tracking-javascript-guide)
+
+    - `piwikUrl`: [Tracker URL](http://developer.piwik.org/guides/tracking-javascript-guide)
+    - `siteId`: [Site Id](http://developer.piwik.org/guides/tracking-javascript-guide)
 
 1. `Intercom`
-  - `appId`: [App ID](https://docs.intercom.com/help-and-faqs/getting-set-up/where-can-i-find-my-app-id)
+
+    - `appId`: [App ID](https://docs.intercom.com/help-and-faqs/getting-set-up/where-can-i-find-my-app-id)
 
 1. `Facebook Pixel`
-  - `id`: [ID](https://www.facebook.com/ads/manager/pixel/facebook_pixel/?act=129849836&pid=p1)
+
+    - `id`: [ID](https://www.facebook.com/ads/manager/pixel/facebook_pixel/?act=129849836&pid=p1)
 
 ## Installing The Addon
 
