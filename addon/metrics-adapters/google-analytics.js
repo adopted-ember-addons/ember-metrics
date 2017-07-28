@@ -21,12 +21,13 @@ export default BaseAdapter.extend({
 
   init() {
     const config = copy(get(this, 'config'));
-    const { id, sendHitTask, trace } = config;
+    const { id, sendHitTask, trace, require } = config;
     let { debug } = config;
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
     delete config.id;
+    delete config.require;
 
     if (debug) { delete config.debug; }
     if (sendHitTask) { delete config.sendHitTask; }
@@ -51,6 +52,12 @@ export default BaseAdapter.extend({
         window.ga('create', id, config);
       } else {
         window.ga('create', id, 'auto');
+      }
+      
+      if (require) {
+        require.forEach((plugin) => {
+          window.ga('require', plugin);
+        });
       }
 
       if (sendHitTask === false) {
