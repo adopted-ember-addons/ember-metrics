@@ -70,11 +70,10 @@ module.exports = {
     this.whitelisted = uniqueStrings(discovered.map(normalize));
   },
 
-  treeForAddon: function() {
-    // see: https://github.com/ember-cli/ember-cli/issues/4463
-    var tree = this._super.treeForAddon.apply(this, arguments);
+  treeForAddon: function(tree) {
+    tree = this.filterAdapters(tree, new RegExp('metrics\-adapters\/', 'i'));
 
-    return this.filterAdapters(tree, new RegExp('^modules\/' + this.name + '\/metrics\-adapters\/', 'i'));
+    return this._super.treeForAddon.call(this, tree);
   },
 
   filterAdapters: function(tree, regex) {
