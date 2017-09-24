@@ -17,7 +17,7 @@ moduleFor('ember-metrics@metrics-adapter:segment', 'segment adapter', {
 
 test('#identify calls analytics with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window.analytics, 'identify', () => {
+  const stub = sandbox.stub(window.analytics, 'identify').callsFake(() => {
     return true;
   });
   adapter.identify({

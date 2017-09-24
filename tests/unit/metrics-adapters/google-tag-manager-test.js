@@ -17,7 +17,7 @@ moduleFor('ember-metrics@metrics-adapter:google-tag-manager', 'google-tag-manage
 
 test('#trackEvent returns the correct response shape', function(assert) {
   const adapter = this.subject({ config });
-  sandbox.stub(window, 'dataLayer', {push(){}});
+  sandbox.stub(window, 'dataLayer').value({push(){}});
 
   const result = adapter.trackEvent({
     event: 'click-button',
@@ -39,7 +39,7 @@ test('#trackEvent returns the correct response shape', function(assert) {
 
 test('#trackPage returns the correct response shape', function(assert) {
   const adapter = this.subject({ config });
-  sandbox.stub(window, 'dataLayer', { push(){} });
+  sandbox.stub(window, 'dataLayer').value({ push(){} });
 
   const result = adapter.trackPage({
     url: '/my-overridden-page?id=1',
@@ -62,7 +62,7 @@ test('#trackPage accepts a custom dataLayer name', function(assert) {
     config: customConfig
   });
 
-  sandbox.stub(window, 'customDataLayer', { push(){} });
+  sandbox.stub(window, 'customDataLayer').value({ push(){} });
 
   const result = adapter.trackPage({
     url: '/my-overridden-page?id=1',
@@ -80,7 +80,7 @@ test('#trackPage accepts a custom dataLayer name', function(assert) {
 
 test('#trackPage accepts custom `keyNames` and returns the correct response shape', function(assert) {
   const adapter = this.subject({ config });
-  sandbox.stub(window, 'dataLayer', { push(){} });
+  sandbox.stub(window, 'dataLayer').value({ push(){} });
 
   const result = adapter.trackPage({
     event: 'VirtualPageView',
