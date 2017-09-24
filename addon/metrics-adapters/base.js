@@ -31,4 +31,6 @@ export default emberObject.extend({
   trackEvent() {},
   trackPage() {},
   alias() {}
+}).reopenClass({
+  supportsFastBoot: false
 });
