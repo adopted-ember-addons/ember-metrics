@@ -42,10 +42,12 @@ export default BaseAdapter.extend({
 
   identify(options = {}) {
     const compactedOptions = compact(options);
-    const { distinctId } = compactedOptions;
+    const { distinctId, segmentContext } = compactedOptions;
+    const compactedContext = compact(segmentContext);
     delete compactedOptions.distinctId;
+    delete compactedOptions.segmentContext;
     if(canUseDOM) {
-      window.analytics.identify(distinctId, compactedOptions);
+      window.analytics.identify(distinctId, compactedOptions, compactedContext);
     }
   },
 

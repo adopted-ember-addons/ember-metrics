@@ -23,7 +23,23 @@ test('#identify calls analytics with the right arguments', function(assert) {
   adapter.identify({
     distinctId: 123
   });
-  assert.ok(stub.calledWith(123), 'it sends the correct arguments');
+  assert.ok(stub.calledWith(123, {}, {}), 'it sends the correct arguments');
+});
+
+test('#identify calls analytics with Segment context', function(assert) {
+  const adapter = this.subject({ config });
+  const stub = sandbox.stub(window.analytics, 'identify', () => {
+    return true;
+  });
+  adapter.identify({
+    distinctId: 123,
+    segmentContext: {
+      Intercom: {
+        user_hash: 'abc123'
+      }
+    }
+  });
+  assert.ok(stub.calledWith(123, {}, { Intercom: { user_hash: 'abc123' } }), 'it sends the correct arguments');
 });
 
 test('#trackEvent returns the correct response shape', function(assert) {
