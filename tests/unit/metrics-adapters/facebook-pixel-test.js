@@ -53,8 +53,8 @@ function waitForScripts() {
 }
 
 test('#trackEvent calls `fbq.track` with the right arguments', function(assert) {
-  subject.trackEvent({ event: 'Foo', opt1: 'bar', opt2: 'baz' });
-  assert.ok(fbq.calledWith('track', 'Foo', { opt1: 'bar', opt2: 'baz' }), 'it sends the correct arguments and options');
+  subject.trackEvent({ event: 'Search', opt1: 'bar', opt2: 'baz' });
+  assert.ok(fbq.calledWith('track', 'Search', { opt1: 'bar', opt2: 'baz' }), 'it sends the correct arguments and options');
 });
 
 test('#trackPage calls `fbq.track` with the right arguments', function(assert) {

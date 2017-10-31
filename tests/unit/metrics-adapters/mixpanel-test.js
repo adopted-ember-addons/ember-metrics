@@ -17,10 +17,10 @@ moduleFor('ember-metrics@metrics-adapter:mixpanel', 'mixpanel adapter', {
 
 test('#identify calls `mixpanel.identify` and `mixpanel.people.set` with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const identify_stub = sandbox.stub(window.mixpanel, 'identify', () => {
+  const identify_stub = sandbox.stub(window.mixpanel, 'identify').callsFake(() => {
     return true;
   });
-  const people_set_stub = sandbox.stub(window.mixpanel.people, 'set', () => {
+  const people_set_stub = sandbox.stub(window.mixpanel.people, 'set').callsFake(() => {
     return true;
   });
   adapter.identify({
@@ -39,7 +39,7 @@ test('#identify calls `mixpanel.identify` and `mixpanel.people.set` with the rig
 
 test('#trackEvent calls `mixpanel.track` with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window.mixpanel, 'track', () => {
+  const stub = sandbox.stub(window.mixpanel, 'track').callsFake(() => {
     return true;
   });
   adapter.trackEvent({
@@ -56,7 +56,7 @@ test('#trackEvent calls `mixpanel.track` with the right arguments', function(ass
 
 test('#trackPage calls `mixpanel.track` with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window.mixpanel, 'track', () => {
+  const stub = sandbox.stub(window.mixpanel, 'track').callsFake(() => {
     return true;
   });
   adapter.trackPage({
@@ -72,7 +72,7 @@ test('#trackPage calls `mixpanel.track` with the right arguments', function(asse
 
 test('#alias calls `mixpanel.alias` with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window.mixpanel, 'alias', () => {
+  const stub = sandbox.stub(window.mixpanel, 'alias').callsFake(() => {
     return true;
   });
   adapter.alias({

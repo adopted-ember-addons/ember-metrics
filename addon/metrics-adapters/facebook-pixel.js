@@ -64,5 +64,6 @@ export default BaseAdapter.extend({
 
     $('script[src*="fbevents.js"]').remove();
     delete window.fbq;
+    delete window._fbq;
   }
 });

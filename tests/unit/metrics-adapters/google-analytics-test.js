@@ -18,7 +18,7 @@ moduleFor('ember-metrics@metrics-adapter:google-analytics', 'google-analytics ad
 
 test('#init calls ga for any plugins specified', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window, 'ga', () => {
+  const stub = sandbox.stub(window, 'ga').callsFake(() => {
     return true;
   });
   adapter.init();
@@ -27,7 +27,7 @@ test('#init calls ga for any plugins specified', function(assert) {
 
 test('#identify calls ga with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window, 'ga', () => {
+  const stub = sandbox.stub(window, 'ga').callsFake(() => {
     return true;
   });
   adapter.identify({
