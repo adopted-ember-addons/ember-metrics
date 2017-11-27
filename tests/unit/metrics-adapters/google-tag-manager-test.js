@@ -33,7 +33,6 @@ test('#trackEvent returns the correct response shape', function(assert) {
     'eventLabel': 'nav buttons',
     'eventValue': 4
   };
-
   assert.deepEqual(result, expectedResult, 'it sends the correct response shape');
 });
 
@@ -76,6 +75,26 @@ test('#trackPage accepts a custom dataLayer name', function(assert) {
   };
 
   assert.deepEqual(result, expectedResult, 'it sends the correct response shape');
+});
+
+test('#trackPage accepts a custom dataLayer', function(assert) {
+  const adapter = this.subject({ config });
+  const dataLayer = [{foo: 'bar'}];
+  sandbox.stub(window, 'dataLayer').value(dataLayer);
+
+  const result = adapter.trackPage({
+    url: '/my-overridden-page?id=1',
+    title: 'my overridden page'
+  });
+
+  const expectedResult = {
+    'event': 'pageview',
+    'url': '/my-overridden-page?id=1',
+    'title': 'my overridden page'
+  };
+
+  assert.deepEqual(result, expectedResult, 'it sends the correct response shape');
+  assert.deepEqual(dataLayer, window.dataLayer, 'it sets the default dataLayer');
 });
 
 test('#trackPage accepts custom `keyNames` and returns the correct response shape', function(assert) {

@@ -25,13 +25,18 @@ export default BaseAdapter.extend({
 
   init() {
     const config = get(this, 'config');
-    const { id, envParams } = config;
-    const dataLayer = getWithDefault(config, 'dataLayer', 'dataLayer');
+    const { id, envParams, dataLayer } = config;
+    if (dataLayer) {
+      set(this, 'dataLayer', dataLayer);
+    }
+
+    const dataLayerProp = get(this, 'dataLayer');
+    const dataLayerValue = getWithDefault(config, dataLayerProp, []);
     const envParamsString = envParams ? `&${envParams}`: '';
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
-    set(this, 'dataLayer', dataLayer);
+    window[dataLayerProp] = dataLayerValue;
 
     if (canUseDOM) {
       (function(w, d, s, l, i) {
@@ -42,18 +47,18 @@ export default BaseAdapter.extend({
         });
         var f = d.getElementsByTagName(s)[0],
             j = d.createElement(s),
-            dl = l !== 'dataLayer' ? '&l=' + l : '';
+            dl = l !== dataLayerProp ? '&l=' + l : '';
         j.async = true;
         j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl + envParamsString;
         f.parentNode.insertBefore(j, f);
-      })(window, document, 'script', get(this, 'dataLayer'), id);
+      })(window, document, 'script', dataLayerProp, id);
     }
   },
 
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
-    const dataLayer = get(this, 'dataLayer');
     const gtmEvent = {'event': compactedOptions['event']};
+    const dataLayerProp = get(this, 'dataLayer');
 
     delete compactedOptions['event'];
 
@@ -63,7 +68,7 @@ export default BaseAdapter.extend({
     }
 
     if (canUseDOM) {
-      window[dataLayer].push(gtmEvent);
+      window[dataLayerProp].push(gtmEvent);
     }
 
     return gtmEvent;
@@ -71,7 +76,7 @@ export default BaseAdapter.extend({
 
   trackPage(options = {}) {
     const compactedOptions = compact(options);
-    const dataLayer = get(this, 'dataLayer');
+    const dataLayerProp = get(this, 'dataLayer');
     const sendEvent = {
       event: compactedOptions['event'] || 'pageview'
     };
@@ -79,7 +84,7 @@ export default BaseAdapter.extend({
     const pageEvent = assign(sendEvent, compactedOptions);
 
     if (canUseDOM) {
-      window[dataLayer].push(pageEvent);
+      window[dataLayerProp].push(pageEvent);
     }
 
     return pageEvent;
@@ -88,7 +93,7 @@ export default BaseAdapter.extend({
   willDestroy() {
     if (canUseDOM) {
       $('script[src*="gtm.js"]').remove();
-      delete window.dataLayer;
+      delete window[get(this, 'dataLayer')];
     }
   }
 });
