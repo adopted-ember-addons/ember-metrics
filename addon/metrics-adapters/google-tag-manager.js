@@ -9,6 +9,7 @@ const {
   set,
   $,
   getWithDefault,
+  isBlank,
   String: { capitalize }
 } = Ember;
 const assign = Ember.assign || Ember.merge;
@@ -17,7 +18,8 @@ const {
 } = objectTransforms;
 
 export default BaseAdapter.extend({
-  dataLayer: 'dataLayer',
+  dataLayerProp: 'dataLayer',
+  dataLayer: null,
 
   toStringExtension() {
     return 'GoogleTagManager';
@@ -26,11 +28,11 @@ export default BaseAdapter.extend({
   init() {
     const config = get(this, 'config');
     const { id, envParams, dataLayer } = config;
-    if (dataLayer) {
+    if (!isBlank(dataLayer)) {
       set(this, 'dataLayer', dataLayer);
     }
 
-    const dataLayerProp = get(this, 'dataLayer');
+    const dataLayerProp = get(this, 'dataLayerProp');
     const dataLayerValue = getWithDefault(config, dataLayerProp, []);
     const envParamsString = envParams ? `&${envParams}`: '';
 
@@ -58,7 +60,7 @@ export default BaseAdapter.extend({
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
     const gtmEvent = {'event': compactedOptions['event']};
-    const dataLayerProp = get(this, 'dataLayer');
+    const dataLayerProp = get(this, 'dataLayerProp');
 
     delete compactedOptions['event'];
 
@@ -76,7 +78,7 @@ export default BaseAdapter.extend({
 
   trackPage(options = {}) {
     const compactedOptions = compact(options);
-    const dataLayerProp = get(this, 'dataLayer');
+    const dataLayerProp = get(this, 'dataLayerProp');
     const sendEvent = {
       event: compactedOptions['event'] || 'pageview'
     };
@@ -93,7 +95,7 @@ export default BaseAdapter.extend({
   willDestroy() {
     if (canUseDOM) {
       $('script[src*="gtm.js"]').remove();
-      delete window[get(this, 'dataLayer')];
+      delete window[get(this, 'dataLayerProp')];
     }
   }
 });
