@@ -1,13 +1,9 @@
-import Ember from 'ember';
+import { assert } from '@ember/debug';
+import $ from 'jquery';
+import { get } from '@ember/object';
 import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
 import BaseAdapter from './base';
-
-const {
-  assert,
-  $,
-  get
-} = Ember;
 
 const { compact } = objectTransforms;
 

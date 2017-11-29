@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import { set, get } from '@ember/object';
+import { getOwner } from '@ember/application';
 import { moduleFor, test } from 'ember-qunit';
 import sinon from 'sinon';
 
-const { get, set, getOwner } = Ember;
 const environment = 'test';
 let sandbox, metricsAdapters, options;
 
