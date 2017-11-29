@@ -28,10 +28,10 @@ Writing your own adapters for currently unsupported analytics services is easy t
       'visitorType': 'high-value'
     }];
     ```
-    - `envParams`: A string with custom arguments for configuring GTM environments (Live, Dev, etc), e.g.: 
+    - `envParams`: A string with custom arguments for configuring GTM environments (Live, Dev, etc), e.g.:
     ```
     envParams: "gtm_auth=xxxxx&gtm_preview=env-xx&gtm_cookies_win=x"
-    ```    
+    ```
 1. `Segment`
 
     - `key`: [Segment key](https://segment.com/docs/libraries/analytics.js/quickstart/)
@@ -202,12 +202,15 @@ In order to use the addon, you must first [configure](#configuration) it, then i
 
 ```js
 // app/router.js
-import Ember from 'ember';
+import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { scheduleOnce } from '@ember/runloop';
 
-const Router = Ember.Router.extend({
+const Router = EmberRouter.extend({
   location: config.locationType,
-  metrics: Ember.inject.service(),
+  metrics: service(),
 
   didTransition() {
     this._super(...arguments);
@@ -215,11 +218,11 @@ const Router = Ember.Router.extend({
   },
 
   _trackPage() {
-    Ember.run.scheduleOnce('afterRender', this, () => {
+    scheduleOnce('afterRender', this, () => {
       const page = this.get('url');
       const title = this.getWithDefault('currentRouteName', 'unknown');
 
-      Ember.get(this, 'metrics').trackPage({ page, title });
+      get(this, 'metrics').trackPage({ page, title });
     });
   }
 });
