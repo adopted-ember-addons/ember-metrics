@@ -1,19 +1,17 @@
-import Ember from 'ember';
+import { assign, merge } from '@ember/polyfills';
+import { assert } from '@ember/debug';
+import $ from 'jquery';
+import { get } from '@ember/object';
 import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
 import BaseAdapter from './base';
 
 const {
-  assert,
-  $,
-  get,
-} = Ember;
-const {
   without,
   compact,
   isPresent
 } = objectTransforms;
-const assign = Ember.assign || Ember.merge;
+const mergeOrAssign = assign || merge;
 
 export default BaseAdapter.extend({
   toStringExtension() {
@@ -63,7 +61,7 @@ export default BaseAdapter.extend({
 
   trackPage(options = {}) {
     const event = { event: 'page viewed' };
-    const mergedOptions = assign(event, options);
+    const mergedOptions = mergeOrAssign(event, options);
 
     this.trackEvent(mergedOptions);
   },

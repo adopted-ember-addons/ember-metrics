@@ -1,11 +1,7 @@
-import Ember from 'ember';
-
-const {
-  Object: emberObject,
-  assert,
-  guidFor,
-  typeOf,
-} = Ember;
+import emberObject from '@ember/object';
+import { assert } from '@ember/debug';
+import { guidFor } from '@ember/object/internals';
+import { typeOf } from '@ember/utils';
 
 function makeToString(ret) {
   return (() => ret);

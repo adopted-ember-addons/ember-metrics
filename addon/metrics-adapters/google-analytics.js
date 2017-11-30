@@ -1,18 +1,16 @@
-import Ember from 'ember';
+import { assign, merge } from '@ember/polyfills';
+import { isPresent } from '@ember/utils';
+import { copy } from '@ember/object/internals';
+import { assert } from '@ember/debug';
+import { get } from '@ember/object';
+import $ from 'jquery';
+import { capitalize } from '@ember/string';
 import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
 import BaseAdapter from './base';
 
-const {
-  isPresent,
-  copy,
-  assert,
-  get,
-  $,
-  String: { capitalize },
-} = Ember;
 const { compact } = objectTransforms;
-const assign = Ember.assign || Ember.merge;
+const mergeOrAssign = assign || merge;
 
 export default BaseAdapter.extend({
   toStringExtension() {
@@ -53,7 +51,7 @@ export default BaseAdapter.extend({
       } else {
         window.ga('create', id, 'auto');
       }
-      
+
       if (require) {
         require.forEach((plugin) => {
           window.ga('require', plugin);
@@ -96,7 +94,7 @@ export default BaseAdapter.extend({
       }
     }
 
-    const event = assign(sendEvent, gaEvent);
+    const event = mergeOrAssign(sendEvent, gaEvent);
     if (canUseDOM) {
       window.ga('send', event);
     }
@@ -108,7 +106,7 @@ export default BaseAdapter.extend({
     const compactedOptions = compact(options);
     const sendEvent = { hitType: 'pageview' };
 
-    const event = assign(sendEvent, compactedOptions);
+    const event = mergeOrAssign(sendEvent, compactedOptions);
     for (let key in compactedOptions) {
       if (compactedOptions.hasOwnProperty(key)) {
         window.ga('set', key, compactedOptions[key]);
