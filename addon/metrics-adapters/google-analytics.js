@@ -110,7 +110,7 @@ export default BaseAdapter.extend({
 
     const event = assign(sendEvent, compactedOptions);
     for (let key in compactedOptions) {
-      if (compactedOptions.hasOwnProperty(key)) {
+      if (compactedOptions.hasOwnProperty(key) && canUseDOM) {
         window.ga('set', key, compactedOptions[key]);
       }
     }
