@@ -61,3 +61,8 @@ test('#trackPage calls `fbq.track` with the right arguments', function(assert) {
   subject.trackPage({ page: '/my-page', title: 'My Title' });
   assert.ok(fbq.calledWith('track', 'PageView', { page: '/my-page', title: 'My Title' }), 'it sends the correct arguments and options');
 });
+
+test('#trackCustom calls `fbq.track` with the right arguments', function(assert) {
+  subject.trackCustom({ event: 'AdClick', opt1: 'bar', opt2: 'baz' });
+  assert.ok(fbq.calledWith('trackCustom', 'AdClick', { opt1: 'bar', opt2: 'baz' }), 'it sends the correct arguments and options');
+});
