@@ -75,3 +75,11 @@ test('#alias returns the correct response shape', function(assert) {
 
   assert.ok(stub.calledWith('foo', 'bar'), 'page called with default arguments');
 });
+
+test('#reset returns the correct response shape', function(assert) {
+  const adapter = this.subject({ config });
+  const stub = sandbox.stub(window.analytics, 'reset');
+  adapter.reset();
+
+  assert.ok(stub.calledWith(), 'reset called with no arguments');
+});
