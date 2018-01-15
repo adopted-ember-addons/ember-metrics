@@ -111,3 +111,12 @@ test('#trackPage calls `Intercom()` with the right arguments', function(assert) 
   assert.ok(stub.firstCall.calledWith('trackEvent', 'page viewed', { page: '/products/1' }), 'it sends the correct arguments and options');
   assert.ok(stub.secondCall.calledWith('trackEvent', 'Page View', { page: '/products/1' }), 'it sends the correct arguments and options');
 });
+
+test('#invokeBoot calls `Intercom()` with the right arguments', function(assert) {
+  const adapter = this.subject({ config });
+  const stub = sandbox.stub(window, 'Intercom').callsFake(() => {
+    return true;
+  });
+  adapter.boot();
+  assert.ok(stub.firstCall.calledWith('boot', { app_id: 'def1abc2' }), 'it sends the correct arguments and options');
+});
