@@ -1,19 +1,16 @@
-import Ember from 'ember';
+import { assign } from '@ember/polyfills';
+import { assert } from '@ember/debug';
+import $ from 'jquery';
+import { get } from '@ember/object';
 import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
 import BaseAdapter from './base';
 
 const {
-  assert,
-  $,
-  get,
-} = Ember;
-const {
   without,
   compact,
   isPresent
 } = objectTransforms;
-const assign = Ember.assign || Ember.merge;
 
 export default BaseAdapter.extend({
   toStringExtension() {

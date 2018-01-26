@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import { inject } from '@ember/service';
 import BaseAdapter from 'ember-metrics/metrics-adapters/base';
 
 export default BaseAdapter.extend({
-  application: Ember.inject.service(),
+  application: inject(),
 
   toStringExtension() {
     return 'LocalDummy';

@@ -1,17 +1,12 @@
-import Ember from 'ember';
+import { assign } from '@ember/polyfills';
+import { assert } from '@ember/debug';
+import $ from 'jquery';
+import { getWithDefault, set, get } from '@ember/object';
+import { capitalize } from '@ember/string';
 import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
 import BaseAdapter from './base';
 
-const {
-  assert,
-  get,
-  set,
-  $,
-  getWithDefault,
-  String: { capitalize }
-} = Ember;
-const assign = Ember.assign || Ember.merge;
 const {
   compact
 } = objectTransforms;

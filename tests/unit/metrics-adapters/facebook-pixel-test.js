@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { later } from '@ember/runloop';
+import { Promise as EmberPromise } from 'rsvp';
 import { moduleFor, test } from 'ember-qunit';
 import sinon from 'sinon';
 
@@ -21,7 +22,7 @@ moduleFor('ember-metrics@metrics-adapter:facebook-pixel', 'facebook-pixel adapte
 });
 
 function waitForScripts() {
-  return new Ember.RSVP.Promise(resolve => {
+  return new EmberPromise(resolve => {
     function init() {
       fbq = sinon.spy(window, 'fbq');
       resolve();
@@ -46,7 +47,7 @@ function waitForScripts() {
         }
       } else {
         // generic script hasn't run yet
-        Ember.run.later(wait, 10);
+        later(wait, 10);
       }
     })();
   });

@@ -1,14 +1,10 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import { assert } from '@ember/debug';
+import { copy } from '@ember/object/internals';
+import { get } from '@ember/object';
 import canUseDOM from '../utils/can-use-dom';
 import { compact } from '../utils/object-transforms';
 import BaseAdapter from './base';
-
-const {
-  $,
-  assert,
-  copy,
-  get
-} = Ember;
 
 export default BaseAdapter.extend({
   toStringExtension() {
