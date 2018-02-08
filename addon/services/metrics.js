@@ -1,19 +1,12 @@
-import Ember from 'ember';
-
-const {
-  Service,
-  getWithDefault,
-  assert,
-  get,
-  set,
-  copy,
-  makeArray,
-  A: emberArray,
-  String: { dasherize },
-  getOwner
-} = Ember;
+import { assign } from '@ember/polyfills';
+import Service from '@ember/service';
+import { assert } from '@ember/debug';
+import { set, get, getWithDefault } from '@ember/object';
+import { copy } from '@ember/object/internals';
+import { A as emberArray, makeArray } from '@ember/array';
+import { dasherize } from '@ember/string';
+import { getOwner } from '@ember/application';
 const { keys } = Object;
-const assign = Ember.assign || Ember.merge;
 
 export default Service.extend({
   /**
