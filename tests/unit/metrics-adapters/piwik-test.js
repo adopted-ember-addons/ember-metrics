@@ -7,7 +7,7 @@ moduleFor('ember-metrics@metrics-adapter:piwik', 'piwik adapter', {
   beforeEach() {
     sandbox = sinon.sandbox.create();
     config = {
-      piwikUrl: "http://my-cool-url.com",
+      piwikUrl: '/assets',
       siteId: 42
     };
   },
