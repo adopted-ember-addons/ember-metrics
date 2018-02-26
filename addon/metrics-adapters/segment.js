@@ -45,6 +45,15 @@ export default BaseAdapter.extend({
     }
   },
 
+  group(options = {}) {
+    const compactedOptions = compact(options);
+    const { groupId } = compactedOptions;
+    delete compactedOptions.groupId;
+    if(canUseDOM) {
+      window.analytics.group(groupId, compactedOptions);
+    }
+  },
+
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
     const { event } = compactedOptions;
