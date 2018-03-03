@@ -1,15 +1,7 @@
-/* jshint unused: false */
-import Ember from 'ember';
-import canUseDOM from '../utils/can-use-dom';
-
-const {
-  Object: emberObject,
-  aliasMethod,
-  assert,
-  guidFor,
-  typeOf,
-  set
-} = Ember;
+import emberObject from '@ember/object';
+import { assert } from '@ember/debug';
+import { guidFor } from '@ember/object/internals';
+import { typeOf } from '@ember/utils';
 
 function makeToString(ret) {
   return (() => ret);

@@ -17,7 +17,7 @@ moduleFor('ember-metrics@metrics-adapter:intercom', 'intercom adapter', {
 
 test('#identify with `distinctId` calls `Intercom()` with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window, 'Intercom', () => {
+  const stub = sandbox.stub(window, 'Intercom').callsFake(() => {
     return true;
   });
   adapter.identify({
@@ -33,7 +33,7 @@ test('#identify with `distinctId` calls `Intercom()` with the right arguments', 
 
 test('#identify with `email` calls `Intercom()` with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window, 'Intercom', () => {
+  const stub = sandbox.stub(window, 'Intercom').callsFake(() => {
     return true;
   });
   adapter.identify({
@@ -49,7 +49,7 @@ test('#identify with `email` calls `Intercom()` with the right arguments', funct
 
 test('#identify without `distinctId` or `email` throws', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window, 'Intercom', () => {
+  const stub = sandbox.stub(window, 'Intercom').callsFake(() => {
     return true;
   });
   assert.throws(() => {
@@ -62,7 +62,7 @@ test('#identify without `distinctId` or `email` throws', function(assert) {
 
 test('#identify calls `Intercom()` with `boot` on initial call, then `update` on subsequent calls', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window, 'Intercom', () => {
+  const stub = sandbox.stub(window, 'Intercom').callsFake(() => {
     return true;
   });
   adapter.identify({
@@ -81,7 +81,7 @@ test('#identify calls `Intercom()` with `boot` on initial call, then `update` on
 
 test('#trackEvent calls `Intercom()` with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window, 'Intercom', () => {
+  const stub = sandbox.stub(window, 'Intercom').callsFake(() => {
     return true;
   });
   adapter.trackEvent({
@@ -98,7 +98,7 @@ test('#trackEvent calls `Intercom()` with the right arguments', function(assert)
 
 test('#trackPage calls `Intercom()` with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window, 'Intercom', () => {
+  const stub = sandbox.stub(window, 'Intercom').callsFake(() => {
     return true;
   });
   adapter.trackPage({

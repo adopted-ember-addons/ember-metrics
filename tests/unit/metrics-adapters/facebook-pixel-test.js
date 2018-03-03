@@ -1,3 +1,5 @@
+import { later } from '@ember/runloop';
+import { Promise as EmberPromise } from 'rsvp';
 import { moduleFor, test } from 'ember-qunit';
 import sinon from 'sinon';
 
@@ -11,9 +13,7 @@ moduleFor('ember-metrics@metrics-adapter:facebook-pixel', 'facebook-pixel adapte
 
     subject = this.subject({ config });
 
-    fbq = sinon.sandbox.stub(window, 'fbq', () => {
-      return true;
-    });
+    return waitForScripts();
   },
 
   afterEach() {
@@ -21,9 +21,41 @@ moduleFor('ember-metrics@metrics-adapter:facebook-pixel', 'facebook-pixel adapte
   }
 });
 
+function waitForScripts() {
+  return new EmberPromise(resolve => {
+    function init() {
+      fbq = sinon.spy(window, 'fbq');
+      resolve();
+    }
+
+    (function wait() {
+      // check for the generic script
+      if (window.fbq.instance) {
+        // now check for the custom script
+        // it may have already loaded and
+        // registering a listener will never fire
+        if (window.fbq.instance.configsLoaded[config.id]) {
+          init();
+        } else {
+          // not ready, so use the event system
+          // (`fbq.once` would be better but has a bug)
+          window.fbq.on('configLoaded', name => {
+            if (name === config.id) {
+              init();
+            }
+          });
+        }
+      } else {
+        // generic script hasn't run yet
+        later(wait, 10);
+      }
+    })();
+  });
+}
+
 test('#trackEvent calls `fbq.track` with the right arguments', function(assert) {
-  subject.trackEvent({ event: 'Foo', opt1: 'bar', opt2: 'baz' });
-  assert.ok(fbq.calledWith('track', 'Foo', { opt1: 'bar', opt2: 'baz' }), 'it sends the correct arguments and options');
+  subject.trackEvent({ event: 'Search', opt1: 'bar', opt2: 'baz' });
+  assert.ok(fbq.calledWith('track', 'Search', { opt1: 'bar', opt2: 'baz' }), 'it sends the correct arguments and options');
 });
 
 test('#trackPage calls `fbq.track` with the right arguments', function(assert) {

@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import { set, get } from '@ember/object';
+import { getOwner } from '@ember/application';
 import { moduleFor, test } from 'ember-qunit';
 import sinon from 'sinon';
 
-const { get, set } = Ember;
 const environment = 'test';
 let sandbox, metricsAdapters, options;
 
@@ -10,7 +10,8 @@ moduleFor('service:metrics', 'Unit | Service | metrics', {
   needs: [
     'ember-metrics@metrics-adapter:google-analytics',
     'ember-metrics@metrics-adapter:mixpanel',
-    'metrics-adapter:local-dummy-adapter'
+    'metrics-adapter:local-dummy-adapter',
+    'service:application'
   ],
   beforeEach() {
     sandbox = sinon.sandbox.create();
@@ -50,6 +51,15 @@ moduleFor('service:metrics', 'Unit | Service | metrics', {
   afterEach() {
     sandbox.restore();
   }
+});
+
+test('it creates adapters with owners (for container/injection purposes)', function(assert) {
+  const service = this.subject({ options });
+
+  let adapter = get(service, '_adapters.LocalDummyAdapter');
+  let owner = getOwner(adapter);
+
+  assert.ok(owner);
 });
 
 test('it activates local adapters', function(assert) {
@@ -131,7 +141,7 @@ test('#invoke invokes the named method on a single activated adapter', function(
 
   assert.ok(GoogleAnalyticsSpy.calledOnce, 'it invokes the track method on the adapter');
   assert.ok(GoogleAnalyticsSpy.calledWith(opts), 'it invokes with the correct arguments');
-  assert.ok(GoogleAnalyticsStub.calledOnce, 'it invoked the Google Analytics method');
+  assert.ok(GoogleAnalyticsStub.withArgs('send').calledOnce, 'it invoked the Google Analytics method');
   assert.equal(MixpanelSpy.callCount, 0, 'it does not invoke other adapters');
 });
 
@@ -171,7 +181,7 @@ test('#invoke invokes the named method on a single activated adapter with no arg
   service.invoke('trackPage', 'GoogleAnalytics');
 
   assert.ok(GoogleAnalyticsSpy.calledOnce, 'it invokes the track method on the adapter');
-  assert.ok(GoogleAnalyticsStub.calledOnce, 'it invoked the Google Analytics method');
+  assert.ok(GoogleAnalyticsStub.withArgs('send').calledOnce, 'it invoked the Google Analytics method');
 });
 
 test('#invoke includes `context` properties', function(assert) {

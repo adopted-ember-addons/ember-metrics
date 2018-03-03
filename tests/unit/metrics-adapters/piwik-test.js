@@ -7,7 +7,7 @@ moduleFor('ember-metrics@metrics-adapter:piwik', 'piwik adapter', {
   beforeEach() {
     sandbox = sinon.sandbox.create();
     config = {
-      piwikUrl: "http://my-cool-url.com",
+      piwikUrl: '/assets',
       siteId: 42
     };
   },
@@ -18,7 +18,7 @@ moduleFor('ember-metrics@metrics-adapter:piwik', 'piwik adapter', {
 
 test('#identify calls piwik with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window._paq, 'push', () => {
+  const stub = sandbox.stub(window._paq, 'push').callsFake(() => {
     return true;
   });
   adapter.identify({
@@ -29,7 +29,7 @@ test('#identify calls piwik with the right arguments', function(assert) {
 
 test('#trackEvent calls piwik with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window._paq, 'push', () => {
+  const stub = sandbox.stub(window._paq, 'push').callsFake(() => {
     return true;
   });
   adapter.trackEvent({
@@ -44,7 +44,7 @@ test('#trackEvent calls piwik with the right arguments', function(assert) {
 
 test('#trackPage calls piwik with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window._paq, 'push', () => {
+  const stub = sandbox.stub(window._paq, 'push').callsFake(() => {
     return true;
   });
   adapter.trackPage({

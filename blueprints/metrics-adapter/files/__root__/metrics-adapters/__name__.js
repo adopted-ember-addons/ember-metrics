@@ -26,6 +26,6 @@ export default <%= baseClass %>.extend({
   },
 
   willDestroy() {
-    
+
   }
 });

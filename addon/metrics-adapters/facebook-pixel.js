@@ -1,13 +1,9 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
 import BaseAdapter from './base';
-
-const {
-  assert,
-  $,
-  get
-} = Ember;
+import { assert } from '@ember/debug';
+import { get } from '@ember/object';
 
 const { compact } = objectTransforms;
 
@@ -23,13 +19,13 @@ export default BaseAdapter.extend({
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
     if (canUseDOM) {
-      /* jshint ignore:start */
+      /* eslint-disable */
       !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
       n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
       t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
       document,'script','https://connect.facebook.net/en_US/fbevents.js');
-      /* jshint ignore:end */
+      /* eslint-enable */
 
       window.fbq('init', id);
 
@@ -64,5 +60,6 @@ export default BaseAdapter.extend({
 
     $('script[src*="fbevents.js"]').remove();
     delete window.fbq;
+    delete window._fbq;
   }
 });

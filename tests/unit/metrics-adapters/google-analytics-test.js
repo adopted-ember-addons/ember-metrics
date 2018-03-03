@@ -7,7 +7,8 @@ moduleFor('ember-metrics@metrics-adapter:google-analytics', 'google-analytics ad
   beforeEach() {
     sandbox = sinon.sandbox.create();
     config = {
-      id: 'UA-XXXX-Y'
+      id: 'UA-XXXX-Y',
+      require: ['ecommerce']
     };
   },
   afterEach() {
@@ -15,9 +16,18 @@ moduleFor('ember-metrics@metrics-adapter:google-analytics', 'google-analytics ad
   }
 });
 
+test('#init calls ga for any plugins specified', function(assert) {
+  const adapter = this.subject({ config });
+  const stub = sandbox.stub(window, 'ga').callsFake(() => {
+    return true;
+  });
+  adapter.init();
+  assert.ok(stub.calledWith('require', 'ecommerce'), 'it sends the correct arguments');
+});
+
 test('#identify calls ga with the right arguments', function(assert) {
   const adapter = this.subject({ config });
-  const stub = sandbox.stub(window, 'ga', () => {
+  const stub = sandbox.stub(window, 'ga').callsFake(() => {
     return true;
   });
   adapter.identify({

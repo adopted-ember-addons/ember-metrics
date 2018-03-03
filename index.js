@@ -74,7 +74,7 @@ module.exports = {
     // see: https://github.com/ember-cli/ember-cli/issues/4463
     var tree = this._super.treeForAddon.apply(this, arguments);
 
-    return this.filterAdapters(tree, new RegExp('^modules\/' + this.name + '\/metrics\-adapters\/', 'i'));
+    return this.filterAdapters(tree, new RegExp('^(?:modules/)?' + this.name + '/metrics-adapters/', 'i'));
   },
 
   filterAdapters: function(tree, regex) {

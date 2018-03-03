@@ -1,20 +1,13 @@
-import Ember from 'ember';
+import { assign } from '@ember/polyfills';
+import Service from '@ember/service';
+import { assert } from '@ember/debug';
+import { set, get, getWithDefault } from '@ember/object';
+import { copy } from '@ember/object/internals';
+import { A as emberArray, makeArray } from '@ember/array';
+import { dasherize } from '@ember/string';
+import { getOwner } from '@ember/application';
 
-const {
-  Service,
-  getWithDefault,
-  assert,
-  get,
-  set,
-  copy,
-  makeArray,
-  A: emberArray,
-  String: { dasherize },
-  getOwner,
-  typeOf
-} = Ember;
 const { keys } = Object;
-const assign = Ember.assign || Ember.merge;
 
 export default Service.extend({
   /**
@@ -159,7 +152,7 @@ export default Service.extend({
     const Adapter = this._lookupAdapter(name);
     assert(`[ember-metrics] Could not find metrics adapter ${name}.`, Adapter);
 
-    return Adapter.create({ this, config });
+    return Adapter.create(getOwner(this).ownerInjection(), { this: this, config });
   },
 
   /**

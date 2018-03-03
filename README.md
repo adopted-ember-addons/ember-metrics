@@ -1,7 +1,7 @@
 # ember-metrics
 *Send data to multiple analytics services without re-implementing new API*
 
-![Download count all time](https://img.shields.io/npm/dt/ember-metrics.svg) [![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) [![CircleCI](https://circleci.com/gh/poteto/ember-metrics.svg?style=shield)](https://circleci.com/gh/poteto/ember-metrics) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics)
+![Download count all time](https://img.shields.io/npm/dt/ember-metrics.svg) [![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) [![Build Status](https://travis-ci.org/poteto/ember-metrics.svg?branch=master)](https://travis-ci.org/poteto/ember-metrics) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics) ![Ember Version](https://embadge.io/v1/badge.svg?start=1.13.0)
 
 This addon adds a simple `metrics` service to your app that makes it simple to send data to multiple analytics services without having to implement a new API each time.
 
@@ -12,34 +12,49 @@ Writing your own adapters for currently unsupported analytics services is easy t
 #### Currently supported services and options
 
 1. `GoogleAnalytics`
-  - `id`: [Property ID](https://support.google.com/analytics/answer/1032385?hl=en), e.g. `UA-XXXX-Y`
-1. `Mixpanel`
-  - `token`: [Mixpanel token](https://mixpanel.com/help/questions/articles/where-can-i-find-my-project-token)
-1. `GoogleTagManager`
-  - `id`: [Container ID](https://developers.google.com/tag-manager/quickstart), e.g. `GTM-XXXX`
 
-  - `dataLayer`: An array containing a single POJO of information, e.g.:
+    - `id`: [Property ID](https://support.google.com/analytics/answer/1032385?hl=en), e.g. `UA-XXXX-Y`
+1. `Mixpanel`
+
+    - `token`: [Mixpanel token](https://mixpanel.com/help/questions/articles/where-can-i-find-my-project-token)
+1. `GoogleTagManager`
+
+    - `id`: [Container ID](https://developers.google.com/tag-manager/quickstart), e.g. `GTM-XXXX`
+
+    - `dataLayer`: An array containing a single POJO of information, e.g.:
     ```js
     dataLayer = [{
       'pageCategory': 'signup',
       'visitorType': 'high-value'
     }];
     ```
+    - `envParams`: A string with custom arguments for configuring GTM environments (Live, Dev, etc), e.g.:
+    ```
+    envParams: "gtm_auth=xxxxx&gtm_preview=env-xx&gtm_cookies_win=x"
+    ```
 1. `Segment`
-  - `key`: [Segment key](https://segment.com/docs/libraries/analytics.js/quickstart/)
+
+    - `key`: [Segment key](https://segment.com/docs/libraries/analytics.js/quickstart/)
 
 1. `Piwik`
-  - `piwikUrl`: [Tracker URL](http://developer.piwik.org/guides/tracking-javascript-guide)
-  - `siteId`: [Site Id](http://developer.piwik.org/guides/tracking-javascript-guide)
+
+    - `piwikUrl`: [Tracker URL](http://developer.piwik.org/guides/tracking-javascript-guide)
+    - `siteId`: [Site Id](http://developer.piwik.org/guides/tracking-javascript-guide)
 
 1. `Intercom`
-  - `appId`: [App ID](https://docs.intercom.com/help-and-faqs/getting-set-up/where-can-i-find-my-app-id)
+
+    - `appId`: [App ID](https://docs.intercom.com/help-and-faqs/getting-set-up/where-can-i-find-my-app-id)
 
 1. `Facebook Pixel`
-  - `id`: [ID](https://www.facebook.com/ads/manager/pixel/facebook_pixel/?act=129849836&pid=p1)
 
-1. `KISSMetrics` (WIP)
-1. `CrazyEgg` (WIP)
+    - `id`: [ID](https://www.facebook.com/ads/manager/pixel/facebook_pixel/?act=129849836&pid=p1)
+
+#### Community adapters
+
+1. `Adobe Dynamic Tag Management`
+
+    - [ember-metrics-adobe-dtm](https://github.com/kellyselden/ember-metrics-adobe-dtm)
+
 
 ## Installing The Addon
 
@@ -54,9 +69,6 @@ For Ember CLI < `0.2.3`:
 ```shell
 ember install:addon ember-metrics
 ```
-
-## Compatibility
-This addon is tested against the `release`, `beta`, and `canary` channels, as well as `~1.11.0`, and `1.12.1`.
 
 ## Configuration
 
@@ -76,7 +88,9 @@ module.exports = function(environment) {
           // Use verbose tracing of GA events
           trace: environment === 'development',
           // Ensure development env hits aren't sent to GA
-          sendHitTask: environment !== 'development'
+          sendHitTask: environment !== 'development',
+          // Specify Google Analytics plugins
+          require: ['ecommerce']
         }
       },
       {
@@ -198,12 +212,15 @@ In order to use the addon, you must first [configure](#configuration) it, then i
 
 ```js
 // app/router.js
-import Ember from 'ember';
+import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { scheduleOnce } from '@ember/runloop';
 
-const Router = Ember.Router.extend({
+const Router = EmberRouter.extend({
   location: config.locationType,
-  metrics: Ember.inject.service(),
+  metrics: service(),
 
   didTransition() {
     this._super(...arguments);
@@ -211,11 +228,11 @@ const Router = Ember.Router.extend({
   },
 
   _trackPage() {
-    Ember.run.scheduleOnce('afterRender', this, () => {
+    scheduleOnce('afterRender', this, () => {
       const page = this.get('url');
       const title = this.getWithDefault('currentRouteName', 'unknown');
 
-      Ember.get(this, 'metrics').trackPage({ page, title });
+      get(this, 'metrics').trackPage({ page, title });
     });
   }
 });
