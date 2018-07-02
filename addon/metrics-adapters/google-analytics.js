@@ -1,6 +1,5 @@
 import { assign } from '@ember/polyfills';
 import { isPresent } from '@ember/utils';
-import { copy } from '@ember/object/internals';
 import { assert } from '@ember/debug';
 import { get } from '@ember/object';
 import $ from 'jquery';
@@ -17,7 +16,7 @@ export default BaseAdapter.extend({
   },
 
   init() {
-    const config = copy(get(this, 'config'));
+    const config = assign({}, get(this, 'config'));
     const { id, sendHitTask, trace, require } = config;
     let { debug } = config;
 

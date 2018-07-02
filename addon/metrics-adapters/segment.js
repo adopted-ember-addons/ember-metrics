@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import { assert } from '@ember/debug';
-import { copy } from '@ember/object/internals';
 import { get } from '@ember/object';
+import { assign } from '@ember/polyfills';
 import canUseDOM from '../utils/can-use-dom';
 import { compact } from '../utils/object-transforms';
 import BaseAdapter from './base';
@@ -12,7 +12,7 @@ export default BaseAdapter.extend({
   },
 
   init() {
-    const config = copy(get(this, 'config'));
+    const config = assign({}, get(this, 'config'));
     const segmentKey = config.key;
 
     assert(`[ember-metrics] You must pass a valid \`key\` to the ${this.toString()} adapter`, segmentKey);
