@@ -2,7 +2,6 @@ import { assign } from '@ember/polyfills';
 import Service from '@ember/service';
 import { assert } from '@ember/debug';
 import { set, get, getWithDefault } from '@ember/object';
-import { copy } from '@ember/object/internals';
 import { A as emberArray, makeArray } from '@ember/array';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
@@ -116,7 +115,7 @@ export default Service.extend({
     const cachedAdapters = get(this, '_adapters');
     const allAdapterNames = keys(cachedAdapters);
     const [selectedAdapterNames, options] = args.length > 1 ? [makeArray(args[0]), args[1]] : [allAdapterNames, args[0]];
-    const context = copy(get(this, 'context'));
+    const context = assign({}, get(this, 'context'));
     const mergedOptions = assign(context, options);
 
     selectedAdapterNames
