@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { isPresent as emberIsPresent } from '@ember/utils';
 
 export function compact(objectInstance) {
   const compactedObject = {};
@@ -6,14 +6,13 @@ export function compact(objectInstance) {
   for (let key in objectInstance) {
     const value = objectInstance[key];
 
-    if (Ember.isPresent(value)) {
+    if (emberIsPresent(value)) {
       compactedObject[key] = value;
     }
   }
 
   return compactedObject;
 }
-
 
 export function without(originalObj, keysToRemove) {
   let newObj = {};

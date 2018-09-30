@@ -1,18 +1,14 @@
-import Ember from 'ember';
+import { assign } from '@ember/polyfills';
+import { isPresent } from '@ember/utils';
+import { assert } from '@ember/debug';
+import { get } from '@ember/object';
+import $ from 'jquery';
+import { capitalize } from '@ember/string';
 import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
 import BaseAdapter from './base';
 
-const {
-  isPresent,
-  copy,
-  assert,
-  get,
-  $,
-  String: { capitalize },
-} = Ember;
 const { compact } = objectTransforms;
-const assign = Ember.assign || Ember.merge;
 
 export default BaseAdapter.extend({
   toStringExtension() {
@@ -20,7 +16,7 @@ export default BaseAdapter.extend({
   },
 
   init() {
-    const config = copy(get(this, 'config'));
+    const config = assign({}, get(this, 'config'));
     const { id, sendHitTask, trace, require } = config;
     let { debug } = config;
 
@@ -53,7 +49,7 @@ export default BaseAdapter.extend({
       } else {
         window.ga('create', id, 'auto');
       }
-      
+
       if (require) {
         require.forEach((plugin) => {
           window.ga('require', plugin);
