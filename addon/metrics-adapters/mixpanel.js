@@ -76,11 +76,11 @@ export default BaseAdapter.extend({
   },
 
   willDestroy() {
-    if (canUseDOM) {
-      const script = document.querySelector('script[src*="mixpanel"]');
-      script.parentElement.removeChild(script);
+    if (!canUseDOM) return;
 
-      delete window.mixpanel;
-    }
+    const script = document.querySelector('script[src*="mixpanel"]');
+    script.parentElement.removeChild(script);
+
+    delete window.mixpanel;
   }
 });
