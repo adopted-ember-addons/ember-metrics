@@ -69,10 +69,11 @@ export default BaseAdapter.extend({
   },
 
   willDestroy() {
-    if (canUseDOM) {
-      const script = document.querySelector('script[src*="intercom"]');
-      script.parentElement.removeChild(script);
-      delete window.Intercom;
-    }
+    if (!canUseDOM) return;
+
+    const script = document.querySelector('script[src*="intercom"]');
+    script.parentElement.removeChild(script);
+
+    delete window.Intercom;
   }
 });

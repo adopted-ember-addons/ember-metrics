@@ -65,11 +65,11 @@ export default BaseAdapter.extend({
   },
 
   willDestroy() {
-    if(canUseDOM) {
-      const script = document.querySelector('script[src*="segment.com"]');
-      script.parentElement.removeChild(script);
+    if (!canUseDOM) return;
 
-      delete window.analytics;
-    }
+    const script = document.querySelector('script[src*="segment.com"]');
+    script.parentElement.removeChild(script);
+
+    delete window.analytics;
   }
 });

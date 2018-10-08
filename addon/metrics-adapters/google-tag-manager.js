@@ -80,11 +80,11 @@ export default BaseAdapter.extend({
   },
 
   willDestroy() {
-    if (canUseDOM) {
-      const script = document.querySelector('script[src*="gtm.js"]');
-      script.parentElement.removeChild(script);
+    if (!canUseDOM) return;
 
-      delete window.dataLayer;
-    }
+    const script = document.querySelector('script[src*="gtm.js"]');
+    script.parentElement.removeChild(script);
+
+    delete window.dataLayer;
   }
 });

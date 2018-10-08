@@ -45,11 +45,11 @@ export default BaseAdapter.extend({
   },
 
   willDestroy() {
-    if(canUseDOM) {
-      const script = document.querySelector('script[src*="piwik"]');
-      script.parentElement.removeChild(script);
+    if (!canUseDOM) return;
 
-      delete window._paq;
-    }
+    const script = document.querySelector('script[src*="piwik"]');
+    script.parentElement.removeChild(script);
+
+    delete window._paq;
   }
 });
