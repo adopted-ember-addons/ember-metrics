@@ -56,7 +56,7 @@ export default BaseAdapter.extend({
   },
 
   willDestroy() {
-    if (!canUseDOM) return;
+    if (!canUseDOM) { return; }
 
     const script = document.querySelector('script[src*="fbevents.js"]');
     script.parentElement.removeChild(script);

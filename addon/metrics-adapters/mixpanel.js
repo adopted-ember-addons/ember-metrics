@@ -76,7 +76,7 @@ export default BaseAdapter.extend({
   },
 
   willDestroy() {
-    if (!canUseDOM) return;
+    if (!canUseDOM) { return; }
 
     const script = document.querySelector('script[src*="mixpanel"]');
     script.parentElement.removeChild(script);
