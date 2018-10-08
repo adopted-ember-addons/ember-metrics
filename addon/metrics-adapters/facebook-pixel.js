@@ -1,4 +1,4 @@
-import $ from 'jquery';
+
 import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
 import BaseAdapter from './base';
@@ -58,7 +58,9 @@ export default BaseAdapter.extend({
   willDestroy() {
     if (!canUseDOM) { return; }
 
-    $('script[src*="fbevents.js"]').remove();
+    const script = document.querySelector('script[src*="fbevents.js"]');
+    script.parentElement.removeChild(script);
+
     delete window.fbq;
     delete window._fbq;
   }

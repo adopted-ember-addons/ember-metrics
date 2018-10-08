@@ -1,6 +1,5 @@
 import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
-import $ from 'jquery';
 import { getWithDefault, set, get } from '@ember/object';
 import { capitalize } from '@ember/string';
 import canUseDOM from '../utils/can-use-dom';
@@ -82,7 +81,9 @@ export default BaseAdapter.extend({
 
   willDestroy() {
     if (canUseDOM) {
-      $('script[src*="gtm.js"]').remove();
+      const script = document.querySelector('script[src*="gtm.js"]');
+      script.parentElement.removeChild(script);
+
       delete window.dataLayer;
     }
   }

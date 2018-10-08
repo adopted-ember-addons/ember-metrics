@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import { assert } from '@ember/debug';
 import { get } from '@ember/object';
 import { assign } from '@ember/polyfills';
@@ -67,7 +66,9 @@ export default BaseAdapter.extend({
 
   willDestroy() {
     if(canUseDOM) {
-      $('script[src*="segment.com"]').remove();
+      const script = document.querySelector('script[src*="segment.com"]');
+      script.parentElement.removeChild(script);
+
       delete window.analytics;
     }
   }

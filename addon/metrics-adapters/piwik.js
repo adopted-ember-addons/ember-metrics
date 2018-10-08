@@ -1,5 +1,4 @@
 import { assert } from '@ember/debug';
-import $ from 'jquery';
 import { get } from '@ember/object';
 import canUseDOM from '../utils/can-use-dom';
 import BaseAdapter from './base';
@@ -47,7 +46,9 @@ export default BaseAdapter.extend({
 
   willDestroy() {
     if(canUseDOM) {
-      $('script[src*="piwik"]').remove();
+      const script = document.querySelector('script[src*="piwik"]');
+      script.parentElement.removeChild(script);
+
       delete window._paq;
     }
   }

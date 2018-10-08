@@ -1,5 +1,4 @@
 import { assign } from '@ember/polyfills';
-import $ from 'jquery';
 import { assert } from '@ember/debug';
 import { get } from '@ember/object';
 import canUseDOM from '../utils/can-use-dom';
@@ -71,7 +70,8 @@ export default BaseAdapter.extend({
 
   willDestroy() {
     if (canUseDOM) {
-      $('script[src*="intercom"]').remove();
+      const script = document.querySelector('script[src*="intercom"]');
+      script.parentElement.removeChild(script);
       delete window.Intercom;
     }
   }

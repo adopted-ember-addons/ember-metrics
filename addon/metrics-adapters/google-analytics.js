@@ -2,7 +2,6 @@ import { assign } from '@ember/polyfills';
 import { isPresent } from '@ember/utils';
 import { assert } from '@ember/debug';
 import { get } from '@ember/object';
-import $ from 'jquery';
 import { capitalize } from '@ember/string';
 import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
@@ -119,7 +118,8 @@ export default BaseAdapter.extend({
 
   willDestroy() {
     if (canUseDOM) {
-      $('script[src*="google-analytics"]').remove();
+      const script = document.querySelector('script[src*="google-analytics"]');
+      script.parentElement.removeChild(script);
       delete window.ga;
     }
   }
