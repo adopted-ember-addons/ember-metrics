@@ -367,7 +367,9 @@ module.exports = function(environment) {
 
 ## Testing
 
-For unit tests, you will need to specify the adapters in use under `needs`, like so:
+For unit tests using old QUnit testing API (prior to
+[RFC 232](https://github.com/emberjs/rfcs/blob/master/text/0232-simplify-qunit-testing-api.md)),
+you will need to specify the adapters in use under `needs`, like so:
 
 ```js
 moduleFor('route:foo', 'Unit | Route | foo', {
