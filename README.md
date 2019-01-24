@@ -206,13 +206,10 @@ const Router = EmberRouter.extend({
   metrics: service(),
   router: service(),
 
-  didTransition() {
+  init() {
     this._super(...arguments);
-    this._trackPage();
-  },
 
-  _trackPage() {
-    scheduleOnce('afterRender', this, () => {
+    this.on('routeDidChange', transition => {
       let page = this.router.currentURL;
       let title = this.router.currentRouteName || 'unknown';
 
