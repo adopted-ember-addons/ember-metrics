@@ -58,16 +58,8 @@ Writing your own adapters for currently unsupported analytics services is easy t
 
 ## Installing The Addon
 
-For Ember CLI >= `0.2.3`:
-
 ```shell
 ember install ember-metrics
-```
-
-For Ember CLI < `0.2.3`:
-
-```shell
-ember install:addon ember-metrics
 ```
 
 ## Configuration
