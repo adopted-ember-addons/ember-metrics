@@ -4,13 +4,21 @@ import sinon from 'sinon';
 
 let sandbox, removeChildSpy;
 
-moduleFor('ember-metrics@util:remove-script-from-dom', 'remove-script-from-dom', {
+function setupDOM() {
+  // eslint-disable-next-line no-global-assign
+  window = window || {};
+  // eslint-disable-next-line no-global-assign
+  document = document || { createElement: function() {} };
+
+  sandbox.stub(document, 'querySelectorAll').returns([
+    { parentElement: { removeChild: removeChildSpy } }
+  ]);
+}
+
+moduleFor('util:remove-script-from-dom', 'Unit | Util | remove-script-from-dom', {
   beforeEach() {
     sandbox = sinon.sandbox.create();
     removeChildSpy = sinon.spy();
-    sandbox.stub(document, 'querySelectorAll').returns([
-      { parentElement: { removeChild: removeChildSpy } }
-    ]);
   },
 
   afterEach() {
@@ -20,6 +28,7 @@ moduleFor('ember-metrics@util:remove-script-from-dom', 'remove-script-from-dom',
 
 test('if dom, attempts script removal', function(assert) {
   const script = 'script[example]';
+  setupDOM();
 
   removeScriptFromDOM(script);
 
