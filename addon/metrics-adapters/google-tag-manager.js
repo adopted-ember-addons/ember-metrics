@@ -4,6 +4,7 @@ import { getWithDefault, set, get } from '@ember/object';
 import { capitalize } from '@ember/string';
 import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
+import removeScriptFromDOM from '../utils/remove-script-from-dom';
 import BaseAdapter from './base';
 
 const {
@@ -81,9 +82,7 @@ export default BaseAdapter.extend({
 
   willDestroy() {
     if (!canUseDOM) { return; }
-
-    const script = document.querySelector('script[src*="gtm.js"]');
-    script.parentElement.removeChild(script);
+    removeScriptFromDOM('script[src*="gtm.js"]');
 
     delete window.dataLayer;
   }

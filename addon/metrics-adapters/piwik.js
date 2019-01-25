@@ -1,6 +1,7 @@
 import { assert } from '@ember/debug';
 import { get } from '@ember/object';
 import canUseDOM from '../utils/can-use-dom';
+import removeScriptFromDOM from '../utils/remove-script-from-dom';
 import BaseAdapter from './base';
 
 export default BaseAdapter.extend({
@@ -46,9 +47,7 @@ export default BaseAdapter.extend({
 
   willDestroy() {
     if (!canUseDOM) { return; }
-
-    const script = document.querySelector('script[src*="piwik"]');
-    script.parentElement.removeChild(script);
+    removeScriptFromDOM('script[src*="piwik"]');
 
     delete window._paq;
   }

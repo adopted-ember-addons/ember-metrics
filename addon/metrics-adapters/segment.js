@@ -2,6 +2,7 @@ import { assert } from '@ember/debug';
 import { get } from '@ember/object';
 import { assign } from '@ember/polyfills';
 import canUseDOM from '../utils/can-use-dom';
+import removeScriptFromDOM from '../utils/remove-script-from-dom';
 import { compact } from '../utils/object-transforms';
 import BaseAdapter from './base';
 
@@ -66,9 +67,7 @@ export default BaseAdapter.extend({
 
   willDestroy() {
     if (!canUseDOM) { return; }
-
-    const script = document.querySelector('script[src*="segment.com"]');
-    script.parentElement.removeChild(script);
+    removeScriptFromDOM('script[src*="segment.com"]');
 
     delete window.analytics;
   }

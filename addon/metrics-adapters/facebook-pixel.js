@@ -1,5 +1,6 @@
 import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
+import removeScriptFromDOM from '../utils/remove-script-from-dom';
 import BaseAdapter from './base';
 import { assert } from '@ember/debug';
 import { get } from '@ember/object';
@@ -56,9 +57,7 @@ export default BaseAdapter.extend({
 
   willDestroy() {
     if (!canUseDOM) { return; }
-
-    const script = document.querySelector('script[src*="fbevents.js"]');
-    script.parentElement.removeChild(script);
+    removeScriptFromDOM('script[src*="fbevents.js"]');
 
     delete window.fbq;
     delete window._fbq;
