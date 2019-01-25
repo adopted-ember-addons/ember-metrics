@@ -1,4 +1,4 @@
-import removeScriptFromDOM from 'dummy/utils/remove-script-from-dom';
+import removeScriptFromDOM from '../../../utils/remove-script-from-dom';
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('util:remove-script-from-dom', 'Unit | Util | remove-script-from-dom', {});
