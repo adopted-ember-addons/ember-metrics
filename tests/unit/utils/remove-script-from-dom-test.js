@@ -4,7 +4,7 @@ import sinon from 'sinon';
 
 let sandbox, removeChildSpy;
 
-moduleFor('Unit | Utility | remove script from dom', {
+moduleFor('ember-metrics@util:remove-script-from-dom', 'remove-script-from-dom', {
   beforeEach() {
     sandbox = sinon.sandbox.create();
     removeChildSpy = sinon.spy();
@@ -26,6 +26,6 @@ test('if dom, attempts script removal', function(assert) {
   assert.ok(sinon.assert.calledOnce(removeChildSpy), 'expected removeChild to be called');
   assert.ok(
     sinon.assert.calledWith(document.querySelectorAll, script),
-    'expected stub to be called with script'
+    'expected querySelectorAll stub to be called with script'
   );
 });
