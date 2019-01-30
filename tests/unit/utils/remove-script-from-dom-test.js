@@ -30,15 +30,3 @@ test('calls removeChild for each element returned from the query', function(asse
   removeScriptFromDOM(selector);
   assert.equal(removeSpy.callCount, 1);
 });
-
-test('if canUseDom false, does not attempt to query DOM', function(assert) {
-  const selector = 'script[data-fb-script]';
-  const og = window.document.createElement;
-  window.document.createElement = undefined;
-
-  removeScriptFromDOM(selector);
-  assert.equal(document.querySelectorAll.callCount, 0);
-  assert.equal(removeSpy.callCount, 0);
-
-  window.document.createElement = og;
-});
