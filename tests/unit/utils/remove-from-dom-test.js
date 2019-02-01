@@ -1,10 +1,10 @@
-import removeScriptFromDOM from '../../../utils/remove-script-from-dom';
+import removeFromDOM from '../../../utils/remove-from-dom';
 import { moduleFor, test } from 'ember-qunit';
 import sinon from 'sinon';
 
 let sandbox, removeSpy;
 
-moduleFor('util:remove-script-from-dom', 'Unit | Utility | remove-script-from-dom', {
+moduleFor('util:remove-from-dom', 'Unit | Utility | remove-from-dom', {
   beforeEach() {
     sandbox = sinon.sandbox.create();
     sandbox.stub(document, 'querySelectorAll').returns([{
@@ -19,14 +19,14 @@ moduleFor('util:remove-script-from-dom', 'Unit | Utility | remove-script-from-do
   }
 });
 
-test('calls querySelectorAll with script selector passed', function(assert) {
+test('calls querySelectorAll with selector passed', function(assert) {
   const selector = 'script[data-fb-script]';
-  removeScriptFromDOM(selector);
+  removeFromDOM(selector);
   assert.ok(document.querySelectorAll.calledWith(selector));
 });
 
 test('calls removeChild for each element returned from the query', function(assert) {
   const selector = 'script[data-fb-script]';
-  removeScriptFromDOM(selector);
+  removeFromDOM(selector);
   assert.equal(removeSpy.callCount, 1);
 });

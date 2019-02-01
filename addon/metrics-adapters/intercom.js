@@ -3,7 +3,7 @@ import { assert } from '@ember/debug';
 import { get } from '@ember/object';
 import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
-import removeScriptFromDOM from '../utils/remove-script-from-dom';
+import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 
 const {
@@ -71,7 +71,7 @@ export default BaseAdapter.extend({
 
   willDestroy() {
     if (!canUseDOM) { return; }
-    removeScriptFromDOM('script[src*="intercom"]');
+    removeFromDOM('script[src*="intercom"]');
 
     delete window.Intercom;
   }

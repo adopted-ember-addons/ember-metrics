@@ -5,7 +5,7 @@ import { get } from '@ember/object';
 import { capitalize } from '@ember/string';
 import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
-import removeScriptFromDOM from '../utils/remove-script-from-dom';
+import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 
 const { compact } = objectTransforms;
@@ -119,7 +119,7 @@ export default BaseAdapter.extend({
 
   willDestroy() {
     if (!canUseDOM) { return; }
-    removeScriptFromDOM('script[src*="google-analytics"]');
+    removeFromDOM('script[src*="google-analytics"]');
 
     delete window.ga;
   }
