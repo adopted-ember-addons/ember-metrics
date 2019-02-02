@@ -1,8 +1,8 @@
-import $ from 'jquery';
 import { assert } from '@ember/debug';
 import { get } from '@ember/object';
 import { assign } from '@ember/polyfills';
 import canUseDOM from '../utils/can-use-dom';
+import removeFromDOM from '../utils/remove-from-dom';
 import { compact } from '../utils/object-transforms';
 import BaseAdapter from './base';
 
@@ -66,9 +66,9 @@ export default BaseAdapter.extend({
   },
 
   willDestroy() {
-    if(canUseDOM) {
-      $('script[src*="segment.com"]').remove();
-      delete window.analytics;
-    }
+    if (!canUseDOM) { return; }
+    removeFromDOM('script[src*="segment.com"]');
+
+    delete window.analytics;
   }
 });

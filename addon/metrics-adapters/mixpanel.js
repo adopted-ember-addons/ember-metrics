@@ -1,9 +1,9 @@
 import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
-import $ from 'jquery';
 import { get } from '@ember/object';
 import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
+import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 
 const {
@@ -77,9 +77,9 @@ export default BaseAdapter.extend({
   },
 
   willDestroy() {
-    if (canUseDOM) {
-      $('script[src*="mixpanel"]').remove();
-      delete window.mixpanel;
-    }
+    if (!canUseDOM) { return; }
+    removeFromDOM('script[src*="mixpanel"]');
+
+    delete window.mixpanel;
   }
 });
