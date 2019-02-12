@@ -58,16 +58,8 @@ Writing your own adapters for currently unsupported analytics services is easy t
 
 ## Installing The Addon
 
-For Ember CLI >= `0.2.3`:
-
 ```shell
 ember install ember-metrics
-```
-
-For Ember CLI < `0.2.3`:
-
-```shell
-ember install:addon ember-metrics
 ```
 
 ## Configuration
@@ -210,19 +202,18 @@ import { scheduleOnce } from '@ember/runloop';
 
 const Router = EmberRouter.extend({
   location: config.locationType,
+
   metrics: service(),
+  router: service(),
 
-  didTransition() {
+  init() {
     this._super(...arguments);
-    this._trackPage();
-  },
 
-  _trackPage() {
-    scheduleOnce('afterRender', this, () => {
-      const page = this.get('url');
-      const title = this.getWithDefault('currentRouteName', 'unknown');
+    this.on('routeDidChange', () => {
+      const page = this.router.currentURL;
+      const title = this.router.currentRouteName || 'unknown';
 
-      get(this, 'metrics').trackPage({ page, title });
+      this.metrics.trackPage({ page, title });
     });
   }
 });
@@ -244,8 +235,10 @@ metrics.trackPage('GoogleAnalytics', {
 Often, you may want to include information like the current user's name with every event or page view that's tracked. Any properties that are set on `metrics.context` will be merged into options for every Service call.
 
 ```js
-Ember.set(this, 'metrics.context.userName', 'Jimbo');
-Ember.get(this, 'metrics').trackPage({ page: 'page/1' }); // { userName: 'Jimbo', page: 'page/1' }
+import { set } from '@ember/object';
+
+set(this, 'metrics.context.userName', 'Jimbo');
+this.metrics.trackPage({ page: 'page/1' }); // { userName: 'Jimbo', page: 'page/1' }
 ```
 
 ### API
@@ -286,13 +279,14 @@ If an adapter implements specific methods you wish to call, then you can use `in
 If your app implements dynamic API keys for various analytics integration, you can defer the initialization of the adapters. Instead of configuring `ember-metrics` through `config/environment`, you can call the following from any Object registered in the container:
 
 ```js
-import Ember from 'ember';
+import { Route } from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
-export default Ember.Route.extend({
-  metrics: Ember.inject.service(),
+export default Route.extend({
+  metrics: service(),
   afterModel(model) {
-    const metrics = Ember.get(this, 'metrics');
-    const id = Ember.get(model, 'googleAnalyticsKey');
+    const metrics = this.metrics;
+    const id = model.googleAnalyticsKey;
 
     metrics.activateAdapters([
       {
@@ -370,7 +364,9 @@ module.exports = function(environment) {
 
 ## Testing
 
-For unit tests, you will need to specify the adapters in use under `needs`, like so:
+For unit tests using old QUnit testing API (prior to
+[RFC 232](https://github.com/emberjs/rfcs/blob/master/text/0232-simplify-qunit-testing-api.md)),
+you will need to specify the adapters in use under `needs`, like so:
 
 ```js
 moduleFor('route:foo', 'Unit | Route | foo', {
