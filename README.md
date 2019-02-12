@@ -210,8 +210,8 @@ const Router = EmberRouter.extend({
     this._super(...arguments);
 
     this.on('routeDidChange', () => {
-      let page = this.router.currentURL;
-      let title = this.router.currentRouteName || 'unknown';
+      const page = this.router.currentURL;
+      const title = this.router.currentRouteName || 'unknown';
 
       this.metrics.trackPage({ page, title });
     });
@@ -285,8 +285,8 @@ import { inject as service } from '@ember/service';
 export default Route.extend({
   metrics: service(),
   afterModel(model) {
-    let metrics = this.metrics;
-    let id = model.googleAnalyticsKey;
+    const metrics = this.metrics;
+    const id = model.googleAnalyticsKey;
 
     metrics.activateAdapters([
       {
