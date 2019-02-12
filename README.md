@@ -209,7 +209,7 @@ const Router = EmberRouter.extend({
   init() {
     this._super(...arguments);
 
-    this.on('routeDidChange', transition => {
+    this.on('routeDidChange', () => {
       let page = this.router.currentURL;
       let title = this.router.currentRouteName || 'unknown';
 
