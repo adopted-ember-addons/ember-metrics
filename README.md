@@ -196,9 +196,7 @@ In order to use the addon, you must first [configure](#configuration) it, then i
 // app/router.js
 import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
-import { get } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { scheduleOnce } from '@ember/runloop';
 
 const Router = EmberRouter.extend({
   location: config.locationType,
