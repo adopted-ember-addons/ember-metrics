@@ -45,3 +45,7 @@ export function isPresent(objectInstance) {
 
   return !!keys.length;
 }
+
+export default {
+  compact, without, only, isPresent
+}
