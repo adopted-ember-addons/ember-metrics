@@ -193,16 +193,11 @@ contentSecurityPolicy: {
 In order to use the addon, you must first [configure](#configuration) it, then inject it into any Object registered in the container that you wish to track. For example, you can call a `trackPage` event across all your analytics services whenever you transition into a route, like so:
 
 ```js
-// app/router.js
-import EmberRouter from '@ember/routing/router';
-import config from './config/environment';
-import { get } from '@ember/object';
+// app/routes/application.js
+import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { scheduleOnce } from '@ember/runloop';
 
-const Router = EmberRouter.extend({
-  location: config.locationType,
-
+export default Route.extend({
   metrics: service(),
   router: service(),
 
@@ -218,7 +213,6 @@ const Router = EmberRouter.extend({
   }
 });
 
-export default Router.map(/* ... */);
 ```
 
 If you wish to only call a single service, just specify it's name as the first argument:
@@ -284,6 +278,7 @@ import { inject as service } from '@ember/service';
 
 export default Route.extend({
   metrics: service(),
+
   afterModel(model) {
     const metrics = this.metrics;
     const id = model.googleAnalyticsKey;
