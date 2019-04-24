@@ -204,7 +204,7 @@ export default Route.extend({
   init() {
     this._super(...arguments);
 
-    this.on('routeDidChange', () => {
+    this.router.on('routeDidChange', () => {
       const page = this.router.currentURL;
       const title = this.router.currentRouteName || 'unknown';
 
