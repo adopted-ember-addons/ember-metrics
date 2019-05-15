@@ -204,9 +204,10 @@ export default Route.extend({
   init() {
     this._super(...arguments);
 
-    this.on('routeDidChange', () => {
-      const page = this.router.currentURL;
-      const title = this.router.currentRouteName || 'unknown';
+    let router = this.router;
+    router.on('routeDidChange', () => {
+      const page = router.currentURL;
+      const title = router.currentRouteName || 'unknown';
 
       this.metrics.trackPage({ page, title });
     });
