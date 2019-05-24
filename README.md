@@ -241,10 +241,10 @@ If you are living on the edge and using an app built with the [Ember Octane Blue
 
 ```js
 // app/routes/application.js
-import Route from '@ember/routing/route'
-import { action } from '@ember/object'
-import { inject as service } from '@ember/service'
-import { scheduleOnce } from '@ember/runloop'
+import Route from '@ember/routing/route';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { scheduleOnce } from '@ember/runloop';
 
 export default class ApplicationRoute extends Route {
   @service metrics
@@ -252,16 +252,16 @@ export default class ApplicationRoute extends Route {
 
   @action
   didTransition() {
-    this._super(...arguments)
-    this._trackPage()
+    this._super(...arguments);
+    this._trackPage();
   }
 
-  _trackPage = function() {
+  _trackPage() {
     scheduleOnce('afterRender', () => {
-      const page = this.router.currentURL
-      const title = this.router.currentRouteName
+      const page = this.router.currentURL;
+      const title = this.router.currentRouteName;
 
-      this.metrics.trackPage({ page, title })
+      this.metrics.trackPage({ page, title });
     })
   }
 }
@@ -271,14 +271,14 @@ And then in your other routes you can simply add a didTransition action that ret
 
 ```js
 // app/routes/home.js
-import Route from '@ember/routing/route'
-import { action } from '@ember/object'
+import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 
 export default class HomeRoute extends Route {
   @action
   didTransition() {
-    this._super(...arguments)
-    return true
+    this._super(...arguments);
+    return true;
   }
 }
 ```
