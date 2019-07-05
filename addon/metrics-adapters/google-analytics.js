@@ -103,14 +103,14 @@ export default BaseAdapter.extend({
   trackPage(options = {}) {
     const compactedOptions = compact(options);
     const sendEvent = { hitType: 'pageview' };
-
     const event = assign(sendEvent, compactedOptions);
-    for (let key in compactedOptions) {
-      if (compactedOptions.hasOwnProperty(key)) {
-        window.ga('set', key, compactedOptions[key]);
-      }
-    }
+
     if (canUseDOM) {
+      for (let key in compactedOptions) {
+        if (compactedOptions.hasOwnProperty(key)) {
+          window.ga('set', key, compactedOptions[key]);
+        }
+      }
       window.ga('send', sendEvent);
     }
 
