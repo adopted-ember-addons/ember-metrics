@@ -235,6 +235,55 @@ set(this, 'metrics.context.userName', 'Jimbo');
 this.metrics.trackPage({ page: 'page/1' }); // { userName: 'Jimbo', page: 'page/1' }
 ```
 
+## Octane / Native Class usage
+
+If you are living on the edge and using an app built with the [Ember Octane Blueprint](https://github.com/ember-cli/ember-octane-blueprint) or otherwise implementing Native Class syntax in your routes, the following example can be used to report route transitions to ember-metrics:
+
+```js
+// app/routes/application.js
+import Route from '@ember/routing/route';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { scheduleOnce } from '@ember/runloop';
+
+export default class ApplicationRoute extends Route {
+  @service metrics
+  @service router
+
+  @action
+  didTransition() {
+    this._super(...arguments);
+    this._trackPage();
+  }
+
+  _trackPage() {
+    scheduleOnce('afterRender', () => {
+      const page = this.router.currentURL;
+      const title = this.router.currentRouteName;
+
+      this.metrics.trackPage({ page, title });
+    })
+  }
+}
+```
+
+And then in your other routes you can simply add a didTransition action that returns true and thus "bubbles up" to the application route and calls _trackPage:
+
+```js
+// app/routes/home.js
+import Route from '@ember/routing/route';
+import { action } from '@ember/object';
+
+export default class HomeRoute extends Route {
+  @action
+  didTransition() {
+    this._super(...arguments);
+    return true;
+  }
+}
+```
+
+
 ### API
 
 #### Service API
