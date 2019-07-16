@@ -257,3 +257,27 @@ test('it does not activate adapters that are not in the current app environment'
   assert.ok(get(service, '_adapters.GoogleAnalytics'), 'it activated the GoogleAnalytics adapter');
   assert.notOk(get(service, '_adapters.LocalDummyAdapter'), 'it did not activate the LocalDummyAdapter');
 });
+
+test('it initializes mixpanel with custom api_host when provided', function (assert) {
+  const service = this.subject({
+    options: {
+      metricsAdapters: [
+        {
+          name: 'Mixpanel',
+          environments: ['all'],
+          config: {
+            token: '0f76c037-4d76-4fce-8a0f-a9a8f89d1453',
+            api_host: 'foo.com'
+          }
+        },
+      ]
+    },
+    environment
+  });
+  const MixpanelStub = sandbox.stub(window.mixpanel, 'init');
+  assert.ok(get(service, '_adapters.Mixpanel'), 'it activated the Mixpanel adapter');
+  // initialzie Mixpanel adapter
+  service._adapters.Mixpanel.init();
+  assert.equal(MixpanelStub.args[0][1].api_host, 'foo.com', 'Mixpanel is initialized with api_host config');
+
+});
