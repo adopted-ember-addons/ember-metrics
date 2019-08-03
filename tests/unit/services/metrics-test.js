@@ -14,7 +14,7 @@ moduleFor('service:metrics', 'Unit | Service | metrics', {
     'service:application'
   ],
   beforeEach() {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
 
     metricsAdapters = [
       {

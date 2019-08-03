@@ -5,7 +5,7 @@ let sandbox, config;
 
 moduleFor('ember-metrics@metrics-adapter:intercom', 'intercom adapter', {
   beforeEach() {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     config = {
       appId: 'def1abc2'
     };
