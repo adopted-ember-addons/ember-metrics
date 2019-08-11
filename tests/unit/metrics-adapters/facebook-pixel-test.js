@@ -3,10 +3,11 @@ import { Promise as EmberPromise } from 'rsvp';
 import { moduleFor, test } from 'ember-qunit';
 import sinon from 'sinon';
 
-let config, fbq, subject;
+let config, fbq, subject, sandbox;
 
 moduleFor('ember-metrics@metrics-adapter:facebook-pixel', 'facebook-pixel adapter', {
   beforeEach() {
+    sandbox = sinon.sandbox.create();
     config = {
       id: '1234567890'
     };
@@ -17,34 +18,23 @@ moduleFor('ember-metrics@metrics-adapter:facebook-pixel', 'facebook-pixel adapte
   },
 
   afterEach() {
-    fbq.restore();
+    sandbox.restore();
   }
 });
 
 function waitForScripts() {
   return new EmberPromise(resolve => {
     function init() {
-      fbq = sinon.spy(window, 'fbq');
+      fbq = sandbox.stub(window, 'fbq').callsFake(() => {
+        return true;
+      });
       resolve();
     }
 
     (function wait() {
       // check for the generic script
       if (window.fbq.instance) {
-        // now check for the custom script
-        // it may have already loaded and
-        // registering a listener will never fire
-        if (window.fbq.instance.configsLoaded[config.id]) {
-          init();
-        } else {
-          // not ready, so use the event system
-          // (`fbq.once` would be better but has a bug)
-          window.fbq.on('configLoaded', name => {
-            if (name === config.id) {
-              init();
-            }
-          });
-        }
+        init();
       } else {
         // generic script hasn't run yet
         later(wait, 10);
