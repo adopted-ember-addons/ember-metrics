@@ -5,7 +5,7 @@ let sandbox, config;
 
 moduleFor('ember-metrics@metrics-adapter:mixpanel', 'mixpanel adapter', {
   beforeEach() {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     config = {
       token: 'meowmeows'
     };

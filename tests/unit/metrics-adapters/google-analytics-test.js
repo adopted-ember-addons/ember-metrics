@@ -5,7 +5,7 @@ let sandbox, config;
 
 moduleFor('ember-metrics@metrics-adapter:google-analytics', 'google-analytics adapter', {
   beforeEach() {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     config = {
       id: 'UA-XXXX-Y',
       require: ['ecommerce']

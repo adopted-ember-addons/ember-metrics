@@ -5,7 +5,7 @@ let sandbox, config;
 
 moduleFor('ember-metrics@metrics-adapter:segment', 'segment adapter', {
   beforeEach() {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     config = {
       key: 'SEGMENT_KEY'
     };
