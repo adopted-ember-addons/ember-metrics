@@ -10,13 +10,14 @@
     "build": "ember build",
     "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
     "start": "ember serve",
-    "test": "ember try:each"
+    "test": "ember test",
+    "test:all": "ember try:each"
   },
   "repository": "https://github.com/poteto/ember-metrics",
   "bugs": "https://github.com/poteto/ember-metrics/issues",
   "homepage": "https://github.com/poteto/ember-metrics",
   "engines": {
-    "node": "^4.5 || 6.* || >= 7.*"
+    "node": ">= 8.*"
   },
   "author": "Lauren Tan",
   "contributors": [
