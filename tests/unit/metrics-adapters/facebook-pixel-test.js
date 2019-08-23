@@ -37,13 +37,7 @@ function waitForScripts() {
         if (window.fbq.instance.configsLoaded[config.id]) {
           init();
         } else {
-          // not ready, so use the event system
-          // (`fbq.once` would be better but has a bug)
-          window.fbq.on('configLoaded', name => {
-            if (name === config.id) {
-              init();
-            }
-          });
+          later(wait, 10);
         }
       } else {
         // generic script hasn't run yet
