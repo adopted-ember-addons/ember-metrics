@@ -19,4 +19,6 @@ export default BaseAdapter.extend({
   },
 
   willDestroy() {}
+}).reopenClass({
+  supportsFastBoot: true
 });

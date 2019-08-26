@@ -257,3 +257,29 @@ test('it does not activate adapters that are not in the current app environment'
   assert.ok(get(service, '_adapters.GoogleAnalytics'), 'it activated the GoogleAnalytics adapter');
   assert.notOk(get(service, '_adapters.LocalDummyAdapter'), 'it did not activate the LocalDummyAdapter');
 });
+
+test('when in FastBoot env, it does not activate adapters that are not FastBoot-enabled', function(assert) {
+  window.FastBoot = true;
+  const service = this.subject({
+    options: {
+      metricsAdapters: [
+        {
+          name: 'GoogleAnalytics',
+          config: {
+            id: 'UA-XXXX-Y'
+          }
+        },
+        {
+          name: 'LocalDummyAdapter',
+          config: {
+            foo: 'bar'
+          }
+        }
+      ]
+    },
+    environment
+  });
+
+  assert.notOk(get(service, '_adapters.GoogleAnalytics'), 'it did not activate the GoogleAnalytics adapter');
+  assert.ok(get(service, '_adapters.LocalDummyAdapter'), 'it activated the LocalDummyAdapter');
+});

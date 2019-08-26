@@ -92,10 +92,13 @@ export default Service.extend({
     adapterOptions
       .filter((adapterOption) => this._filterEnvironments(adapterOption, appEnvironment))
       .forEach((adapterOption) => {
-        const { name } = adapterOption;
-        const adapter = cachedAdapters[name] ? cachedAdapters[name] : this._activateAdapter(adapterOption);
+        const { name, config } = adapterOption;
+        const adapterClass = this._lookupAdapter(name);
 
-        set(activatedAdapters, name, adapter);
+        if (typeof FastBoot === 'undefined' || get(adapterClass, 'supportsFastBoot')) {
+          const adapter = cachedAdapters[name] || this._activateAdapter({ adapterClass, config });
+          set(activatedAdapters, name, adapter);
+        }
       });
 
     return set(this, '_adapters', activatedAdapters);
@@ -139,18 +142,15 @@ export default Service.extend({
   },
 
   /**
-   * Instantiates an adapter if one is found.
+   * Instantiates an adapter.
    *
    * @method _activateAdapter
    * @param {Object}
    * @private
    * @return {Adapter}
    */
-  _activateAdapter({ name, config } = {}) {
-    const Adapter = this._lookupAdapter(name);
-    assert(`[ember-metrics] Could not find metrics adapter ${name}.`, Adapter);
-
-    return Adapter.create(getOwner(this).ownerInjection(), { this: this, config });
+  _activateAdapter({ adapterClass, config }) {
+    return adapterClass.create(getOwner(this).ownerInjection(), { this: this, config });
   },
 
   /**
@@ -169,7 +169,10 @@ export default Service.extend({
     const availableAdapter = getOwner(this).lookup(`ember-metrics@metrics-adapter:${dasherizedAdapterName}`);
     const localAdapter = getOwner(this).lookup(`metrics-adapter:${dasherizedAdapterName}`);
 
-    return localAdapter ? localAdapter : availableAdapter;
+    const adapter = localAdapter || availableAdapter;
+    assert(`[ember-metrics] Could not find metrics adapter ${adapterName}.`, adapter);
+
+    return adapter;
   },
 
   /**
