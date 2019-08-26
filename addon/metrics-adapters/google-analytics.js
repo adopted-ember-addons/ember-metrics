@@ -17,17 +17,15 @@ export default BaseAdapter.extend({
 
   init() {
     const config = assign({}, get(this, 'config'));
-    const { id, sendHitTask, trace, require } = config;
-    let { debug } = config;
+    const { id, sendHitTask, trace, require, debug } = config;
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
     delete config.id;
     delete config.require;
-
-    if (debug) { delete config.debug; }
-    if (sendHitTask) { delete config.sendHitTask; }
-    if (trace) { delete config.trace; }
+    delete config.debug;
+    delete config.sendHitTask;
+    delete config.trace;
 
     const hasOptions = isPresent(Object.keys(config));
 
