@@ -5,7 +5,7 @@ let sandbox, config;
 
 moduleFor('ember-metrics@metrics-adapter:google-analytics', 'google-analytics adapter', {
   beforeEach() {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     config = {
       id: 'UA-XXXX-Y',
       require: ['ecommerce']
@@ -14,6 +14,23 @@ moduleFor('ember-metrics@metrics-adapter:google-analytics', 'google-analytics ad
   afterEach() {
     sandbox.restore();
   }
+});
+
+test('#init calls ga create with a valid config', function(assert) {
+  config.sendHitTask = false;
+  config.debug = false;
+  config.trace = false;
+  config.sampleRate = 5;
+
+  const adapter = this.subject({ config });
+  const stub = sandbox.stub(window, 'ga').callsFake(() => {
+    return true;
+  });
+  adapter.init();
+
+  assert.ok(stub.calledWith('create', config.id, {
+    sampleRate: 5
+  }), 'it sends the correct config values');
 });
 
 test('#init calls ga for any plugins specified', function(assert) {

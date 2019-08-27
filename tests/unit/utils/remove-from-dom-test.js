@@ -6,7 +6,7 @@ let sandbox, removeSpy;
 
 moduleFor('util:remove-from-dom', 'Unit | Utility | remove-from-dom', {
   beforeEach() {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(document, 'querySelectorAll').returns([{
       parentElement: {
         removeChild: (removeSpy = sinon.spy())

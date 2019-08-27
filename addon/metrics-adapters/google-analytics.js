@@ -3,7 +3,6 @@ import { isPresent } from '@ember/utils';
 import { assert } from '@ember/debug';
 import { get } from '@ember/object';
 import { capitalize } from '@ember/string';
-import canUseDOM from '../utils/can-use-dom';
 import objectTransforms from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
@@ -17,49 +16,39 @@ export default BaseAdapter.extend({
 
   init() {
     const config = assign({}, get(this, 'config'));
-    const { id, sendHitTask, trace, require } = config;
-    let { debug } = config;
+    const { id, sendHitTask, trace, require, debug } = config;
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
     delete config.id;
     delete config.require;
-
-    if (debug) { delete config.debug; }
-    if (sendHitTask) { delete config.sendHitTask; }
-    if (trace) { delete config.trace; }
+    delete config.debug;
+    delete config.sendHitTask;
+    delete config.trace;
 
     const hasOptions = isPresent(Object.keys(config));
 
-    if (canUseDOM) {
+    /* eslint-disable */
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script',`https://www.google-analytics.com/analytics${debug ? '_debug' : ''}.js`,'ga');
+    /* eslint-enable */
 
-      /* eslint-disable */
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script',`https://www.google-analytics.com/analytics${debug ? '_debug' : ''}.js`,'ga');
-      /* eslint-enable */
+    if (trace === true) {
+      window.ga_debug = { trace: true };
+    }
 
-      if (trace === true) {
-        window.ga_debug = { trace: true };
-      }
+    window.ga('create', id, hasOptions ? config : 'auto');
 
-      if (hasOptions) {
-        window.ga('create', id, config);
-      } else {
-        window.ga('create', id, 'auto');
-      }
+    if (require) {
+      require.forEach((plugin) => {
+        window.ga('require', plugin);
+      });
+    }
 
-      if (require) {
-        require.forEach((plugin) => {
-          window.ga('require', plugin);
-        });
-      }
-
-      if (sendHitTask === false) {
-        window.ga('set', 'sendHitTask', null);
-      }
-
+    if (sendHitTask === false) {
+      window.ga('set', 'sendHitTask', null);
     }
   },
 
@@ -67,9 +56,7 @@ export default BaseAdapter.extend({
     const compactedOptions = compact(options);
     const { distinctId } = compactedOptions;
 
-    if (canUseDOM) {
-      window.ga('set', 'userId', distinctId);
-    }
+    window.ga('set', 'userId', distinctId);
   },
 
   trackEvent(options = {}) {
@@ -93,9 +80,7 @@ export default BaseAdapter.extend({
     }
 
     const event = assign(sendEvent, gaEvent);
-    if (canUseDOM) {
-      window.ga('send', event);
-    }
+    window.ga('send', event);
 
     return event;
   },
@@ -105,20 +90,18 @@ export default BaseAdapter.extend({
     const sendEvent = { hitType: 'pageview' };
     const event = assign(sendEvent, compactedOptions);
 
-    if (canUseDOM) {
-      for (let key in compactedOptions) {
-        if (compactedOptions.hasOwnProperty(key)) {
-          window.ga('set', key, compactedOptions[key]);
-        }
+    for (let key in compactedOptions) {
+      if (compactedOptions.hasOwnProperty(key)) {
+        window.ga('set', key, compactedOptions[key]);
       }
-      window.ga('send', sendEvent);
     }
+
+    window.ga('send', sendEvent);
 
     return event;
   },
 
   willDestroy() {
-    if (!canUseDOM) { return; }
     removeFromDOM('script[src*="google-analytics"]');
 
     delete window.ga;
