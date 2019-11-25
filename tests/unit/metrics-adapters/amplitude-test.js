@@ -8,7 +8,7 @@ moduleFor('ember-metrics@metrics-adapter:amplitude', 'amplitude adapter', {
   beforeEach() {
     sandbox = sinon.createSandbox();
     config = {
-      token: 'AMPLITUDE_KEY'
+      apiKey: 'AMPLITUDE_KEY'
     };
     instanceStub = EmberObject.create({
       identify: sinon.fake(),
