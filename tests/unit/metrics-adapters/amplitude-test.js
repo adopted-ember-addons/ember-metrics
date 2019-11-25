@@ -26,7 +26,7 @@ moduleFor('ember-metrics@metrics-adapter:amplitude', 'amplitude adapter', {
 test('#identify sets the distinct user ID, and calls amplitude with any extra user properties', function(assert) {
   const adapter = this.subject({ config });
 
-  adapter.set('amplitudeInstance', instanceStub);
+  sandbox.replace(window.amplitude, 'getInstance', () => instanceStub);
   sandbox.replace(window.amplitude, 'Identify', () => identity);
 
   adapter.identify({
@@ -43,7 +43,7 @@ test('#identify sets the distinct user ID, and calls amplitude with any extra us
 
 test('#trackEvent sends the correct request shape', function(assert) {
   const adapter = this.subject({ config });
-  adapter.set('amplitudeInstance', instanceStub);
+  sandbox.replace(window.amplitude, 'getInstance', () => instanceStub);
 
   adapter.trackEvent({
     event: 'Registered User',
@@ -58,7 +58,7 @@ test('#trackEvent sends the correct request shape', function(assert) {
 
 test('#trackPage returns the correct response shape', function(assert) {
   const adapter = this.subject({ config });
-  adapter.set('amplitudeInstance', instanceStub);
+  sandbox.replace(window.amplitude, 'getInstance', () => instanceStub);
 
   const pageProperties = {
     url: '/shot-charts/missed-threes'
@@ -70,7 +70,7 @@ test('#trackPage returns the correct response shape', function(assert) {
 
 test('#optOut calls amplitude optOut with false', function(assert) {
   const adapter = this.subject({ config });
-  adapter.set('amplitudeInstance', instanceStub);
+  sandbox.replace(window.amplitude, 'getInstance', () => instanceStub);
 
   adapter.optOut();
 
@@ -79,7 +79,7 @@ test('#optOut calls amplitude optOut with false', function(assert) {
 
 test('#optIn calls amplitude optOut with false', function(assert) {
   const adapter = this.subject({ config });
-  adapter.set('amplitudeInstance', instanceStub);
+  sandbox.replace(window.amplitude, 'getInstance', () => instanceStub);
 
   adapter.optIn();
 

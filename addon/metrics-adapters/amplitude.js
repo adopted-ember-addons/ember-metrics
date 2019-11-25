@@ -1,8 +1,8 @@
-import BaseAdapter from './base';
-import objectTransforms from '../utils/object-transforms';
-import removeFromDOM from '../utils/remove-from-dom';
+import BaseAdapter from 'ember-metrics/metrics-adapters/base';
+import objectTransforms from 'ember-metrics/utils/object-transforms';
+import removeFromDOM from 'ember-metrics/utils/remove-from-dom';
 import { assert } from '@ember/debug';
-import { get, set } from '@ember/object';
+import { get } from '@ember/object';
 import { assign } from '@ember/polyfills';
 
 const { without, compact, isPresent } = objectTransforms;
@@ -14,11 +14,11 @@ export default BaseAdapter.extend({
 
   init() {
     const config = get(this, 'config');
-    const { token, options } = config;
+    const { apiKey, options } = config;
 
     assert(
-      `[ember-metrics] You must pass a valid \`token\` to the ${this.toString()} adapter`,
-      token
+      `[ember-metrics] You must pass a valid \`apiKey\` to the ${this.toString()} adapter`,
+      apiKey
     );
 
     /* eslint-disable */
@@ -49,8 +49,7 @@ export default BaseAdapter.extend({
     e.amplitude=n})(window,document);
     /* eslint-enable */
 
-    set(this, 'amplitudeInstance', window.amplitude.getInstance());
-    this.amplitudeInstance.init(token, null, options || {});
+    window.amplitude.getInstance().init(apiKey, null, options || {});
   },
 
   identify(options = {}) {
@@ -65,15 +64,15 @@ export default BaseAdapter.extend({
     );
 
     if (distinctId) {
-      this.amplitudeInstance.setUserId(distinctId);
+      window.amplitude.getInstance().setUserId(distinctId);
     }
 
     for (const k in props) {
       identity.set(k, props[k]);
     }
 
-    this.amplitudeInstance.identify(identity);
-    this.amplitudeInstance.logEvent('Identify');
+    window.amplitude.getInstance().identify(identity);
+    window.amplitude.getInstance().logEvent('Identify');
   },
 
   trackEvent(options = {}) {
@@ -82,9 +81,9 @@ export default BaseAdapter.extend({
     const props = without(compactedOptions, 'event');
 
     if (isPresent(props)) {
-      this.amplitudeInstance.logEvent(event, props);
+      window.amplitude.getInstance().logEvent(event, props);
     } else {
-      this.amplitudeInstance.logEvent(event);
+      window.amplitude.getInstance().logEvent(event);
     }
   },
 
@@ -96,11 +95,11 @@ export default BaseAdapter.extend({
   },
 
   optOut() {
-    this.amplitudeInstance.setOptOut(true);
+    window.amplitude.getInstance().setOptOut(true);
   },
 
   optIn() {
-    this.amplitudeInstance.setOptOut(false);
+    window.amplitude.getInstance().setOptOut(false);
   },
 
   willDestroy() {
