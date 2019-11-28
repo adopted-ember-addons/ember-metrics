@@ -11,7 +11,8 @@
     "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
     "start": "ember serve",
     "test": "ember test",
-    "test:all": "ember try:each"
+    "test:all": "ember try:each",
+    "contributors": "npx contributor-faces -e \"(*-bot|*\\[bot\\]|*-tomster|homu|bors)\""
   },
   "repository": "https://github.com/poteto/ember-metrics",
   "bugs": "https://github.com/poteto/ember-metrics/issues",
