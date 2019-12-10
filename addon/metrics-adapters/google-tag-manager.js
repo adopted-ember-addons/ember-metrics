@@ -46,12 +46,17 @@ export default BaseAdapter.extend({
     const compactedOptions = compact(options);
     const dataLayer = get(this, 'dataLayer');
     const gtmEvent = {'event': compactedOptions['event']};
+    const eventKeys = ['category', 'action', 'label', 'value'];
 
     delete compactedOptions['event'];
 
     for (let key in compactedOptions) {
-      const capitalizedKey = capitalize(key);
-      gtmEvent[`event${capitalizedKey}`] = compactedOptions[key];
+      if (eventKeys.includes(key)) {
+        const capitalizedKey = capitalize(key);
+        gtmEvent[`event${capitalizedKey}`] = compactedOptions[key];
+      } else {
+        gtmEvent[key] = compactedOptions[key];
+      }
     }
 
     window[dataLayer].push(gtmEvent);
