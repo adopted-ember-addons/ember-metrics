@@ -85,3 +85,15 @@ test('#alias calls `mixpanel.alias` with the right arguments', function(assert) 
   assert.ok(stub.firstCall.calledWith('user@example.com', 123), 'it sends the correct arguments and options');
   assert.ok(stub.secondCall.calledWith('foo@bar.com'), 'it sends the correct arguments');
 });
+
+test('it initializes mixpanel with custom api_host when provided', function (assert) {
+  const config = {
+    token: '0f76c037-4d76-4fce-8a0f-a9a8f89d1453',
+    api_host: 'foo.com'
+  };
+
+  this.subject({ config });  
+  window.mixpanel.init();
+  const mixpanelInitialized = window.mixpanel._i[0][1];
+  assert.equal(mixpanelInitialized.api_host, config.api_host, 'Mixpanel is initialized with api_host config');
+});
