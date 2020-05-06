@@ -53,6 +53,8 @@ export default Service.extend({
     owner.registerOptionsForType('ember-metrics@metrics-adapter', { instantiate: false });
     owner.registerOptionsForType('metrics-adapter', { instantiate: false });
 
+    this._setOptions();
+
     set(this, 'appEnvironment', getWithDefault(this, 'options.environment', 'development'));
     set(this, '_adapters', {});
     set(this, 'context', {});
@@ -142,6 +144,13 @@ export default Service.extend({
     for (let adapterName in cachedAdapters) {
       get(cachedAdapters, adapterName).destroy();
     }
+  },
+
+  _setOptions() {
+    const config = getOwner(this).resolveRegistration('config:environment')
+    const { metricsAdapters = [] } = config;
+    const { environment = 'development' } = config;
+    set(this, 'options', { metricsAdapters, environment })
   },
 
   /**
