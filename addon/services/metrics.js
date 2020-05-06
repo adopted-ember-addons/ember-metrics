@@ -59,8 +59,8 @@ export default Service.extend({
     set(this, '_adapters', {});
     set(this, 'context', {});
 
-    const metricsAdapters = getWithDefault(this, 'options.metricsAdapters', emberArray());
-    this.activateAdapters(metricsAdapters);
+    const adaptersConfig = getWithDefault(this, 'options.metricsAdapters', emberArray());
+    this.activateAdapters(adaptersConfig);
 
     this._super(...arguments);
   },
