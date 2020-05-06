@@ -49,14 +49,17 @@ export default Service.extend({
    * @return {Void}
    */
   init() {
-    const adapters = getWithDefault(this, 'options.metricsAdapters', emberArray());
     const owner = getOwner(this);
     owner.registerOptionsForType('ember-metrics@metrics-adapter', { instantiate: false });
     owner.registerOptionsForType('metrics-adapter', { instantiate: false });
+
     set(this, 'appEnvironment', getWithDefault(this, 'options.environment', 'development'));
     set(this, '_adapters', {});
     set(this, 'context', {});
-    this.activateAdapters(adapters);
+
+    const metricsAdapters = getWithDefault(this, 'options.metricsAdapters', emberArray());
+    this.activateAdapters(metricsAdapters);
+
     this._super(...arguments);
   },
 
