@@ -146,10 +146,9 @@ export default Service.extend({
   },
 
   _setOptions() {
-    const config = getOwner(this).resolveRegistration('config:environment')
-    const { metricsAdapters = [] } = config;
-    const { environment = 'development' } = config;
-    set(this, 'options', { metricsAdapters, environment })
+    const config = getOwner(this).resolveRegistration('config:environment') || {};
+    const { metricsAdapters = [], environment = 'development' } = config;
+    set(this, 'options', { metricsAdapters, environment });
 
     return { metricsAdapters, environment };
   },
