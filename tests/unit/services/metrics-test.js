@@ -3,8 +3,7 @@ import { getOwner } from '@ember/application';
 import { moduleFor, test } from 'ember-qunit';
 import sinon from 'sinon';
 
-const environment = 'test';
-let sandbox, metricsAdapters, options;
+let sandbox, metricsAdapters;
 
 moduleFor('service:metrics', 'Unit | Service | metrics', {
   needs: [
@@ -40,11 +39,6 @@ moduleFor('service:metrics', 'Unit | Service | metrics', {
       }
     ];
 
-    options = {
-      metricsAdapters,
-      environment
-    };
-
     window.ga = window.ga || function() {};
   },
 
@@ -54,7 +48,8 @@ moduleFor('service:metrics', 'Unit | Service | metrics', {
 });
 
 test('it creates adapters with owners (for container/injection purposes)', function(assert) {
-  const service = this.subject({ options });
+  this.owner.lookup('config:environment').metricsAdapters = metricsAdapters;
+  const service = this.subject();
 
   let adapter = get(service, '_adapters.LocalDummyAdapter');
   let owner = getOwner(adapter);
@@ -63,21 +58,24 @@ test('it creates adapters with owners (for container/injection purposes)', funct
 });
 
 test('it activates local adapters', function(assert) {
-  const service = this.subject({ options });
+  this.owner.lookup('config:environment').metricsAdapters = metricsAdapters;
+  const service = this.subject();
 
   assert.ok(get(service, '_adapters.LocalDummyAdapter'), 'it activated the LocalDummyAdapter');
   assert.equal(get(service, '_adapters.LocalDummyAdapter.config.foo'), 'bar', 'it passes config options to the LocalDummyAdapter');
 });
 
 test('#activateAdapters activates an array of adapters', function(assert) {
-  const service = this.subject({ options });
+  this.owner.lookup('config:environment').metricsAdapters = metricsAdapters;
+  const service = this.subject();
 
   assert.ok(get(service, '_adapters.GoogleAnalytics'), 'it activated the GoogleAnalytics adapter');
   assert.equal(get(service, '_adapters.GoogleAnalytics.config.id'), 'UA-XXXX-Y', 'it passes config options to the GoogleAnalytics adapter');
 });
 
 test('#activateAdapters is idempotent', function(assert) {
-  const service = this.subject({ options });
+  this.owner.lookup('config:environment').metricsAdapters = metricsAdapters;
+  const service = this.subject();
   service.activateAdapters([
     {
       name: 'GoogleAnalytics',
@@ -107,7 +105,8 @@ test('#activateAdapters is idempotent', function(assert) {
 });
 
 test('#invoke invokes the named method on activated adapters', function(assert) {
-  const service = this.subject({ options });
+  this.owner.lookup('config:environment').metricsAdapters = metricsAdapters;
+  const service = this.subject();
   const MixpanelStub = sandbox.stub(window.mixpanel, 'identify');
   const GoogleAnalyticsStub = sandbox.stub(window, 'ga');
   const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'identify');
@@ -128,7 +127,8 @@ test('#invoke invokes the named method on activated adapters', function(assert) 
 });
 
 test('#invoke invokes the named method on a single activated adapter', function(assert) {
-  const service = this.subject({ options });
+  this.owner.lookup('config:environment').metricsAdapters = metricsAdapters;
+  const service = this.subject();
   const GoogleAnalyticsStub = sandbox.stub(window, 'ga');
   const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'trackEvent');
   const MixpanelSpy = sandbox.spy(get(service, '_adapters.Mixpanel'), 'trackEvent');
@@ -146,7 +146,8 @@ test('#invoke invokes the named method on a single activated adapter', function(
 });
 
 test('#invoke invokes the named methods on a whitelist of activated adapters', function(assert) {
-  const service = this.subject({ options });
+  this.owner.lookup('config:environment').metricsAdapters = metricsAdapters;
+  const service = this.subject();
   const MixpanelStub = sandbox.stub(window.mixpanel, 'identify');
   const GoogleAnalyticsStub = sandbox.stub(window, 'ga');
   const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'identify');
@@ -169,13 +170,15 @@ test('#invoke invokes the named methods on a whitelist of activated adapters', f
 });
 
 test("#invoke doesn't error when asked to use a single deactivated adapter", function(assert) {
-  const service = this.subject({ options });
+  this.owner.lookup('config:environment').metricsAdapters = metricsAdapters;
+  const service = this.subject();
   service.invoke('trackEvent', 'Trackmaster2000', {});
   assert.ok(true, 'No exception was thrown');
 });
 
 test('#invoke invokes the named method on a single activated adapter with no arguments', function(assert) {
-  const service = this.subject({ options });
+  this.owner.lookup('config:environment').metricsAdapters = metricsAdapters;
+  const service = this.subject();
   const GoogleAnalyticsStub = sandbox.stub(window, 'ga');
   const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'trackPage');
   service.invoke('trackPage', 'GoogleAnalytics');
@@ -185,7 +188,8 @@ test('#invoke invokes the named method on a single activated adapter with no arg
 });
 
 test('#invoke includes `context` properties', function(assert) {
-  const service = this.subject({ options });
+  this.owner.lookup('config:environment').metricsAdapters = metricsAdapters;
+  const service = this.subject();
   const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'trackPage');
 
   set(service, 'context.userName', 'Jimbo');
@@ -195,7 +199,8 @@ test('#invoke includes `context` properties', function(assert) {
 });
 
 test('#invoke does not leak options between calls', function(assert) {
-  const service = this.subject({ options });
+  this.owner.lookup('config:environment').metricsAdapters = metricsAdapters;
+  const service = this.subject();
   const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'trackPage');
 
   set(service, 'context.userName', 'Jimbo');
@@ -206,7 +211,8 @@ test('#invoke does not leak options between calls', function(assert) {
 });
 
 test('it can be disabled', function(assert) {
-  const service = this.subject({ options });
+  this.owner.lookup('config:environment').metricsAdapters = metricsAdapters;
+  const service = this.subject();
   const GoogleAnalyticsSpy = sandbox.spy(get(service, '_adapters.GoogleAnalytics'), 'trackPage');
 
   set(service, 'enabled', false);
@@ -216,7 +222,8 @@ test('it can be disabled', function(assert) {
 });
 
 test('it implements standard contracts', function(assert) {
-  const service = this.subject({ options });
+  this.owner.lookup('config:environment').metricsAdapters = metricsAdapters;
+  const service = this.subject();
   delete window.mixpanel.toString;
   sandbox.stub(window.mixpanel);
   sandbox.stub(window, 'ga');
@@ -233,26 +240,22 @@ test('it implements standard contracts', function(assert) {
 });
 
 test('it does not activate adapters that are not in the current app environment', function(assert) {
-  const service = this.subject({
-    options: {
-      metricsAdapters: [
-        {
-          name: 'GoogleAnalytics',
-          config: {
-            id: 'UA-XXXX-Y'
-          }
-        },
-        {
-          name: 'LocalDummyAdapter',
-          environments: ['production'],
-          config: {
-            foo: 'bar'
-          }
-        }
-      ]
+  this.owner.lookup('config:environment').metricsAdapters = [
+    {
+      name: 'GoogleAnalytics',
+      config: {
+        id: 'UA-XXXX-Y'
+      }
     },
-    environment
-  });
+    {
+      name: 'LocalDummyAdapter',
+      environments: ['production'],
+      config: {
+        foo: 'bar'
+      }
+    }
+  ];
+  const service = this.subject();
 
   assert.ok(get(service, '_adapters.GoogleAnalytics'), 'it activated the GoogleAnalytics adapter');
   assert.notOk(get(service, '_adapters.LocalDummyAdapter'), 'it did not activate the LocalDummyAdapter');
@@ -260,25 +263,21 @@ test('it does not activate adapters that are not in the current app environment'
 
 test('when in FastBoot env, it does not activate adapters that are not FastBoot-enabled', function(assert) {
   window.FastBoot = true;
-  const service = this.subject({
-    options: {
-      metricsAdapters: [
-        {
-          name: 'GoogleAnalytics',
-          config: {
-            id: 'UA-XXXX-Y'
-          }
-        },
-        {
-          name: 'LocalDummyAdapter',
-          config: {
-            foo: 'bar'
-          }
-        }
-      ]
+  this.owner.lookup('config:environment').metricsAdapters = [
+    {
+      name: 'GoogleAnalytics',
+      config: {
+        id: 'UA-XXXX-Y'
+      }
     },
-    environment
-  });
+    {
+      name: 'LocalDummyAdapter',
+      config: {
+        foo: 'bar'
+      }
+    }
+  ];
+  const service = this.subject();
 
   assert.notOk(get(service, '_adapters.GoogleAnalytics'), 'it did not activate the GoogleAnalytics adapter');
   assert.ok(get(service, '_adapters.LocalDummyAdapter'), 'it activated the LocalDummyAdapter');
