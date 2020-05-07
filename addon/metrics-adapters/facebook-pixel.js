@@ -2,7 +2,6 @@ import objectTransforms from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 import { assert } from '@ember/debug';
-import { get } from '@ember/object';
 
 const { compact } = objectTransforms;
 
@@ -12,7 +11,7 @@ export default BaseAdapter.extend({
   },
 
   init() {
-    const config = get(this, 'config');
+    const config = this.config;
     const { id } = config;
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);

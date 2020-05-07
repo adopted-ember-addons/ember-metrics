@@ -1,5 +1,4 @@
 import { assert } from '@ember/debug';
-import { get } from '@ember/object';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 
@@ -9,7 +8,7 @@ export default BaseAdapter.extend({
   },
 
   init() {
-    const config = get(this, 'config');
+    const config = this.config;
     const { piwikUrl, siteId } = config;
 
     assert(`[ember-metrics] You must pass a \`piwikUrl\` and a \`siteId\` to the ${this.toString()} adapter`, piwikUrl && siteId);
