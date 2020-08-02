@@ -1,6 +1,6 @@
 import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
-import { getWithDefault, set, get } from '@ember/object';
+import { set, get } from '@ember/object';
 import { capitalize } from '@ember/string';
 import objectTransforms from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
@@ -20,7 +20,7 @@ export default BaseAdapter.extend({
   init() {
     const config = get(this, 'config');
     const { id, envParams } = config;
-    const dataLayer = getWithDefault(config, 'dataLayer', 'dataLayer');
+    const dataLayer = get(config, 'dataLayer') || 'dataLayer';
     const envParamsString = envParams ? `&${envParams}`: '';
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
