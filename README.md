@@ -62,6 +62,12 @@ Writing your own adapters for currently unsupported analytics services is easy t
 ember install ember-metrics
 ```
 
+## Compatibility
+
+* Ember.js v3.12 or above
+* Ember CLI v2.13 or above
+* Node.js v10 or above
+
 ## Configuration
 
 To setup, you should first configure the service through `config/environment`:

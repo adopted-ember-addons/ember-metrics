@@ -1,6 +1,6 @@
 import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
-import { set, get } from '@ember/object';
+import { set } from '@ember/object';
 import { capitalize } from '@ember/string';
 import objectTransforms from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
@@ -18,14 +18,12 @@ export default BaseAdapter.extend({
   },
 
   init() {
-    const config = get(this, 'config');
-    const { id, envParams } = config;
-    const dataLayer = get(config, 'dataLayer') || 'dataLayer';
+    const { id, dataLayer, envParams } = this.config;
     const envParamsString = envParams ? `&${envParams}`: '';
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
-    set(this, 'dataLayer', dataLayer);
+    set(this, 'dataLayer', dataLayer || 'dataLayer');
 
     (function(w, d, s, l, i) {
       w[l] = w[l] || [];
@@ -39,12 +37,12 @@ export default BaseAdapter.extend({
       j.async = true;
       j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl + envParamsString;
       f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', get(this, 'dataLayer'), id);
+    })(window, document, 'script', this.dataLayer, id);
   },
 
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
-    const dataLayer = get(this, 'dataLayer');
+    const dataLayer = this.dataLayer;
     const gtmEvent = {'event': compactedOptions['event']};
 
     delete compactedOptions['event'];
@@ -61,7 +59,7 @@ export default BaseAdapter.extend({
 
   trackPage(options = {}) {
     const compactedOptions = compact(options);
-    const dataLayer = get(this, 'dataLayer');
+    const dataLayer = this.dataLayer;
     const sendEvent = {
       event: compactedOptions['event'] || 'pageview'
     };

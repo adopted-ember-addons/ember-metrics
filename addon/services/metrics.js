@@ -1,7 +1,7 @@
 import { assign } from '@ember/polyfills';
 import Service from '@ember/service';
 import { assert } from '@ember/debug';
-import { set, get } from '@ember/object';
+import { set } from '@ember/object';
 import { A as emberArray, makeArray } from '@ember/array';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
@@ -49,11 +49,11 @@ export default Service.extend({
    * @return {Void}
    */
   init() {
-    const adapters = get(this, 'options.metricsAdapters') || emberArray();
+    const adapters = this.options.metricsAdapters || emberArray();
     const owner = getOwner(this);
     owner.registerOptionsForType('ember-metrics@metrics-adapter', { instantiate: false });
     owner.registerOptionsForType('metrics-adapter', { instantiate: false });
-    set(this, 'appEnvironment', get(this, 'options.environment') || 'development');
+    set(this, 'appEnvironment', this.options.environment || 'development');
     set(this, '_adapters', {});
     set(this, 'context', {});
     this.activateAdapters(adapters);
@@ -85,8 +85,8 @@ export default Service.extend({
    * @return {Object} instantiated adapters
    */
   activateAdapters(adapterOptions = []) {
-    const appEnvironment = get(this, 'appEnvironment');
-    const cachedAdapters = get(this, '_adapters');
+    const appEnvironment = this.appEnvironment;
+    const cachedAdapters = this._adapters;
     const activatedAdapters = {};
 
     adapterOptions
@@ -95,7 +95,7 @@ export default Service.extend({
         const { name, config } = adapterOption;
         const adapterClass = this._lookupAdapter(name);
 
-        if (typeof FastBoot === 'undefined' || get(adapterClass, 'supportsFastBoot')) {
+        if (typeof FastBoot === 'undefined' || adapterClass.supportsFastBoot) {
           const adapter = cachedAdapters[name] || this._activateAdapter({ adapterClass, config });
           set(activatedAdapters, name, adapter);
         }
@@ -113,16 +113,16 @@ export default Service.extend({
    * @return {Void}
    */
   invoke(methodName, ...args) {
-    if (!get(this, 'enabled')) { return; }
+    if (!this.enabled) { return; }
 
-    const cachedAdapters = get(this, '_adapters');
+    const cachedAdapters = this._adapters;
     const allAdapterNames = keys(cachedAdapters);
     const [selectedAdapterNames, options] = args.length > 1 ? [makeArray(args[0]), args[1]] : [allAdapterNames, args[0]];
-    const context = assign({}, get(this, 'context'));
+    const context = assign({}, this.context);
     const mergedOptions = assign(context, options);
 
     selectedAdapterNames
-      .map((adapterName) => get(cachedAdapters, adapterName))
+      .map((adapterName) => cachedAdapters[adapterName])
       .forEach((adapter) => adapter && adapter[methodName](mergedOptions));
   },
 
@@ -134,10 +134,10 @@ export default Service.extend({
    * @return {Void}
    */
   willDestroy() {
-    const cachedAdapters = get(this, '_adapters');
+    const cachedAdapters = this._adapters;
 
     for (let adapterName in cachedAdapters) {
-      get(cachedAdapters, adapterName).destroy();
+      cachedAdapters[adapterName].destroy();
     }
   },
 

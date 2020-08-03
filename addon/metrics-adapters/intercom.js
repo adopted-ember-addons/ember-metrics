@@ -1,6 +1,5 @@
 import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
-import { get } from '@ember/object';
 import objectTransforms from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
@@ -18,7 +17,7 @@ export default BaseAdapter.extend({
   },
 
   init() {
-    const { appId } = get(this, 'config');
+    const { appId } = this.config;
 
     assert(`[ember-metrics] You must pass a valid \`appId\` to the ${this.toString()} adapter`, appId);
 
@@ -30,7 +29,7 @@ export default BaseAdapter.extend({
   },
 
   identify(options = {}) {
-    const { appId } = get(this, 'config');
+    const { appId } = this.config;
     const compactedOptions = compact(options);
     const { distinctId } = compactedOptions;
     const props = without(compactedOptions, 'distinctId');

@@ -5,6 +5,6 @@ export default Route.extend({
   metrics: inject(),
 
   setupController(controller) {
-    this.get('metrics').trackEvent({ controller });
+    this.metrics.trackEvent({ controller });
   }
 });

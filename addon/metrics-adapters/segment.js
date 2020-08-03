@@ -1,5 +1,4 @@
 import { assert } from '@ember/debug';
-import { get } from '@ember/object';
 import { assign } from '@ember/polyfills';
 import removeFromDOM from '../utils/remove-from-dom';
 import { compact } from '../utils/object-transforms';
@@ -11,7 +10,7 @@ export default BaseAdapter.extend({
   },
 
   init() {
-    const config = assign({}, get(this, 'config'));
+    const config = assign({}, this.config);
     const segmentKey = config.key;
 
     assert(`[ember-metrics] You must pass a valid \`key\` to the ${this.toString()} adapter`, segmentKey);

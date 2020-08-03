@@ -1,7 +1,6 @@
 import { assign } from '@ember/polyfills';
 import { isPresent } from '@ember/utils';
 import { assert } from '@ember/debug';
-import { get } from '@ember/object';
 import { capitalize } from '@ember/string';
 import objectTransforms from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
@@ -15,7 +14,7 @@ export default BaseAdapter.extend({
   },
 
   init() {
-    const config = assign({}, get(this, 'config'));
+    const config = assign({}, this.config);
     const { id, sendHitTask, trace, require, debug } = config;
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
@@ -91,6 +90,7 @@ export default BaseAdapter.extend({
     const event = assign(sendEvent, compactedOptions);
 
     for (let key in compactedOptions) {
+      // eslint-disable-next-line
       if (compactedOptions.hasOwnProperty(key)) {
         window.ga('set', key, compactedOptions[key]);
       }

@@ -1,6 +1,5 @@
 import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
-import { get } from '@ember/object';
 import objectTransforms from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
@@ -17,8 +16,7 @@ export default BaseAdapter.extend({
   },
 
   init() {
-    const config = get(this, 'config');
-    const { token } = config;
+    const { token } = this.config;
 
     assert(`[ember-metrics] You must pass a valid \`token\` to the ${this.toString()} adapter`, token);
 
