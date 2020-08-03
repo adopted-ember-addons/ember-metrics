@@ -8,8 +8,7 @@ export default BaseAdapter.extend({
   },
 
   init() {
-    const config = this.config;
-    const { piwikUrl, siteId } = config;
+    const { piwikUrl, siteId } = this.config;
 
     assert(`[ember-metrics] You must pass a \`piwikUrl\` and a \`siteId\` to the ${this.toString()} adapter`, piwikUrl && siteId);
 

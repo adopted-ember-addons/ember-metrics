@@ -16,8 +16,7 @@ export default BaseAdapter.extend({
   },
 
   init() {
-    const config = this.config;
-    const { token } = config;
+    const { token } = this.config;
 
     assert(`[ember-metrics] You must pass a valid \`token\` to the ${this.toString()} adapter`, token);
 
