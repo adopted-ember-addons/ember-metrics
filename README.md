@@ -48,6 +48,14 @@ Writing your own adapters for currently unsupported analytics services is easy t
 1. `Facebook Pixel`
 
     - `id`: [ID](https://www.facebook.com/ads/manager/pixel/facebook_pixel/?act=129849836&pid=p1)
+    - dataProcessingOptions: _optional_ An object defining the method, country and state for [data processing options](https://developers.facebook.com/docs/marketing-apis/data-processing-options/)
+    ```js
+    dataProcessingOptions: {
+      method: ['LDU'],
+      country: 1,
+      state: 1000
+    }
+    ```
 
 #### Community adapters
 
@@ -124,7 +132,12 @@ module.exports = function(environment) {
         name: 'FacebookPixel',
         environments: ['production'],
         config: {
-          id: '1234567890'
+          id: '1234567890',
+          dataProcessingOptions: {
+            method: ['LDU'],
+            country: 1,
+            state: 1000
+          }
         }
       },
 
