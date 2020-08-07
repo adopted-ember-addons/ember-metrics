@@ -11,7 +11,7 @@ export default BaseAdapter.extend({
   },
 
   init() {
-    const { id } = this.config;
+    const { id, dataProcessingOptions } = this.config;
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
@@ -26,6 +26,15 @@ export default BaseAdapter.extend({
     t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
     document,'script','https://connect.facebook.net/en_US/fbevents.js');
     /* eslint-enable */
+
+    if (dataProcessingOptions) {
+      const { method, country, state } = dataProcessingOptions;
+      if (method.length == 0) {
+        window.fbq('dataProcessingOptions', []);
+      } else {
+        window.fbq('dataProcessingOptions', method, country, state);
+      }
+    }
 
     window.fbq('init', id);
 
