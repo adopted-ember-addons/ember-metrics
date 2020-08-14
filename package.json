@@ -17,9 +17,9 @@
     "test:all": "ember try:each",
     "contributors": "npx contributor-faces -e \"(*-bot|*\\[bot\\]|*-tomster|homu|bors)\""
   },
-  "repository": "https://github.com/poteto/ember-metrics",
-  "bugs": "https://github.com/poteto/ember-metrics/issues",
-  "homepage": "https://github.com/poteto/ember-metrics",
+  "repository": "https://github.com/adopted-ember-addons/ember-metrics",
+  "bugs": "https://github.com/adopted-ember-addons/ember-metrics/issues",
+  "homepage": "https://github.com/adopted-ember-addons/ember-metrics",
   "engines": {
     "node": "10.* || >= 12"
   },
