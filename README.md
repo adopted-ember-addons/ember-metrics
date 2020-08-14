@@ -433,6 +433,7 @@ We're grateful to these wonderful contributors who've contributed to `ember-metr
 <a href="https://github.com/kellyselden"><img src="https://avatars1.githubusercontent.com/u/602423?v=4" title="kellyselden" width="80" height="80"></a>
 <a href="https://github.com/chrismllr"><img src="https://avatars3.githubusercontent.com/u/9942917?v=4" title="chrismllr" width="80" height="80"></a>
 <a href="https://github.com/josemarluedke"><img src="https://avatars0.githubusercontent.com/u/230476?v=4" title="josemarluedke" width="80" height="80"></a>
+<a href="https://github.com/dcyriller"><img src="https://avatars2.githubusercontent.com/u/6677373?v=4" title="dcyriller" width="80" height="80"></a>
 <a href="https://github.com/mike-north"><img src="https://avatars1.githubusercontent.com/u/558005?v=4" title="mike-north" width="80" height="80"></a>
 <a href="https://github.com/jelhan"><img src="https://avatars3.githubusercontent.com/u/4965703?v=4" title="jelhan" width="80" height="80"></a>
 <a href="https://github.com/denneralex"><img src="https://avatars1.githubusercontent.com/u/5065602?v=4" title="denneralex" width="80" height="80"></a>
@@ -450,14 +451,13 @@ We're grateful to these wonderful contributors who've contributed to `ember-metr
 <a href="https://github.com/XrXr"><img src="https://avatars2.githubusercontent.com/u/6457510?v=4" title="XrXr" width="80" height="80"></a>
 <a href="https://github.com/alexlafroscia"><img src="https://avatars2.githubusercontent.com/u/1645881?v=4" title="alexlafroscia" width="80" height="80"></a>
 <a href="https://github.com/balinterdi"><img src="https://avatars2.githubusercontent.com/u/5022?v=4" title="balinterdi" width="80" height="80"></a>
-<a href="https://github.com/blimmer"><img src="https://avatars1.githubusercontent.com/u/630449?v=4" title="blimmer" width="80" height="80"></a>
+<a href="https://github.com/bendemboski"><img src="https://avatars3.githubusercontent.com/u/559001?v=4" title="bendemboski" width="80" height="80"></a>
 <a href="https://github.com/ballPointPenguin"><img src="https://avatars0.githubusercontent.com/u/35609?v=4" title="ballPointPenguin" width="80" height="80"></a>
 <a href="https://github.com/bdelaforest"><img src="https://avatars2.githubusercontent.com/u/7151559?v=4" title="bdelaforest" width="80" height="80"></a>
 <a href="https://github.com/billpull"><img src="https://avatars1.githubusercontent.com/u/854970?v=4" title="billpull" width="80" height="80"></a>
 <a href="https://github.com/noslouch"><img src="https://avatars1.githubusercontent.com/u/2090382?v=4" title="noslouch" width="80" height="80"></a>
 <a href="https://github.com/wecc"><img src="https://avatars2.githubusercontent.com/u/708205?v=4" title="wecc" width="80" height="80"></a>
 <a href="https://github.com/cigoe"><img src="https://avatars3.githubusercontent.com/u/518239?v=4" title="cigoe" width="80" height="80"></a>
-<a href="https://github.com/dcyriller"><img src="https://avatars2.githubusercontent.com/u/6677373?v=4" title="dcyriller" width="80" height="80"></a>
 
 [//]: contributor-faces
 
