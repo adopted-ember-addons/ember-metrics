@@ -1,5 +1,5 @@
 {
-  "name": "@adopted-ember-addons/ember-metrics",
+  "name": "ember-metrics",
   "version": "0.15.0",
   "description": "Send data to multiple analytics integrations without re-implementing new API",
   "directories": {
