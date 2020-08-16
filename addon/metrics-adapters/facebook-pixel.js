@@ -1,14 +1,12 @@
-import objectTransforms from '../utils/object-transforms';
+import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 import { assert } from '@ember/debug';
 
-const { compact } = objectTransforms;
-
-export default BaseAdapter.extend({
+export default class FacebookPixel extends BaseAdapter {
   toStringExtension() {
     return 'FacebookPixel';
-  },
+  }
 
   init() {
     const { id, dataProcessingOptions } = this.config;
@@ -37,7 +35,7 @@ export default BaseAdapter.extend({
     // Leave this call due to Facebook API docs
     // https://developers.facebook.com/docs/facebook-pixel/api-reference#setup
     this.trackEvent({ event: 'PageView' });
-  },
+  }
 
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
@@ -49,11 +47,11 @@ export default BaseAdapter.extend({
     if (window.fbq) {
       window.fbq('track', event, compactedOptions);
     }
-  },
+  }
 
   trackPage(options = {}) {
     window.fbq('track', 'PageView', options);
-  },
+  }
 
   willDestroy() {
     removeFromDOM('script[src*="fbevents.js"]');
@@ -61,4 +59,4 @@ export default BaseAdapter.extend({
     delete window.fbq;
     delete window._fbq;
   }
-});
+}

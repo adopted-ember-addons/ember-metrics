@@ -2,20 +2,16 @@ import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
 import { set } from '@ember/object';
 import { capitalize } from '@ember/string';
-import objectTransforms from '../utils/object-transforms';
+import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 
-const {
-  compact
-} = objectTransforms;
-
-export default BaseAdapter.extend({
-  dataLayer: 'dataLayer',
+export default class GoogleTagManager extends BaseAdapter {
+  dataLayer = 'dataLayer';
 
   toStringExtension() {
     return 'GoogleTagManager';
-  },
+  }
 
   init() {
     const { id, dataLayer, envParams } = this.config;
@@ -38,7 +34,7 @@ export default BaseAdapter.extend({
       j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl + envParamsString;
       f.parentNode.insertBefore(j, f);
     })(window, document, 'script', this.dataLayer, id);
-  },
+  }
 
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
@@ -55,7 +51,7 @@ export default BaseAdapter.extend({
     window[dataLayer].push(gtmEvent);
 
     return gtmEvent;
-  },
+  }
 
   trackPage(options = {}) {
     const compactedOptions = compact(options);
@@ -69,11 +65,11 @@ export default BaseAdapter.extend({
     window[dataLayer].push(pageEvent);
 
     return pageEvent;
-  },
+  }
 
   willDestroy() {
     removeFromDOM('script[src*="gtm.js"]');
 
     delete window.dataLayer;
   }
-});
+}

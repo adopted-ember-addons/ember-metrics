@@ -2,16 +2,14 @@ import { assign } from '@ember/polyfills';
 import { isPresent } from '@ember/utils';
 import { assert } from '@ember/debug';
 import { capitalize } from '@ember/string';
-import objectTransforms from '../utils/object-transforms';
+import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 
-const { compact } = objectTransforms;
-
-export default BaseAdapter.extend({
+export default class GoogleAnalytics extends BaseAdapter {
   toStringExtension() {
     return 'GoogleAnalytics';
-  },
+  }
 
   init() {
     const config = assign({}, this.config);
@@ -49,14 +47,14 @@ export default BaseAdapter.extend({
     if (sendHitTask === false) {
       window.ga('set', 'sendHitTask', null);
     }
-  },
+  }
 
   identify(options = {}) {
     const compactedOptions = compact(options);
     const { distinctId } = compactedOptions;
 
     window.ga('set', 'userId', distinctId);
-  },
+  }
 
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
@@ -82,7 +80,7 @@ export default BaseAdapter.extend({
     window.ga('send', event);
 
     return event;
-  },
+  }
 
   trackPage(options = {}) {
     const compactedOptions = compact(options);
@@ -99,11 +97,11 @@ export default BaseAdapter.extend({
     window.ga('send', sendEvent);
 
     return event;
-  },
+  }
 
   willDestroy() {
     removeFromDOM('script[src*="google-analytics"]');
 
     delete window.ga;
   }
-});
+}

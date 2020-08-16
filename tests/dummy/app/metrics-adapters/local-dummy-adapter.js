@@ -1,24 +1,24 @@
-import { inject } from '@ember/service';
 import BaseAdapter from 'ember-metrics/metrics-adapters/base';
+import { inject } from '@ember/service';
 
-export default BaseAdapter.extend({
-  application: inject(),
+export default class LocalDummyAdapter extends BaseAdapter {
+  static supportsFastBoot = true;
+
+  @inject application;
 
   toStringExtension() {
     return 'LocalDummy';
-  },
+  }
 
   init() {
     this.set('application.foo', 'bar');
-  },
+  }
 
   trackEvent({ controller }) {
     if (controller) {
       controller.set('foo', 'bar');
     }
-  },
+  }
 
   willDestroy() {}
-}).reopenClass({
-  supportsFastBoot: true
-});
+}

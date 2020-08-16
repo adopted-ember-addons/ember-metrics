@@ -1,4 +1,1 @@
-import Service from '@ember/service';
-
-export default Service.extend({
-});
+export { default } from '@ember/service';
