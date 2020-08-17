@@ -7,14 +7,20 @@ function makeToString(ret) {
   return (() => ret);
 }
 
-export default emberObject.extend({
+export default class BaseAdapter extends emberObject {
+  static supportsFastBoot = false;
+
+  metrics = null;
+
+  config = null;
+
   init() {
     assert(`[ember-metrics] ${this.toString()} must implement the init hook!`);
-  },
+  }
 
   willDestroy() {
     assert(`[ember-metrics] ${this.toString()} must implement the willDestroy hook!`);
-  },
+  }
 
   toString() {
     const hasToStringExtension = typeOf(this.toStringExtension) === 'function';
@@ -23,14 +29,10 @@ export default emberObject.extend({
 
     this.toString = makeToString(ret);
     return ret;
-  },
+  }
 
-  metrics: null,
-  config: null,
-  identify() {},
-  trackEvent() {},
-  trackPage() {},
+  identify() {}
+  trackEvent() {}
+  trackPage() {}
   alias() {}
-}).reopenClass({
-  supportsFastBoot: false
-});
+}

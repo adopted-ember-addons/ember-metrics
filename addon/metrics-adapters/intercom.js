@@ -1,20 +1,15 @@
 import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
-import objectTransforms from '../utils/object-transforms';
+import { compact, without } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 
-const {
-  compact,
-  without,
-} = objectTransforms;
-
-export default BaseAdapter.extend({
-  booted: false,
+export default class Intercom extends BaseAdapter {
+  booted = false;
 
   toStringExtension() {
     return 'Intercom';
-  },
+  }
 
   init() {
     const { appId } = this.config;
@@ -26,7 +21,7 @@ export default BaseAdapter.extend({
     s.src=`https://widget.intercom.io/widget/${appId}`;
     var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);})(); }})()
     /* eslint-enable */
-  },
+  }
 
   identify(options = {}) {
     const { appId } = this.config;
@@ -44,7 +39,7 @@ export default BaseAdapter.extend({
     const method = this.booted ? 'update' : 'boot';
     window.Intercom(method, props);
     this.booted = true;
-  },
+  }
 
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
@@ -52,18 +47,18 @@ export default BaseAdapter.extend({
     const props = without(compactedOptions, 'event');
 
     window.Intercom('trackEvent', event, props);
-  },
+  }
 
   trackPage(options = {}) {
     const event = { event: 'page viewed' };
     const mergedOptions = assign(event, options);
 
     this.trackEvent(mergedOptions);
-  },
+  }
 
   willDestroy() {
     removeFromDOM('script[src*="intercom"]');
 
     delete window.Intercom;
   }
-});
+}

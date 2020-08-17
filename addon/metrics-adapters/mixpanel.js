@@ -1,19 +1,13 @@
 import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
-import objectTransforms from '../utils/object-transforms';
+import { without, compact, isPresent } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 
-const {
-  without,
-  compact,
-  isPresent
-} = objectTransforms;
-
-export default BaseAdapter.extend({
+export default class Mixpanel extends BaseAdapter {
   toStringExtension() {
     return 'Mixpanel';
-  },
+  }
 
   init() {
     const { token } = this.config;
@@ -26,7 +20,7 @@ export default BaseAdapter.extend({
     for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
     mixpanel.init(token,{"api_host":"https://api.mixpanel.com","secure_cookie":true});
     /* eslint-enable */
-  },
+  }
 
   identify(options = {}) {
     const compactedOptions = compact(options);
@@ -39,7 +33,7 @@ export default BaseAdapter.extend({
     } else {
       window.mixpanel.identify(distinctId);
     }
-  },
+  }
 
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
@@ -51,14 +45,14 @@ export default BaseAdapter.extend({
     } else {
       window.mixpanel.track(event);
     }
-  },
+  }
 
   trackPage(options = {}) {
     const event = { event: 'page viewed' };
     const mergedOptions = assign(event, options);
 
     this.trackEvent(mergedOptions);
-  },
+  }
 
   alias(options = {}) {
     const compactedOptions = compact(options);
@@ -69,11 +63,11 @@ export default BaseAdapter.extend({
     } else {
       window.mixpanel.alias(alias);
     }
-  },
+  }
 
   willDestroy() {
     removeFromDOM('script[src*="mixpanel"]');
 
     delete window.mixpanel;
   }
-});
+}
