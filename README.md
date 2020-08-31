@@ -57,6 +57,10 @@ Writing your own adapters for currently unsupported analytics services is easy t
     }
     ```
 
+1. `Amplitude`
+
+    - `apiKey`: [API Key](https://developers.amplitude.com/#setting-up-our-sdks)
+
 #### Community adapters
 
 1. `Adobe Dynamic Tag Management`
@@ -140,7 +144,20 @@ module.exports = function(environment) {
           }
         }
       },
-
+      {
+        name: 'Amplitude',
+        environments: ['production'],
+        config: {
+          apiKey: '12345672daf5f3515f30f0000f1f0000cdfe433888',
+          options: {
+            trackingOptions: {
+              ip_address: false
+            },
+            // ...other amplitude configuration options
+            // https://developers.amplitude.com/#sdk-advanced-settings
+          }
+        }
+      },
       {
         name: 'LocalAdapter',
         environments: ['all'], // default

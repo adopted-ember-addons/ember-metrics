@@ -23,7 +23,13 @@ module.exports = function(environment) {
     },
 
     'ember-metrics': {
-      includeAdapters: ['segment', 'google-tag-manager', 'piwik', 'facebook-pixel']
+      includeAdapters: [
+        'segment',
+        'google-tag-manager',
+        'piwik',
+        'facebook-pixel',
+        'amplitude'
+      ]
     },
 
     metricsAdapters: [
