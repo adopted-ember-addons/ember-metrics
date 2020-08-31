@@ -16,7 +16,7 @@ module('amplitude adapter', function(hooks) {
     });
     this.identity = EmberObject.create();
 
-    this.subject = this.owner.factoryFor('ember-metrics@metrics-adapter:amplitude').create({ config: this.config });
+    this.adapter = this.owner.factoryFor('ember-metrics@metrics-adapter:amplitude').create({ config: this.config });
   });
 
   hooks.afterEach(function () {
