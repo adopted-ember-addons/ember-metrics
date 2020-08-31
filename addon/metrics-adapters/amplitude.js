@@ -11,8 +11,7 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
     return 'Amplitude';
   }
 
-  constructor() {
-    super(...arguments);
+  init() {
     const { config } = this;
     const { apiKey, options } = config;
 
@@ -56,7 +55,10 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
     const compactedOptions = compact(options);
     const { distinctId } = compactedOptions;
     const props = without(compactedOptions, 'distinctId');
-    const identity = new window.amplitude.Identify();
+
+    if (!this._identity) {
+      this._identity = new window.amplitude.Identify();
+    }
 
     assert(
       `[ember-metrics] [${this.toString()}] It appears you did not pass a distictId param to "identify". You will need to do so in order for the session to be tagged to a specific user.`,
@@ -68,10 +70,10 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
     }
 
     for (const k in props) {
-      identity.set(k, props[k]);
+      this._identity.set(k, props[k]);
     }
 
-    window.amplitude.getInstance().identify(identity);
+    window.amplitude.getInstance().identify(this._identity);
     window.amplitude.getInstance().logEvent('Identify');
   }
 
