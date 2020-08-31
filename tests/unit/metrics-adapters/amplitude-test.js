@@ -1,6 +1,5 @@
 import { module, test } from 'ember-qunit';
 import sinon from 'sinon';
-import EmberObject from '@ember/object';
 import { setupTest } from 'ember-qunit';
 
 let sandbox, config, instanceStub, identityStub, adapter;
