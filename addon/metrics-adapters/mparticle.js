@@ -12,13 +12,11 @@ export default BaseAdapter.extend({
 
   init() {
     const config = assign({}, this.config);
-    const { apiKey } = config;
+    const { apiKey, options } = config;
     assert(
       `[ember-metrics] You must pass a valid \`apiKey\` to the ${this.toString()} adapter`,
       apiKey
     );
-
-    delete config.apiKey;
 
     window.mParticle = {
       config: {
@@ -26,8 +24,8 @@ export default BaseAdapter.extend({
       },
     };
 
-    for (var key in config) {
-      window.mParticle.config[key] = config[key];
+    for (var key in options) {
+      window.mParticle.config[key] = options[key];
     }
 
     (function (t) {
@@ -142,8 +140,6 @@ export default BaseAdapter.extend({
     const compactedOptions = compact(options);
     window.mParticle.logPageView("PageView", compactedOptions);
   },
-
-  alias() {},
 
   willDestroy() {
     removeFromDOM('script[src*="mparticle"]');

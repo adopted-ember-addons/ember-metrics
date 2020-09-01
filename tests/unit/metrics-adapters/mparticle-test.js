@@ -67,7 +67,9 @@ module("mParticle adapter", function (hooks) {
   });
 
   test("#init calls with a valid config", function (assert) {
-    config.logLevel = "verbose";
+    config.options = {
+      logLevel: "verbose",
+    };
     const adapter = this.owner
       .factoryFor("ember-metrics@metrics-adapter:mparticle")
       .create({ config });
