@@ -20,7 +20,7 @@ module("mParticle adapter", function (hooks) {
 
   test("#identify sets the distinct user ID, and uses any other ids for remaining identify call", function (assert) {
     const adapter = this.owner
-      .factoryFor("ember-metrics@metrics-adapter:mparticle")
+      .factoryFor("ember-metrics@metrics-adapter:mParticle")
       .create({ config });
     const identify_stub = sandbox
       .stub(window.mParticle.Identity, "identify")
@@ -45,7 +45,7 @@ module("mParticle adapter", function (hooks) {
 
   test("#trackEvent is called with the right arguments", function (assert) {
     const adapter = this.owner
-      .factoryFor("ember-metrics@metrics-adapter:mparticle")
+      .factoryFor("ember-metrics@metrics-adapter:mParticle")
       .create({ config });
     const stub = sandbox.stub(window.mParticle, "logEvent");
     adapter.trackEvent({
@@ -71,7 +71,7 @@ module("mParticle adapter", function (hooks) {
       logLevel: "verbose",
     };
     const adapter = this.owner
-      .factoryFor("ember-metrics@metrics-adapter:mparticle")
+      .factoryFor("ember-metrics@metrics-adapter:mParticle")
       .create({ config });
     const initializedWith = adapter.init();
     assert.equal(initializedWith.apiKey, "mParticle_SDKKey");
@@ -87,7 +87,7 @@ module("mParticle adapter", function (hooks) {
 
   test("#trackPage returns the correct response shape", function (assert) {
     const adapter = this.owner
-      .factoryFor("ember-metrics@metrics-adapter:mparticle")
+      .factoryFor("ember-metrics@metrics-adapter:mParticle")
       .create({ config });
     const stub = sandbox.stub(window.mParticle, "logPageView");
 

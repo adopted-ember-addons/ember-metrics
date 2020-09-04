@@ -29,7 +29,7 @@ module.exports = function(environment) {
         'piwik',
         'facebook-pixel',
         'amplitude',
-        'mparticle'
+        'mParticle'
       ]
     },
 

@@ -7,7 +7,7 @@ import removeFromDOM from "ember-metrics/utils/remove-from-dom";
 
 export default BaseAdapter.extend({
   toStringExtension() {
-    return "mparticle";
+    return "mParticle";
   },
 
   init() {
