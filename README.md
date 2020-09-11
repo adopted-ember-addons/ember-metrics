@@ -1,4 +1,5 @@
 # ember-metrics
+
 *Send data to multiple analytics services without re-implementing new API*
 
 ![Download count all time](https://img.shields.io/npm/dt/ember-metrics.svg) [![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) ![Build Status](https://github.com/adopted-ember-addons/ember-metrics/workflows/Test/badge.svg?branch=master) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics)
