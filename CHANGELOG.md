@@ -1,3 +1,24 @@
+# v0.16.0
+
+This aims to be the lacks version before 1.0.0.
+
+## Features
+
+- Add Amplitude adapter
+  https://github.com/adopted-ember-addons/ember-metrics/pull/235
+
+## Fix
+
+- Removed export of `canUseDom`
+  https://github.com/adopted-ember-addons/ember-metrics/pull/255
+
+## Changed
+
+- Refactor to native classes
+  https://github.com/adopted-ember-addons/ember-metrics/pull/253
+- Update Mix Panel
+  https://github.com/adopted-ember-addons/ember-metrics/pull/224
+
 # v0.15.0
 
 ## Features
@@ -26,4 +47,3 @@
   https://github.com/adopted-ember-addons/ember-metrics/pull/234
 - Replace `canUseDom` with `Adapter.supportsFastboot`
   https://github.com/adopted-ember-addons/ember-metrics/pull/175
-- 

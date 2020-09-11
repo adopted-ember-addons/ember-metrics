@@ -24,14 +24,6 @@
     "node": "10.* || >= 12"
   },
   "author": "Lauren Tan",
-  "contributors": [
-    {
-      "name": "Michael Dupuis Jr"
-    },
-    {
-      "name": "Mike North"
-    }
-  ],
   "license": "MIT",
   "keywords": [
     "ember-addon",
