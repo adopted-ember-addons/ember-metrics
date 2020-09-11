@@ -43,7 +43,7 @@ export default class Intercom extends BaseAdapter {
 
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
-    const { event } = compactedOptions;
+    const { event = 'unspecified-event' } = compactedOptions;
     const props = without(compactedOptions, 'event');
 
     window.Intercom('trackEvent', event, props);

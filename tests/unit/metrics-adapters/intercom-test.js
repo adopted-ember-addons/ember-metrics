@@ -95,8 +95,13 @@ module('intercom adapter', function(hooks) {
     adapter.trackEvent({
       event: 'Ate a cookie'
     });
+    adapter.trackEvent({
+      event: null,
+      id: 'hY7gQr0'
+    })
     assert.ok(stub.firstCall.calledWith('trackEvent', 'Video played', { videoLength: 213, id: 'hY7gQr0' }), 'it sends the correct arguments');
     assert.ok(stub.secondCall.calledWith('trackEvent', 'Ate a cookie'), 'it sends the correct arguments');
+    assert.ok(stub.thirdCall.calledWith('trackEvent', 'unspecified-event', { id: 'hY7gQr0'}), 'it sends the correct arguments');
   });
 
   test('#trackPage calls `Intercom()` with the right arguments', function(assert) {
