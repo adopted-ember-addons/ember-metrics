@@ -2,10 +2,10 @@ import { assert } from "@ember/debug";
 import BaseAdapter from "./base";
 import removeFromDOM from '../utils/remove-from-dom';
 
-export default BaseAdapter.extend({
+export default class AzureAppInsightsAdapter extends BaseAdapter {
   toStringExtension() {
     return "AzureAppInsights";
-  },
+  }
 
   init() {
     assert(
@@ -19,7 +19,7 @@ export default BaseAdapter.extend({
       cfg: this.config
     });
     /* eslint-enable */
-  },
+  }
 
   trackEvent({ action, category, name, value } = {}) {
     window.appInsights.trackEvent({
@@ -30,15 +30,15 @@ export default BaseAdapter.extend({
         value,
       },
     });
-  },
+  }
 
   trackPage(options = {}) {
     window.appInsights.trackPageView(options);
-  },
+  }
 
   willDestroy() {
     removeFromDOM('script[src*="azure"]');
 
     delete window.appInsights;
-  },
-});
+  }
+}
