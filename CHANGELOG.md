@@ -1,3 +1,24 @@
+# v0.17.0
+
+One more!
+
+## Features
+
+- Add Azure App Insights Adapter
+  https://github.com/adopted-ember-addons/ember-metrics/pull/262
+- Allow for multiple GA Properties
+  https://github.com/adopted-ember-addons/ember-metrics/pull/269
+
+## Fix
+
+- Blueprints generate ES6 class adapter
+  https://github.com/adopted-ember-addons/ember-metrics/pull/262
+
+## Changed
+
+- Update Ember to 3.21
+  https://github.com/adopted-ember-addons/ember-metrics/pull/261
+
 # v0.16.0
 
 This aims to be the lacks version before 1.0.0.
