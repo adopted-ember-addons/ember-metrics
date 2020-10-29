@@ -1,6 +1,7 @@
 import { assign } from '@ember/polyfills';
 import { isPresent } from '@ember/utils';
 import { assert } from '@ember/debug';
+import { set } from '@ember/object';
 import { capitalize } from '@ember/string';
 import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
@@ -13,7 +14,8 @@ export default class GoogleAnalytics extends BaseAdapter {
 
   init() {
     const config = assign({}, this.config);
-    const { id, sendHitTask, trace, require, debug } = config;
+    const { id, sendHitTask, trace, require, debug, trackerName } = config;
+    set(this, 'gaSendKey', trackerName ? trackerName + '.send' : 'send');
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
@@ -22,6 +24,7 @@ export default class GoogleAnalytics extends BaseAdapter {
     delete config.debug;
     delete config.sendHitTask;
     delete config.trace;
+    delete config.trackerName;
 
     const hasOptions = isPresent(Object.keys(config));
 
@@ -36,7 +39,7 @@ export default class GoogleAnalytics extends BaseAdapter {
       window.ga_debug = { trace: true };
     }
 
-    window.ga('create', id, hasOptions ? config : 'auto');
+    window.ga('create', id, hasOptions ? config : 'auto', trackerName);
 
     if (require) {
       require.forEach((plugin) => {
@@ -77,7 +80,8 @@ export default class GoogleAnalytics extends BaseAdapter {
     }
 
     const event = assign(sendEvent, gaEvent);
-    window.ga('send', event);
+    const gaSendKey = this.gaSendKey;
+    window.ga(gaSendKey, event);
 
     return event;
   }
@@ -93,8 +97,8 @@ export default class GoogleAnalytics extends BaseAdapter {
         window.ga('set', key, compactedOptions[key]);
       }
     }
-
-    window.ga('send', sendEvent);
+    const gaSendKey = this.gaSendKey;
+    window.ga(gaSendKey, event);
 
     return event;
   }

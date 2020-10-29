@@ -28,7 +28,8 @@ module.exports = function(environment) {
         'google-tag-manager',
         'piwik',
         'facebook-pixel',
-        'amplitude'
+        'amplitude',
+        'azure-app-insights',
       ]
     },
 
@@ -62,7 +63,14 @@ module.exports = function(environment) {
         config: {
           foo: 'bar'
         }
-      }
+      },
+      {
+        name: 'AzureAppInsights',
+        environments: ['all'],
+        config: {
+          instrumentationKey: "12345",
+        }
+      },
     ]
   };
 
