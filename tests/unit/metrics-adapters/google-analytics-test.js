@@ -36,6 +36,25 @@ module('google-analytics adapter', function(hooks) {
     }), 'it sends the correct config values');
   });
 
+  test('#init calls ga create with a valid config including trackerName', function(assert) {
+    config.sendHitTask = false;
+    config.debug = false;
+    config.trace = false;
+    config.sampleRate = 5;
+    config.trackerName = 'myEngineTracker';
+
+    const adapter = this.owner.factoryFor('ember-metrics@metrics-adapter:google-analytics').create({ config });
+    const stub = sandbox.stub(window, 'ga').callsFake(() => {
+      return true;
+    });
+    adapter.init();
+
+    assert.ok(stub.calledWith('create', config.id, {
+      sampleRate: 5
+    }, 'myEngineTracker'), 'it sends the correct config values');
+    assert.equal(adapter.gaSendKey, 'myEngineTracker.send', 'ga has myEngineTracker trackerName set');
+  });
+
   test('#init calls ga for any plugins specified', function(assert) {
     const adapter = this.owner.factoryFor('ember-metrics@metrics-adapter:google-analytics').create({ config });
     const stub = sandbox.stub(window, 'ga').callsFake(() => {
@@ -89,6 +108,28 @@ module('google-analytics adapter', function(hooks) {
       hitType: 'pageview',
       page: '/my-overridden-page?id=1',
       title: 'my overridden page'
+    };
+
+    assert.deepEqual(result, expectedResult, 'it sends the correct response shape');
+  });
+
+  test('#trackEvent with trackerName returns the correct response shape', function(assert) {
+    const adapter = this.owner.factoryFor('ember-metrics@metrics-adapter:google-analytics').create({ config });
+    sandbox.stub(window, 'ga');
+    const result = adapter.trackEvent({
+      category: 'button',
+      action: 'click',
+      label: 'nav buttons',
+      value: 4,
+      dimension1: true
+    });
+    const expectedResult = {
+      hitType: 'event',
+      eventCategory: 'button',
+      eventAction: 'click',
+      eventLabel: 'nav buttons',
+      eventValue: 4,
+      dimension1: true
     };
 
     assert.deepEqual(result, expectedResult, 'it sends the correct response shape');
