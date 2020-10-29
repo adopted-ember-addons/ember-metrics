@@ -1,21 +1,19 @@
 import { assign } from '@ember/polyfills';
 import { isPresent } from '@ember/utils';
 import { assert } from '@ember/debug';
-import { get, set } from '@ember/object';
+import { set } from '@ember/object';
 import { capitalize } from '@ember/string';
-import objectTransforms from '../utils/object-transforms';
+import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 
-const { compact } = objectTransforms;
-
-export default BaseAdapter.extend({
+export default class GoogleAnalytics extends BaseAdapter {
   toStringExtension() {
     return 'GoogleAnalytics';
-  },
+  }
 
   init() {
-    const config = assign({}, get(this, 'config'));
+    const config = assign({}, this.config);
     const { id, sendHitTask, trace, require, debug, trackerName } = config;
     set(this, 'gaSendKey', trackerName ? trackerName + '.send' : 'send');
 
@@ -52,14 +50,14 @@ export default BaseAdapter.extend({
     if (sendHitTask === false) {
       window.ga('set', 'sendHitTask', null);
     }
-  },
+  }
 
   identify(options = {}) {
     const compactedOptions = compact(options);
     const { distinctId } = compactedOptions;
 
     window.ga('set', 'userId', distinctId);
-  },
+  }
 
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
@@ -82,11 +80,11 @@ export default BaseAdapter.extend({
     }
 
     const event = assign(sendEvent, gaEvent);
-    const gaSendKey = get(this, 'gaSendKey');
+    const gaSendKey = this.gaSendKey;
     window.ga(gaSendKey, event);
 
     return event;
-  },
+  }
 
   trackPage(options = {}) {
     const compactedOptions = compact(options);
@@ -94,19 +92,20 @@ export default BaseAdapter.extend({
     const event = assign(sendEvent, compactedOptions);
 
     for (let key in compactedOptions) {
+      // eslint-disable-next-line
       if (compactedOptions.hasOwnProperty(key)) {
         window.ga('set', key, compactedOptions[key]);
       }
     }
-    const gaSendKey = get(this, 'gaSendKey');
+    const gaSendKey = this.gaSendKey;
     window.ga(gaSendKey, event);
 
     return event;
-  },
+  }
 
   willDestroy() {
     removeFromDOM('script[src*="google-analytics"]');
 
     delete window.ga;
   }
-});
+}

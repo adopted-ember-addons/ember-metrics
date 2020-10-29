@@ -9,7 +9,7 @@ module.exports = function(environment) {
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
-        // e.g. 'with-controller': true
+        // e.g. EMBER_NATIVE_DECORATOR_SUPPORT: true
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
@@ -23,7 +23,14 @@ module.exports = function(environment) {
     },
 
     'ember-metrics': {
-      includeAdapters: ['segment', 'google-tag-manager', 'piwik', 'facebook-pixel']
+      includeAdapters: [
+        'segment',
+        'google-tag-manager',
+        'piwik',
+        'facebook-pixel',
+        'amplitude',
+        'azure-app-insights',
+      ]
     },
 
     metricsAdapters: [
@@ -56,7 +63,14 @@ module.exports = function(environment) {
         config: {
           foo: 'bar'
         }
-      }
+      },
+      {
+        name: 'AzureAppInsights',
+        environments: ['all'],
+        config: {
+          instrumentationKey: "12345",
+        }
+      },
     ]
   };
 

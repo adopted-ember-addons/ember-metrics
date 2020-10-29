@@ -1,19 +1,15 @@
-import objectTransforms from '../utils/object-transforms';
+import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 import { assert } from '@ember/debug';
-import { get } from '@ember/object';
 
-const { compact } = objectTransforms;
-
-export default BaseAdapter.extend({
+export default class FacebookPixel extends BaseAdapter {
   toStringExtension() {
     return 'FacebookPixel';
-  },
+  }
 
   init() {
-    const config = get(this, 'config');
-    const { id } = config;
+    const { id, dataProcessingOptions } = this.config;
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
@@ -29,12 +25,17 @@ export default BaseAdapter.extend({
     document,'script','https://connect.facebook.net/en_US/fbevents.js');
     /* eslint-enable */
 
+    if (dataProcessingOptions) {
+      const { method, country, state } = dataProcessingOptions;
+      window.fbq('dataProcessingOptions', method, country, state);
+    }
+
     window.fbq('init', id);
 
     // Leave this call due to Facebook API docs
     // https://developers.facebook.com/docs/facebook-pixel/api-reference#setup
     this.trackEvent({ event: 'PageView' });
-  },
+  }
 
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
@@ -46,11 +47,11 @@ export default BaseAdapter.extend({
     if (window.fbq) {
       window.fbq('track', event, compactedOptions);
     }
-  },
+  }
 
   trackPage(options = {}) {
     window.fbq('track', 'PageView', options);
-  },
+  }
 
   willDestroy() {
     removeFromDOM('script[src*="fbevents.js"]');
@@ -58,4 +59,4 @@ export default BaseAdapter.extend({
     delete window.fbq;
     delete window._fbq;
   }
-});
+}

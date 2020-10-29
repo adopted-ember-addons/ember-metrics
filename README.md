@@ -1,7 +1,8 @@
 # ember-metrics
+
 *Send data to multiple analytics services without re-implementing new API*
 
-![Download count all time](https://img.shields.io/npm/dt/ember-metrics.svg) [![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) [![Build Status](https://travis-ci.org/poteto/ember-metrics.svg?branch=master)](https://travis-ci.org/poteto/ember-metrics) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics) ![Ember Version](https://embadge.io/v1/badge.svg?start=1.13.0)
+![Download count all time](https://img.shields.io/npm/dt/ember-metrics.svg) [![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) ![Build Status](https://github.com/adopted-ember-addons/ember-metrics/workflows/Test/badge.svg?branch=master) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics)
 
 This addon adds a simple `metrics` service to your app that makes it simple to send data to multiple analytics services without having to implement a new API each time.
 
@@ -48,6 +49,18 @@ Writing your own adapters for currently unsupported analytics services is easy t
 1. `Facebook Pixel`
 
     - `id`: [ID](https://www.facebook.com/ads/manager/pixel/facebook_pixel/?act=129849836&pid=p1)
+    - dataProcessingOptions: _optional_ An object defining the method, country and state for [data processing options](https://developers.facebook.com/docs/marketing-apis/data-processing-options/)
+    ```js
+    dataProcessingOptions: {
+      method: ['LDU'],
+      country: 1,
+      state: 1000
+    }
+    ```
+
+1. `Amplitude`
+
+    - `apiKey`: [API Key](https://developers.amplitude.com/#setting-up-our-sdks)
 
 #### Community adapters
 
@@ -61,6 +74,12 @@ Writing your own adapters for currently unsupported analytics services is easy t
 ```shell
 ember install ember-metrics
 ```
+
+## Compatibility
+
+* Ember.js v3.16 or above
+* Ember CLI v2.13 or above
+* Node.js v10 or above
 
 ## Configuration
 
@@ -118,10 +137,28 @@ module.exports = function(environment) {
         name: 'FacebookPixel',
         environments: ['production'],
         config: {
-          id: '1234567890'
+          id: '1234567890',
+          dataProcessingOptions: {
+            method: ['LDU'],
+            country: 1,
+            state: 1000
+          }
         }
       },
-
+      {
+        name: 'Amplitude',
+        environments: ['production'],
+        config: {
+          apiKey: '12345672daf5f3515f30f0000f1f0000cdfe433888',
+          options: {
+            trackingOptions: {
+              ip_address: false
+            },
+            // ...other amplitude configuration options
+            // https://developers.amplitude.com/#sdk-advanced-settings
+          }
+        }
+      },
       {
         name: 'LocalAdapter',
         environments: ['all'], // default
@@ -413,7 +450,9 @@ We're grateful to these wonderful contributors who've contributed to `ember-metr
 <a href="https://github.com/poteto"><img src="https://avatars0.githubusercontent.com/u/1390709?v=4" title="poteto" width="80" height="80"></a>
 <a href="https://github.com/kellyselden"><img src="https://avatars1.githubusercontent.com/u/602423?v=4" title="kellyselden" width="80" height="80"></a>
 <a href="https://github.com/chrismllr"><img src="https://avatars3.githubusercontent.com/u/9942917?v=4" title="chrismllr" width="80" height="80"></a>
+<a href="https://github.com/jherdman"><img src="https://avatars3.githubusercontent.com/u/3300?v=4" title="jherdman" width="80" height="80"></a>
 <a href="https://github.com/josemarluedke"><img src="https://avatars0.githubusercontent.com/u/230476?v=4" title="josemarluedke" width="80" height="80"></a>
+<a href="https://github.com/dcyriller"><img src="https://avatars2.githubusercontent.com/u/6677373?v=4" title="dcyriller" width="80" height="80"></a>
 <a href="https://github.com/mike-north"><img src="https://avatars1.githubusercontent.com/u/558005?v=4" title="mike-north" width="80" height="80"></a>
 <a href="https://github.com/jelhan"><img src="https://avatars3.githubusercontent.com/u/4965703?v=4" title="jelhan" width="80" height="80"></a>
 <a href="https://github.com/denneralex"><img src="https://avatars1.githubusercontent.com/u/5065602?v=4" title="denneralex" width="80" height="80"></a>
@@ -424,21 +463,19 @@ We're grateful to these wonderful contributors who've contributed to `ember-metr
 <a href="https://github.com/Artmann"><img src="https://avatars3.githubusercontent.com/u/91954?v=4" title="Artmann" width="80" height="80"></a>
 <a href="https://github.com/colinhoernig"><img src="https://avatars1.githubusercontent.com/u/195992?v=4" title="colinhoernig" width="80" height="80"></a>
 <a href="https://github.com/gmurphey"><img src="https://avatars3.githubusercontent.com/u/373721?v=4" title="gmurphey" width="80" height="80"></a>
+<a href="https://github.com/jrjohnson"><img src="https://avatars2.githubusercontent.com/u/349624?v=4" title="jrjohnson" width="80" height="80"></a>
 <a href="https://github.com/cibernox"><img src="https://avatars2.githubusercontent.com/u/265339?v=4" title="cibernox" width="80" height="80"></a>
+<a href="https://github.com/nselikoff"><img src="https://avatars1.githubusercontent.com/u/1994207?v=4" title="nselikoff" width="80" height="80"></a>
 <a href="https://github.com/reidab"><img src="https://avatars2.githubusercontent.com/u/13192?v=4" title="reidab" width="80" height="80"></a>
 <a href="https://github.com/locks"><img src="https://avatars1.githubusercontent.com/u/32344?v=4" title="locks" width="80" height="80"></a>
 <a href="https://github.com/achambers"><img src="https://avatars0.githubusercontent.com/u/416724?v=4" title="achambers" width="80" height="80"></a>
 <a href="https://github.com/XrXr"><img src="https://avatars2.githubusercontent.com/u/6457510?v=4" title="XrXr" width="80" height="80"></a>
 <a href="https://github.com/alexlafroscia"><img src="https://avatars2.githubusercontent.com/u/1645881?v=4" title="alexlafroscia" width="80" height="80"></a>
 <a href="https://github.com/balinterdi"><img src="https://avatars2.githubusercontent.com/u/5022?v=4" title="balinterdi" width="80" height="80"></a>
-<a href="https://github.com/blimmer"><img src="https://avatars1.githubusercontent.com/u/630449?v=4" title="blimmer" width="80" height="80"></a>
+<a href="https://github.com/bendemboski"><img src="https://avatars3.githubusercontent.com/u/559001?v=4" title="bendemboski" width="80" height="80"></a>
 <a href="https://github.com/ballPointPenguin"><img src="https://avatars0.githubusercontent.com/u/35609?v=4" title="ballPointPenguin" width="80" height="80"></a>
 <a href="https://github.com/bdelaforest"><img src="https://avatars2.githubusercontent.com/u/7151559?v=4" title="bdelaforest" width="80" height="80"></a>
 <a href="https://github.com/billpull"><img src="https://avatars1.githubusercontent.com/u/854970?v=4" title="billpull" width="80" height="80"></a>
-<a href="https://github.com/noslouch"><img src="https://avatars1.githubusercontent.com/u/2090382?v=4" title="noslouch" width="80" height="80"></a>
-<a href="https://github.com/wecc"><img src="https://avatars2.githubusercontent.com/u/708205?v=4" title="wecc" width="80" height="80"></a>
-<a href="https://github.com/cigoe"><img src="https://avatars3.githubusercontent.com/u/518239?v=4" title="cigoe" width="80" height="80"></a>
-<a href="https://github.com/dcyriller"><img src="https://avatars2.githubusercontent.com/u/6677373?v=4" title="dcyriller" width="80" height="80"></a>
 
 [//]: contributor-faces
 

@@ -1,17 +1,16 @@
 import { assert } from '@ember/debug';
-import { get } from '@ember/object';
 import { assign } from '@ember/polyfills';
 import removeFromDOM from '../utils/remove-from-dom';
 import { compact } from '../utils/object-transforms';
 import BaseAdapter from './base';
 
-export default BaseAdapter.extend({
+export default class Segment extends BaseAdapter {
   toStringExtension() {
     return 'Segment';
-  },
+  }
 
   init() {
-    const config = assign({}, get(this, 'config'));
+    const config = assign({}, this.config);
     const segmentKey = config.key;
 
     assert(`[ember-metrics] You must pass a valid \`key\` to the ${this.toString()} adapter`, segmentKey);
@@ -104,7 +103,7 @@ export default BaseAdapter.extend({
     /* eslint-enable no-console */
 
     // end of segment loading snippet
-  },
+  }
 
   alias(options = {}) {
     const compactedOptions = compact(options);
@@ -115,7 +114,7 @@ export default BaseAdapter.extend({
     } else {
       window.analytics.alias(alias);
     }
-  },
+  }
 
   identify(options = {}) {
     const compactedOptions = compact(options);
@@ -123,7 +122,7 @@ export default BaseAdapter.extend({
     delete compactedOptions.distinctId;
 
     window.analytics.identify(distinctId, compactedOptions);
-  },
+  }
 
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
@@ -131,7 +130,7 @@ export default BaseAdapter.extend({
     delete compactedOptions.event;
 
     window.analytics.track(event, compactedOptions);
-  },
+  }
 
   trackPage(options = {}) {
     const compactedOptions = compact(options);
@@ -139,11 +138,11 @@ export default BaseAdapter.extend({
     delete compactedOptions.page;
 
     window.analytics.page(page, compactedOptions);
-  },
+  }
 
   willDestroy() {
     removeFromDOM('script[src*="segment.com"]');
 
     delete window.analytics;
-  },
-});
+  }
+}

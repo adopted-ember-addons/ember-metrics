@@ -1,13 +1,13 @@
-import { assign } from '@ember/polyfills';
 import Service from '@ember/service';
+import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
-import { set, get, getWithDefault } from '@ember/object';
+import { set } from '@ember/object';
 import { A as emberArray, makeArray } from '@ember/array';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
 const { keys } = Object;
 
-export default Service.extend({
+export default class Metrics extends Service {
   /**
    * Cached adapters to reduce multiple expensive lookups.
    *
@@ -16,7 +16,7 @@ export default Service.extend({
    * @type Object
    * @default null
    */
-  _adapters: null,
+  _adapters = {};
 
   /**
    * Contextual information attached to each call to an adapter. Often you'll
@@ -28,7 +28,7 @@ export default Service.extend({
    * @type Object
    * @default null
    */
-  context: null,
+  context = {};
 
   /**
    * Indicates whether calls to the service will be forwarded to the adapters
@@ -37,7 +37,7 @@ export default Service.extend({
    * @type Boolean
    * @default true
    */
-  enabled: true,
+  enabled = true;
 
   /**
    * When the Service is created, activate adapters that were specified in the
@@ -49,32 +49,33 @@ export default Service.extend({
    * @return {Void}
    */
   init() {
-    const adapters = getWithDefault(this, 'options.metricsAdapters', emberArray());
+    const adapters = this.options.metricsAdapters || emberArray();
     const owner = getOwner(this);
     owner.registerOptionsForType('ember-metrics@metrics-adapter', { instantiate: false });
     owner.registerOptionsForType('metrics-adapter', { instantiate: false });
-    set(this, 'appEnvironment', getWithDefault(this, 'options.environment', 'development'));
-    set(this, '_adapters', {});
-    set(this, 'context', {});
+
+    set(this, 'appEnvironment', this.options.environment || 'development');
+
     this.activateAdapters(adapters);
-    this._super(...arguments);
-  },
+
+    super.init(...arguments);
+  }
 
   identify(...args) {
     this.invoke('identify', ...args);
-  },
+  }
 
   alias(...args) {
     this.invoke('alias', ...args);
-  },
+  }
 
   trackEvent(...args) {
     this.invoke('trackEvent', ...args);
-  },
+  }
 
   trackPage(...args) {
     this.invoke('trackPage', ...args);
-  },
+  }
 
   /**
    * Instantiates the adapters specified in the configuration and caches them
@@ -85,8 +86,8 @@ export default Service.extend({
    * @return {Object} instantiated adapters
    */
   activateAdapters(adapterOptions = []) {
-    const appEnvironment = get(this, 'appEnvironment');
-    const cachedAdapters = get(this, '_adapters');
+    const appEnvironment = this.appEnvironment;
+    const cachedAdapters = this._adapters;
     const activatedAdapters = {};
 
     adapterOptions
@@ -95,14 +96,14 @@ export default Service.extend({
         const { name, config } = adapterOption;
         const adapterClass = this._lookupAdapter(name);
 
-        if (typeof FastBoot === 'undefined' || get(adapterClass, 'supportsFastBoot')) {
+        if (typeof FastBoot === 'undefined' || adapterClass.supportsFastBoot) {
           const adapter = cachedAdapters[name] || this._activateAdapter({ adapterClass, config });
           set(activatedAdapters, name, adapter);
         }
       });
 
     return set(this, '_adapters', activatedAdapters);
-  },
+  }
 
   /**
    * Invokes a method on the passed adapter, or across all activated adapters if not passed.
@@ -113,18 +114,18 @@ export default Service.extend({
    * @return {Void}
    */
   invoke(methodName, ...args) {
-    if (!get(this, 'enabled')) { return; }
+    if (!this.enabled) { return; }
 
-    const cachedAdapters = get(this, '_adapters');
+    const cachedAdapters = this._adapters;
     const allAdapterNames = keys(cachedAdapters);
     const [selectedAdapterNames, options] = args.length > 1 ? [makeArray(args[0]), args[1]] : [allAdapterNames, args[0]];
-    const context = assign({}, get(this, 'context'));
+    const context = assign({}, this.context);
     const mergedOptions = assign(context, options);
 
     selectedAdapterNames
-      .map((adapterName) => get(cachedAdapters, adapterName))
+      .map((adapterName) => cachedAdapters[adapterName])
       .forEach((adapter) => adapter && adapter[methodName](mergedOptions));
-  },
+  }
 
   /**
    * On teardown, destroy cached adapters together with the Service.
@@ -134,12 +135,12 @@ export default Service.extend({
    * @return {Void}
    */
   willDestroy() {
-    const cachedAdapters = get(this, '_adapters');
+    const cachedAdapters = this._adapters;
 
     for (let adapterName in cachedAdapters) {
-      get(cachedAdapters, adapterName).destroy();
+      cachedAdapters[adapterName].destroy();
     }
-  },
+  }
 
   /**
    * Instantiates an adapter.
@@ -151,7 +152,7 @@ export default Service.extend({
    */
   _activateAdapter({ adapterClass, config }) {
     return adapterClass.create(getOwner(this).ownerInjection(), { this: this, config });
-  },
+  }
 
   /**
    * Looks up the adapter from the container. Prioritizes the consuming app's
@@ -173,7 +174,7 @@ export default Service.extend({
     assert(`[ember-metrics] Could not find metrics adapter ${adapterName}.`, adapter);
 
     return adapter;
-  },
+  }
 
   /**
    * Predicate that Filters out adapters that should not be activated in the
@@ -193,4 +194,4 @@ export default Service.extend({
 
     return wrappedEnvironments.indexOf('all') > -1 || wrappedEnvironments.indexOf(appEnvironment) > -1;
   }
-});
+}
