@@ -62,6 +62,10 @@ Writing your own adapters for currently unsupported analytics services is easy t
 
     - `apiKey`: [API Key](https://developers.amplitude.com/#setting-up-our-sdks)
 
+1. `Azure App Insights`
+
+    - `instrumentationKey`: [Instrumentation Key](https://github.com/microsoft/ApplicationInsights-JS#configuration)
+
 #### Community adapters
 
 1. `Adobe Dynamic Tag Management`
@@ -157,6 +161,15 @@ module.exports = function(environment) {
             // ...other amplitude configuration options
             // https://developers.amplitude.com/#sdk-advanced-settings
           }
+        }
+      },
+      {
+        name: 'AzureAppInsights',
+        environments: ['production'],
+        config: {
+          instrumentationKey: '123',
+          // ...other appInsights configuration options
+          // https://github.com/microsoft/ApplicationInsights-JS#configuration
         }
       },
       {
@@ -448,9 +461,9 @@ We're grateful to these wonderful contributors who've contributed to `ember-metr
 
 [//]: contributor-faces
 <a href="https://github.com/poteto"><img src="https://avatars0.githubusercontent.com/u/1390709?v=4" title="poteto" width="80" height="80"></a>
+<a href="https://github.com/jherdman"><img src="https://avatars3.githubusercontent.com/u/3300?v=4" title="jherdman" width="80" height="80"></a>
 <a href="https://github.com/kellyselden"><img src="https://avatars1.githubusercontent.com/u/602423?v=4" title="kellyselden" width="80" height="80"></a>
 <a href="https://github.com/chrismllr"><img src="https://avatars3.githubusercontent.com/u/9942917?v=4" title="chrismllr" width="80" height="80"></a>
-<a href="https://github.com/jherdman"><img src="https://avatars3.githubusercontent.com/u/3300?v=4" title="jherdman" width="80" height="80"></a>
 <a href="https://github.com/josemarluedke"><img src="https://avatars0.githubusercontent.com/u/230476?v=4" title="josemarluedke" width="80" height="80"></a>
 <a href="https://github.com/dcyriller"><img src="https://avatars2.githubusercontent.com/u/6677373?v=4" title="dcyriller" width="80" height="80"></a>
 <a href="https://github.com/mike-north"><img src="https://avatars1.githubusercontent.com/u/558005?v=4" title="mike-north" width="80" height="80"></a>
@@ -460,6 +473,7 @@ We're grateful to these wonderful contributors who've contributed to `ember-metr
 <a href="https://github.com/sly7-7"><img src="https://avatars1.githubusercontent.com/u/1826661?v=4" title="sly7-7" width="80" height="80"></a>
 <a href="https://github.com/tyleryasaka"><img src="https://avatars1.githubusercontent.com/u/6504519?v=4" title="tyleryasaka" width="80" height="80"></a>
 <a href="https://github.com/opsb"><img src="https://avatars2.githubusercontent.com/u/46232?v=4" title="opsb" width="80" height="80"></a>
+<a href="https://github.com/jwlawrence"><img src="https://avatars3.githubusercontent.com/u/488888?v=4" title="jwlawrence" width="80" height="80"></a>
 <a href="https://github.com/Artmann"><img src="https://avatars3.githubusercontent.com/u/91954?v=4" title="Artmann" width="80" height="80"></a>
 <a href="https://github.com/colinhoernig"><img src="https://avatars1.githubusercontent.com/u/195992?v=4" title="colinhoernig" width="80" height="80"></a>
 <a href="https://github.com/gmurphey"><img src="https://avatars3.githubusercontent.com/u/373721?v=4" title="gmurphey" width="80" height="80"></a>
@@ -475,7 +489,6 @@ We're grateful to these wonderful contributors who've contributed to `ember-metr
 <a href="https://github.com/bendemboski"><img src="https://avatars3.githubusercontent.com/u/559001?v=4" title="bendemboski" width="80" height="80"></a>
 <a href="https://github.com/ballPointPenguin"><img src="https://avatars0.githubusercontent.com/u/35609?v=4" title="ballPointPenguin" width="80" height="80"></a>
 <a href="https://github.com/bdelaforest"><img src="https://avatars2.githubusercontent.com/u/7151559?v=4" title="bdelaforest" width="80" height="80"></a>
-<a href="https://github.com/billpull"><img src="https://avatars1.githubusercontent.com/u/854970?v=4" title="billpull" width="80" height="80"></a>
 
 [//]: contributor-faces
 

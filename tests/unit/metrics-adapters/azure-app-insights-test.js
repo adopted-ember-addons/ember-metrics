@@ -12,7 +12,7 @@ module("azure-app-insights adapter", function (hooks) {
     };
     this.adapter = this.owner
       .factoryFor("ember-metrics@metrics-adapter:azure-app-insights")
-      .create({ config: this.config});
+      .create({ config: this.config });
   });
 
   hooks.afterEach(function () {
@@ -50,17 +50,31 @@ module("azure-app-insights adapter", function (hooks) {
       .callsFake(() => true);
 
     this.adapter.trackPage();
-    assert.ok(
-      trackPageViewStub.calledWith(),
-      "it sends the correct arguments"
-    );
+    assert.ok(trackPageViewStub.calledWith(), "it sends the correct arguments");
 
     trackPageViewStub.resetHistory();
 
-    this.adapter.trackPage({ name: "my page"});
+    this.adapter.trackPage({ name: "my page" });
     assert.ok(
-      trackPageViewStub.calledWith({ name: 'my page'}),
+      trackPageViewStub.calledWith({ name: "my page" }),
       "it sends the correct arguments"
+    );
+  });
+
+  test("#identify calls appInsights with the userId", function (assert) {
+    const mockAppInsights = {
+      context: {
+        user: {
+          id: "",
+        },
+      },
+    };
+
+    this.adapter.identify({ userId: "jdoe" }, mockAppInsights);
+    assert.equal(
+      mockAppInsights.context.user.id,
+      "jdoe",
+      "it sets the user id in app insights"
     );
   });
 });
