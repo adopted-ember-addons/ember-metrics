@@ -36,9 +36,9 @@ export default class AzureAppInsightsAdapter extends BaseAdapter {
     window.appInsights.trackPageView(options);
   }
 
-  identify({ userId } = {}, appInsights = window.appInsights) {
-    if (appInsights && userId) {
-      appInsights.context.user.id = userId;
+  identify({ userId, accountId, storeInCookie = true } = {}) {
+    if (userId) {
+      window.appInsights.setAuthenticatedUserContext(userId, accountId, storeInCookie);
     }
   }
 

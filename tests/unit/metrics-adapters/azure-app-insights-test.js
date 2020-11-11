@@ -61,20 +61,23 @@ module("azure-app-insights adapter", function (hooks) {
     );
   });
 
-  test("#identify calls appInsights with the userId", function (assert) {
-    const mockAppInsights = {
-      context: {
-        user: {
-          id: "",
-        },
-      },
-    };
+  test("#identify calls appInsights with the right arguments", function (assert) {
+    const setAuthenticatedUserContextStub = this.sandbox
+      .stub(window.appInsights, "setAuthenticatedUserContext")
+      .callsFake(() => true);
 
-    this.adapter.identify({ userId: "jdoe" }, mockAppInsights);
-    assert.equal(
-      mockAppInsights.context.user.id,
-      "jdoe",
-      "it sets the user id in app insights"
+    this.adapter.identify({ userId: "jdoe" });
+    assert.ok(
+      setAuthenticatedUserContextStub.calledWithExactly("jdoe", undefined, true),
+      "it sends the correct arguments"
+    );
+
+    setAuthenticatedUserContextStub.resetHistory();
+
+    this.adapter.identify({ userId: "jdoe", accountId: '123', storeInCookie: false });
+    assert.ok(
+      setAuthenticatedUserContextStub.calledWithExactly("jdoe", '123', false),
+      "it sends the correct arguments"
     );
   });
 });
