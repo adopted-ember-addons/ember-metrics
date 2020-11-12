@@ -12,7 +12,7 @@ module("azure-app-insights adapter", function (hooks) {
     };
     this.adapter = this.owner
       .factoryFor("ember-metrics@metrics-adapter:azure-app-insights")
-      .create({ config: this.config});
+      .create({ config: this.config });
   });
 
   hooks.afterEach(function () {
@@ -50,16 +50,33 @@ module("azure-app-insights adapter", function (hooks) {
       .callsFake(() => true);
 
     this.adapter.trackPage();
-    assert.ok(
-      trackPageViewStub.calledWith(),
-      "it sends the correct arguments"
-    );
+    assert.ok(trackPageViewStub.calledWith(), "it sends the correct arguments");
 
     trackPageViewStub.resetHistory();
 
-    this.adapter.trackPage({ name: "my page"});
+    this.adapter.trackPage({ name: "my page" });
     assert.ok(
-      trackPageViewStub.calledWith({ name: 'my page'}),
+      trackPageViewStub.calledWith({ name: "my page" }),
+      "it sends the correct arguments"
+    );
+  });
+
+  test("#identify calls appInsights with the right arguments", function (assert) {
+    const setAuthenticatedUserContextStub = this.sandbox
+      .stub(window.appInsights, "setAuthenticatedUserContext")
+      .callsFake(() => true);
+
+    this.adapter.identify({ userId: "jdoe" });
+    assert.ok(
+      setAuthenticatedUserContextStub.calledWithExactly("jdoe", undefined, true),
+      "it sends the correct arguments"
+    );
+
+    setAuthenticatedUserContextStub.resetHistory();
+
+    this.adapter.identify({ userId: "jdoe", accountId: '123', storeInCookie: false });
+    assert.ok(
+      setAuthenticatedUserContextStub.calledWithExactly("jdoe", '123', false),
       "it sends the correct arguments"
     );
   });
