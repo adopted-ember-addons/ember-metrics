@@ -1,3 +1,18 @@
+# v1.0.0
+
+## Features
+
+N/A
+
+## Fix
+
+N/A
+
+## Changed
+
+- Add Azure App Insights identify method
+  https://github.com/adopted-ember-addons/ember-metrics/pull/271
+
 # v0.17.0
 
 One more!
