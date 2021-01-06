@@ -88,4 +88,25 @@ module('mixpanel adapter', function(hooks) {
     assert.ok(stub.firstCall.calledWith('user@example.com', 123), 'it sends the correct arguments and options');
     assert.ok(stub.secondCall.calledWith('foo@bar.com'), 'it sends the correct arguments');
   });
+
+  test("#init supports extra configs", function (assert) {
+    const config = {
+      token: "meowmeows",
+      secure_cookie: true,
+      batch_requests: false,
+    };
+    const adapter = this.owner.factoryFor("ember-metrics@metrics-adapter:mixpanel").create({ config });
+    const init_stub = sandbox.stub(window.mixpanel, "init").callsFake(() => {
+      return true;
+    });
+    adapter.init();
+
+    assert.ok(
+      init_stub.firstCall.calledWith(config.token, {
+        secure_cookie: true,
+        batch_requests: false,
+      }),
+      "it sends the correct config options"
+    );
+  });
 });
