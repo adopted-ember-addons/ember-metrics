@@ -1,3 +1,18 @@
+# v1.1.0
+
+## Features
+
+N/A
+
+## Fix
+
+N/A
+
+## Changed
+
+- Add support for additional Mixpanel config options
+  https://github.com/adopted-ember-addons/ember-metrics/pull/244
+
 # v1.0.0
 
 ## Features
