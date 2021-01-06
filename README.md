@@ -18,6 +18,7 @@ Writing your own adapters for currently unsupported analytics services is easy t
 1. `Mixpanel`
 
     - `token`: [Mixpanel token](https://mixpanel.com/help/questions/articles/where-can-i-find-my-project-token)
+    - Optionally other [config options to override](https://developer.mixpanel.com/docs/javascript-full-api-reference#mixpanelinit)
 1. `GoogleTagManager`
 
     - `id`: [Container ID](https://developers.google.com/tag-manager/quickstart), e.g. `GTM-XXXX`
