@@ -40,6 +40,8 @@ export default class Segment extends BaseAdapter {
 
     // A list of the methods in Analytics.js to stub.
     analytics.methods = [
+      'addSourceMiddleware',
+      'addDestinationMiddleware',
       'trackSubmit',
       'trackClick',
       'trackLink',
