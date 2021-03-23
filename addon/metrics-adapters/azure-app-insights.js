@@ -21,14 +21,13 @@ export default class AzureAppInsightsAdapter extends BaseAdapter {
     /* eslint-enable */
   }
 
-  trackEvent({ action, category, name, value } = {}) {
+  trackEvent(properties = {}) {
+    const { name } = properties;
+    delete properties.name;
+
     window.appInsights.trackEvent({
       name,
-      properties: {
-        category,
-        action,
-        value,
-      },
+      properties,
     });
   }
 

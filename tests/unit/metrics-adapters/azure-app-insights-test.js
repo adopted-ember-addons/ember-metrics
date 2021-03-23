@@ -29,6 +29,7 @@ module("azure-app-insights adapter", function (hooks) {
       action: "click",
       name: "submit button",
       value: 1,
+      customKey: "I'm custom!"
     });
 
     assert.ok(
@@ -38,6 +39,7 @@ module("azure-app-insights adapter", function (hooks) {
           action: "click",
           category: "login",
           value: 1,
+          customKey: "I'm custom!"
         },
       }),
       "it sends the correct arguments"
