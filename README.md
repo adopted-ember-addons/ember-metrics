@@ -295,7 +295,6 @@ If you are using an app built with the [Ember Octane Blueprint](https://github.c
 ```js
 // app/routes/application.js
 import Route from '@ember/routing/route';
-import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class ApplicationRoute extends Route {
