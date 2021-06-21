@@ -24,7 +24,3 @@ package-lock.json
 /.node_modules.ember-try/
 /bower.json.ember-try
 /package.json.ember-try
-
-# Intellij
-.idea
-ember-metrics.iml
