@@ -40,6 +40,14 @@ export default class Metrics extends Service {
   enabled = true;
 
   /**
+   * Information about the active adapters from environment.js
+   *
+   * I think this could have been isolated to the init method only, but since
+   * was public before, would have been a breaking change
+   */
+  options;
+
+  /**
    * When the Service is created, activate adapters that were specified in the
    * configuration. This config is injected into the Service as
    * `options`.
@@ -49,8 +57,13 @@ export default class Metrics extends Service {
    * @return {Void}
    */
   init() {
-    const adapters = this.options.metricsAdapters || emberArray();
     const owner = getOwner(this);
+    const config = owner.factoryFor('config:environment').class;
+    const {metricsAdapters = []} = config;
+    const {environment = 'development'} = config;
+    this.options = {metricsAdapters, environment}
+
+    const adapters = this.options.metricsAdapters || emberArray();
     owner.registerOptionsForType('ember-metrics@metrics-adapter', { instantiate: false });
     owner.registerOptionsForType('metrics-adapter', { instantiate: false });
 
