@@ -218,7 +218,7 @@ export default BaseAdapter.extend({
 To only activate adapters in specific environments, you can add an array of environment names to the config, as the `environments` key. Valid environments are:
 
 - `development`
-- `test,`
+- `test`
 - `production`
 - `all` (default, will be activated in all environments)
 
