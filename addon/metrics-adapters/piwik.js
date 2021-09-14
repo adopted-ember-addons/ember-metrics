@@ -14,6 +14,11 @@ export default class Piwik extends BaseAdapter {
 
     assert(`[ember-metrics] You must pass a \`piwikUrl\` and a \`siteId\` to the ${this.toString()} adapter`, piwikUrl && siteId);
 
+    this._injectScript(piwikUrl, siteId);
+  }
+
+  // prettier-ignore
+  _injectScript(piwikUrl, siteId) {
     window._paq = window._paq || [];
     (function() {
       window._paq.push(['setTrackerUrl', `${piwikUrl}/piwik.php`]);

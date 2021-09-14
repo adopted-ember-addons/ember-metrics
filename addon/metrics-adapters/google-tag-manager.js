@@ -21,8 +21,15 @@ export default class GoogleTagManager extends BaseAdapter {
 
     assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
 
+    this._injectScript(id, envParamsString);
+
     set(this, 'dataLayer', dataLayer || 'dataLayer');
 
+    this._injectScript();
+  }
+
+  // prettier-ignore
+  _injectScript(id, envParamsString) {
     (function(w, d, s, l, i) {
       w[l] = w[l] || [];
       w[l].push({

@@ -22,7 +22,14 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
       apiKey
     );
 
-    /* eslint-disable */
+    this._injectScript();
+
+    window.amplitude.getInstance().init(apiKey, null, options || {});
+  }
+
+  // prettier-ignore
+  /* eslint-disable */
+  _injectScript() {
     (function(e,t){var n=e.amplitude||{_q:[],_iq:{}};var r=t.createElement("script")
     ;r.type="text/javascript"
     ;r.integrity="sha384-RsEu4WZflrqYcEacpfoGSib3qaSvdYwT4D+DrWqeBuDarSzjwUQR1jO8gDiXZd0E"
@@ -48,10 +55,8 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
     ;if(!n._iq) {n._iq = {};} // we add this line
     if(!n._iq.hasOwnProperty(e)){n._iq[e]={_q:[]};v(n._iq[e])}return n._iq[e]}
     ;e.amplitude=n})(window,document);
-    /* eslint-enable */
-
-    window.amplitude.getInstance().init(apiKey, null, options || {});
   }
+  /* eslint-enable */
 
   identify(options = {}) {
     const compactedOptions = compact(options);
