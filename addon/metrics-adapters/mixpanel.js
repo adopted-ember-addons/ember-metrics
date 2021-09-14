@@ -23,7 +23,7 @@ export default class Mixpanel extends BaseAdapter {
 
     this._injectScript();
 
-    mixpanel.init(token, config);
+    window.mixpanel.init(token, config);
   }
 
   /* eslint-disable */
