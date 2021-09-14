@@ -2,6 +2,24 @@
   "name": "ember-metrics",
   "version": "1.2.0",
   "description": "Send data to multiple analytics integrations without re-implementing new API",
+  "keywords": [
+    "ember-addon",
+    "metrics",
+    "analytics",
+    "segment",
+    "tracking",
+    "google analytics",
+    "google tag manager",
+    "mixpanel",
+    "piwik",
+    "intercom",
+    "facebook-pixel"
+  ],
+  "homepage": "https://github.com/adopted-ember-addons/ember-metrics",
+  "bugs": "https://github.com/adopted-ember-addons/ember-metrics/issues",
+  "repository": "https://github.com/adopted-ember-addons/ember-metrics",
+  "license": "MIT",
+  "author": "Lauren Tan",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -20,27 +38,11 @@
     "test:all": "ember try:each",
     "contributors": "npx contributor-faces -e \"(*-bot|*\\[bot\\]|*-tomster|homu|bors)\""
   },
-  "repository": "https://github.com/adopted-ember-addons/ember-metrics",
-  "bugs": "https://github.com/adopted-ember-addons/ember-metrics/issues",
-  "homepage": "https://github.com/adopted-ember-addons/ember-metrics",
-  "engines": {
-    "node": "12.* || 14.* || >= 16"
+  "dependencies": {
+    "broccoli-funnel": "^3.0.2",
+    "ember-classic-decorator": "^2.0.0",
+    "ember-cli-babel": "^7.26.6"
   },
-  "author": "Lauren Tan",
-  "license": "MIT",
-  "keywords": [
-    "ember-addon",
-    "metrics",
-    "analytics",
-    "segment",
-    "tracking",
-    "google analytics",
-    "google tag manager",
-    "mixpanel",
-    "piwik",
-    "intercom",
-    "facebook-pixel"
-  ],
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.4.2",
@@ -72,17 +74,35 @@
     "loader.js": "^4.7.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.3.2",
-    "qunit": "^2.16.0"
+    "qunit": "^2.16.0",
+    "release-it": "^14.2.1",
+    "release-it-lerna-changelog": "^3.1.0"
   },
-  "dependencies": {
-    "broccoli-funnel": "^3.0.2",
-    "ember-classic-decorator": "^2.0.0",
-    "ember-cli-babel": "^7.26.6"
+  "engines": {
+    "node": "12.* || 14.* || >= 16"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "ember": {
+    "edition": "octane"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
   },
-  "ember": {
-    "edition": "octane"
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    }
   }
 }
