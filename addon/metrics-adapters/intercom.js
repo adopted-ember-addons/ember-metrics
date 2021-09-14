@@ -16,8 +16,11 @@ export default class Intercom extends BaseAdapter {
   init() {
     const { appId } = this.config;
 
-    assert(`[ember-metrics] You must pass a valid \`appId\` to the ${this.toString()} adapter`, appId);
-    
+    assert(
+      `[ember-metrics] You must pass a valid \`appId\` to the ${this.toString()} adapter`,
+      appId
+    );
+
     this._injectScript(appId);
   }
 
@@ -41,7 +44,10 @@ export default class Intercom extends BaseAdapter {
       props.user_id = distinctId;
     }
 
-    assert(`[ember-metrics] You must pass \`distinctId\` or \`email\` to \`identify()\` when using the ${this.toString()} adapter`, props.email || props.user_id);
+    assert(
+      `[ember-metrics] You must pass \`distinctId\` or \`email\` to \`identify()\` when using the ${this.toString()} adapter`,
+      props.email || props.user_id
+    );
 
     const method = this.booted ? 'update' : 'boot';
     window.Intercom(method, props);

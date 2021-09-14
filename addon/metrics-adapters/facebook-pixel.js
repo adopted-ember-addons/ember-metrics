@@ -13,7 +13,10 @@ export default class FacebookPixel extends BaseAdapter {
   init() {
     const { id, dataProcessingOptions } = this.config;
 
-    assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
+    assert(
+      `[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`,
+      id
+    );
 
     if (window.fbq) {
       return;
@@ -48,7 +51,9 @@ export default class FacebookPixel extends BaseAdapter {
     const compactedOptions = compact(options);
     const { event } = compactedOptions;
 
-    if (!event) { return; }
+    if (!event) {
+      return;
+    }
     delete compactedOptions.event;
 
     if (window.fbq) {

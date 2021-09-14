@@ -19,7 +19,10 @@ export default class GoogleAnalytics extends BaseAdapter {
     const { id, sendHitTask, trace, require, debug, trackerName } = config;
     set(this, 'gaSendKey', trackerName ? trackerName + '.send' : 'send');
 
-    assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
+    assert(
+      `[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`,
+      id
+    );
 
     delete config.id;
     delete config.require;

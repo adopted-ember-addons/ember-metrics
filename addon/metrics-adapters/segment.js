@@ -15,7 +15,10 @@ export default class Segment extends BaseAdapter {
     const config = assign({}, this.config);
     const segmentKey = config.key;
 
-    assert(`[ember-metrics] You must pass a valid \`key\` to the ${this.toString()} adapter`, segmentKey);
+    assert(
+      `[ember-metrics] You must pass a valid \`key\` to the ${this.toString()} adapter`,
+      segmentKey
+    );
 
     // start of segment loading snippet, taken here:
     // https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/#step-1-copy-the-snippet
@@ -23,7 +26,7 @@ export default class Segment extends BaseAdapter {
     /* eslint-disable no-console */
 
     // Create a queue, but don't obliterate an existing one!
-    let analytics = window.analytics = window.analytics || [];
+    let analytics = (window.analytics = window.analytics || []);
 
     // If the real analytics.js is already on the page return.
     if (analytics.initialize) return;
@@ -59,15 +62,15 @@ export default class Segment extends BaseAdapter {
       'page',
       'once',
       'off',
-      'on'
+      'on',
     ];
 
     // Define a factory to create stubs. These are placeholders
     // for methods in Analytics.js so that you never have to wait
     // for it to load to actually record data. The `method` is
     // stored as the first argument, so we can replay the data.
-    analytics.factory = function(method){
-      return function(){
+    analytics.factory = function (method) {
+      return function () {
         var args = Array.prototype.slice.call(arguments);
         args.unshift(method);
         analytics.push(args);
@@ -83,13 +86,13 @@ export default class Segment extends BaseAdapter {
 
     // Define a method to load Analytics.js from our CDN,
     // and that will be sure to only ever load it once.
-    analytics.load = function(key, options){
+    analytics.load = function (key, options) {
       // Create an async script element based on your key.
       var script = document.createElement('script');
       script.type = 'text/javascript';
       script.async = true;
-      script.src = 'https://cdn.segment.com/analytics.js/v1/'
-        + key + '/analytics.min.js';
+      script.src =
+        'https://cdn.segment.com/analytics.js/v1/' + key + '/analytics.min.js';
 
       // Insert our script next to the first script element.
       var first = document.getElementsByTagName('script')[0];

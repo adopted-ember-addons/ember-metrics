@@ -1,12 +1,12 @@
-import { assert } from "@ember/debug";
-import BaseAdapter from "./base";
+import { assert } from '@ember/debug';
+import BaseAdapter from './base';
 import removeFromDOM from '../utils/remove-from-dom';
 import classic from 'ember-classic-decorator';
 
 @classic
 export default class AzureAppInsightsAdapter extends BaseAdapter {
   toStringExtension() {
-    return "AzureAppInsights";
+    return 'AzureAppInsights';
   }
 
   init() {
@@ -44,7 +44,11 @@ export default class AzureAppInsightsAdapter extends BaseAdapter {
 
   identify({ userId, accountId, storeInCookie = true } = {}) {
     if (userId) {
-      window.appInsights.setAuthenticatedUserContext(userId, accountId, storeInCookie);
+      window.appInsights.setAuthenticatedUserContext(
+        userId,
+        accountId,
+        storeInCookie
+      );
     }
   }
 

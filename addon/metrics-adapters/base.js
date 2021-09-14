@@ -5,7 +5,7 @@ import { typeOf } from '@ember/utils';
 import classic from 'ember-classic-decorator';
 
 function makeToString(ret) {
-  return (() => ret);
+  return () => ret;
 }
 
 @classic
@@ -21,12 +21,16 @@ export default class BaseAdapter extends emberObject {
   }
 
   willDestroy() {
-    assert(`[ember-metrics] ${this.toString()} must implement the willDestroy hook!`);
+    assert(
+      `[ember-metrics] ${this.toString()} must implement the willDestroy hook!`
+    );
   }
 
   toString() {
     const hasToStringExtension = typeOf(this.toStringExtension) === 'function';
-    const extension = hasToStringExtension ? ':' + this.toStringExtension() : '';
+    const extension = hasToStringExtension
+      ? ':' + this.toStringExtension()
+      : '';
     const ret = `ember-metrics@metrics-adapter:${extension}:${guidFor(this)}`;
 
     this.toString = makeToString(ret);

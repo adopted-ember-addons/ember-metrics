@@ -12,7 +12,10 @@ export default class Piwik extends BaseAdapter {
   init() {
     const { piwikUrl, siteId } = this.config;
 
-    assert(`[ember-metrics] You must pass a \`piwikUrl\` and a \`siteId\` to the ${this.toString()} adapter`, piwikUrl && siteId);
+    assert(
+      `[ember-metrics] You must pass a \`piwikUrl\` and a \`siteId\` to the ${this.toString()} adapter`,
+      piwikUrl && siteId
+    );
 
     this._injectScript(piwikUrl, siteId);
   }
@@ -33,7 +36,13 @@ export default class Piwik extends BaseAdapter {
   }
 
   trackEvent(options = {}) {
-    window._paq.push(['trackEvent', options.category, options.action, options.name, options.value]);
+    window._paq.push([
+      'trackEvent',
+      options.category,
+      options.action,
+      options.name,
+      options.value,
+    ]);
   }
 
   trackPage(options = {}) {

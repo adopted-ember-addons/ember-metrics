@@ -16,7 +16,10 @@ export default class Mixpanel extends BaseAdapter {
     const { token } = config;
     delete config.token;
 
-    assert(`[ember-metrics] You must pass a valid \`token\` to the ${this.toString()} adapter`, token);
+    assert(
+      `[ember-metrics] You must pass a valid \`token\` to the ${this.toString()} adapter`,
+      token
+    );
 
     this._injectScript();
 
