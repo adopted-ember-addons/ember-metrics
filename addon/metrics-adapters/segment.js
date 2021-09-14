@@ -3,7 +3,9 @@ import { assign } from '@ember/polyfills';
 import removeFromDOM from '../utils/remove-from-dom';
 import { compact } from '../utils/object-transforms';
 import BaseAdapter from './base';
+import classic from 'ember-classic-decorator';
 
+@classic
 export default class Segment extends BaseAdapter {
   toStringExtension() {
     return 'Segment';

@@ -3,7 +3,9 @@ import { assert } from '@ember/debug';
 import { compact, without } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
+import classic from 'ember-classic-decorator';
 
+@classic
 export default class Intercom extends BaseAdapter {
   booted = false;
 

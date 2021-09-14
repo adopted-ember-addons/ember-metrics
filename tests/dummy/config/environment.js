@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   let ENV = {
     modulePrefix: 'dummy',
     environment,
@@ -13,8 +13,8 @@ module.exports = function(environment) {
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false
-      }
+        Date: false,
+      },
     },
 
     APP: {
@@ -30,7 +30,7 @@ module.exports = function(environment) {
         'facebook-pixel',
         'amplitude',
         'azure-app-insights',
-      ]
+      ],
     },
 
     metricsAdapters: [
@@ -38,40 +38,40 @@ module.exports = function(environment) {
         name: 'GoogleAnalytics',
         environments: ['all'],
         config: {
-          id: 'UA-XXXX-Y'
-        }
+          id: 'UA-XXXX-Y',
+        },
       },
       {
         // if `environments` is undefined, it defaults to all
         name: 'Mixpanel',
         // environments: ['all'],
         config: {
-          token: '0f76c037-4d76-4fce-8a0f-a9a8f89d1453'
-        }
+          token: '0f76c037-4d76-4fce-8a0f-a9a8f89d1453',
+        },
       },
       {
         // if `environments` is undefined, it defaults to all
         name: 'Intercom',
         // environments: ['all'],
         config: {
-          appId: 'def1abc2'
-        }
+          appId: 'def1abc2',
+        },
       },
       {
         name: 'LocalDummyAdapter',
         environments: ['all'],
         config: {
-          foo: 'bar'
-        }
+          foo: 'bar',
+        },
       },
       {
         name: 'AzureAppInsights',
         environments: ['all'],
         config: {
-          instrumentationKey: "12345",
-        }
+          instrumentationKey: '12345',
+        },
       },
-    ]
+    ],
   };
 
   if (environment === 'development') {

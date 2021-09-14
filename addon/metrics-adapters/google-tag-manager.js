@@ -5,7 +5,9 @@ import { capitalize } from '@ember/string';
 import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
+import classic from 'ember-classic-decorator';
 
+@classic
 export default class GoogleTagManager extends BaseAdapter {
   dataLayer = 'dataLayer';
 

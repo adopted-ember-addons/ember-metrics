@@ -3,9 +3,11 @@ import objectTransforms from 'ember-metrics/utils/object-transforms';
 import removeFromDOM from 'ember-metrics/utils/remove-from-dom';
 import { assert } from '@ember/debug';
 import { assign } from '@ember/polyfills';
+import classic from 'ember-classic-decorator';
 
 const { without, compact, isPresent } = objectTransforms;
 
+@classic
 export default class AmplitudeMetricsAdapter extends BaseAdapter {
   toStringExtension() {
     return 'Amplitude';

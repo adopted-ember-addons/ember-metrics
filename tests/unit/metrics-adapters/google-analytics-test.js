@@ -4,86 +4,117 @@ import sinon from 'sinon';
 
 let sandbox, config;
 
-module('google-analytics adapter', function(hooks) {
+module('google-analytics adapter', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     sandbox = sinon.createSandbox();
     config = {
       id: 'UA-XXXX-Y',
-      require: ['ecommerce']
+      require: ['ecommerce'],
     };
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     sandbox.restore();
   });
 
-  test('#init calls ga create with a valid config', function(assert) {
+  test('#init calls ga create with a valid config', function (assert) {
     config.sendHitTask = false;
     config.debug = false;
     config.trace = false;
     config.sampleRate = 5;
 
-    const adapter = this.owner.factoryFor('ember-metrics@metrics-adapter:google-analytics').create({ config });
+    const adapter = this.owner
+      .factoryFor('ember-metrics@metrics-adapter:google-analytics')
+      .create({ config });
     const stub = sandbox.stub(window, 'ga').callsFake(() => {
       return true;
     });
     adapter.init();
 
-    assert.ok(stub.calledWith('create', config.id, {
-      sampleRate: 5
-    }), 'it sends the correct config values');
+    assert.ok(
+      stub.calledWith('create', config.id, {
+        sampleRate: 5,
+      }),
+      'it sends the correct config values'
+    );
   });
 
-  test('#init calls ga create with a valid config including trackerName', function(assert) {
+  test('#init calls ga create with a valid config including trackerName', function (assert) {
     config.sendHitTask = false;
     config.debug = false;
     config.trace = false;
     config.sampleRate = 5;
     config.trackerName = 'myEngineTracker';
 
-    const adapter = this.owner.factoryFor('ember-metrics@metrics-adapter:google-analytics').create({ config });
+    const adapter = this.owner
+      .factoryFor('ember-metrics@metrics-adapter:google-analytics')
+      .create({ config });
     const stub = sandbox.stub(window, 'ga').callsFake(() => {
       return true;
     });
     adapter.init();
 
-    assert.ok(stub.calledWith('create', config.id, {
-      sampleRate: 5
-    }, 'myEngineTracker'), 'it sends the correct config values');
-    assert.equal(adapter.gaSendKey, 'myEngineTracker.send', 'ga has myEngineTracker trackerName set');
+    assert.ok(
+      stub.calledWith(
+        'create',
+        config.id,
+        {
+          sampleRate: 5,
+        },
+        'myEngineTracker'
+      ),
+      'it sends the correct config values'
+    );
+    assert.equal(
+      adapter.gaSendKey,
+      'myEngineTracker.send',
+      'ga has myEngineTracker trackerName set'
+    );
   });
 
-  test('#init calls ga for any plugins specified', function(assert) {
-    const adapter = this.owner.factoryFor('ember-metrics@metrics-adapter:google-analytics').create({ config });
+  test('#init calls ga for any plugins specified', function (assert) {
+    const adapter = this.owner
+      .factoryFor('ember-metrics@metrics-adapter:google-analytics')
+      .create({ config });
     const stub = sandbox.stub(window, 'ga').callsFake(() => {
       return true;
     });
     adapter.init();
-    assert.ok(stub.calledWith('require', 'ecommerce'), 'it sends the correct arguments');
+    assert.ok(
+      stub.calledWith('require', 'ecommerce'),
+      'it sends the correct arguments'
+    );
   });
 
-  test('#identify calls ga with the right arguments', function(assert) {
-    const adapter = this.owner.factoryFor('ember-metrics@metrics-adapter:google-analytics').create({ config });
+  test('#identify calls ga with the right arguments', function (assert) {
+    const adapter = this.owner
+      .factoryFor('ember-metrics@metrics-adapter:google-analytics')
+      .create({ config });
     const stub = sandbox.stub(window, 'ga').callsFake(() => {
       return true;
     });
     adapter.identify({
-      distinctId: 123
+      distinctId: 123,
     });
-    assert.ok(stub.calledWith('set', 'userId', 123), 'it sends the correct arguments');
+    assert.ok(
+      stub.calledWith('set', 'userId', 123),
+      'it sends the correct arguments'
+    );
   });
 
-  test('#trackEvent returns the correct response shape', function(assert) {
-    const adapter = this.owner.factoryFor('ember-metrics@metrics-adapter:google-analytics').create({ config });
+  test('#trackEvent returns the correct response shape', function (assert) {
+    const adapter = this.owner
+      .factoryFor('ember-metrics@metrics-adapter:google-analytics')
+      .create({ config });
     sandbox.stub(window, 'ga');
     const result = adapter.trackEvent({
       category: 'button',
       action: 'click',
       label: 'nav buttons',
       value: 4,
-      dimension1: true
+      dimension1: true,
     });
     const expectedResult = {
       hitType: 'event',
@@ -91,37 +122,57 @@ module('google-analytics adapter', function(hooks) {
       eventAction: 'click',
       eventLabel: 'nav buttons',
       eventValue: 4,
-      dimension1: true
+      dimension1: true,
     };
 
-    assert.deepEqual(result, expectedResult, 'it sends the correct response shape');
+    assert.deepEqual(
+      result,
+      expectedResult,
+      'it sends the correct response shape'
+    );
   });
 
-  test('#trackPage returns the correct response shape', function(assert) {
-    const adapter = this.owner.factoryFor('ember-metrics@metrics-adapter:google-analytics').create({ config });
+  test('#trackPage returns the correct response shape', function (assert) {
+    const adapter = this.owner
+      .factoryFor('ember-metrics@metrics-adapter:google-analytics')
+      .create({ config });
     sandbox.stub(window, 'ga');
+
     const result = adapter.trackPage({
       page: '/my-overridden-page?id=1',
-      title: 'my overridden page'
+      title: 'my overridden page',
     });
+
     const expectedResult = {
       hitType: 'pageview',
       page: '/my-overridden-page?id=1',
-      title: 'my overridden page'
+      title: 'my overridden page',
     };
 
-    assert.deepEqual(result, expectedResult, 'it sends the correct response shape');
+    assert.deepEqual(
+      result,
+      expectedResult,
+      'it sends the correct response shape'
+    );
+
+    assert.deepEqual(
+      adapter.trackPage(),
+      { hitType: 'pageview' },
+      'it sends the correct response shape'
+    );
   });
 
-  test('#trackEvent with trackerName returns the correct response shape', function(assert) {
-    const adapter = this.owner.factoryFor('ember-metrics@metrics-adapter:google-analytics').create({ config });
+  test('#trackEvent with trackerName returns the correct response shape', function (assert) {
+    const adapter = this.owner
+      .factoryFor('ember-metrics@metrics-adapter:google-analytics')
+      .create({ config });
     sandbox.stub(window, 'ga');
     const result = adapter.trackEvent({
       category: 'button',
       action: 'click',
       label: 'nav buttons',
       value: 4,
-      dimension1: true
+      dimension1: true,
     });
     const expectedResult = {
       hitType: 'event',
@@ -129,20 +180,13 @@ module('google-analytics adapter', function(hooks) {
       eventAction: 'click',
       eventLabel: 'nav buttons',
       eventValue: 4,
-      dimension1: true
+      dimension1: true,
     };
 
-    assert.deepEqual(result, expectedResult, 'it sends the correct response shape');
-  });
-
-  test('#trackPage returns the correct response shape', function(assert) {
-    const adapter = this.owner.factoryFor('ember-metrics@metrics-adapter:google-analytics').create({ config });
-    sandbox.stub(window, 'ga');
-    const result = adapter.trackPage();
-    const expectedResult = {
-      hitType: 'pageview'
-    };
-
-    assert.deepEqual(result, expectedResult, 'it sends the correct response shape');
+    assert.deepEqual(
+      result,
+      expectedResult,
+      'it sends the correct response shape'
+    );
   });
 });

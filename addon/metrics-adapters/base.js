@@ -2,11 +2,13 @@ import emberObject from '@ember/object';
 import { assert } from '@ember/debug';
 import { guidFor } from '@ember/object/internals';
 import { typeOf } from '@ember/utils';
+import classic from 'ember-classic-decorator';
 
 function makeToString(ret) {
   return (() => ret);
 }
 
+@classic
 export default class BaseAdapter extends emberObject {
   static supportsFastBoot = false;
 

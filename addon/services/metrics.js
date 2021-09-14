@@ -6,7 +6,9 @@ import { A as emberArray, makeArray } from '@ember/array';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
 const { keys } = Object;
+import classic from 'ember-classic-decorator';
 
+@classic
 export default class Metrics extends Service {
   /**
    * Cached adapters to reduce multiple expensive lookups.
@@ -59,12 +61,14 @@ export default class Metrics extends Service {
   init() {
     const owner = getOwner(this);
     const config = owner.factoryFor('config:environment').class;
-    const {metricsAdapters = []} = config;
-    const {environment = 'development'} = config;
-    this.options = {metricsAdapters, environment}
+    const { metricsAdapters = [] } = config;
+    const { environment = 'development' } = config;
+    this.options = { metricsAdapters, environment };
 
     const adapters = this.options.metricsAdapters || emberArray();
-    owner.registerOptionsForType('ember-metrics@metrics-adapter', { instantiate: false });
+    owner.registerOptionsForType('ember-metrics@metrics-adapter', {
+      instantiate: false,
+    });
     owner.registerOptionsForType('metrics-adapter', { instantiate: false });
 
     set(this, 'appEnvironment', this.options.environment || 'development');
@@ -104,13 +108,17 @@ export default class Metrics extends Service {
     const activatedAdapters = {};
 
     adapterOptions
-      .filter((adapterOption) => this._filterEnvironments(adapterOption, appEnvironment))
+      .filter((adapterOption) =>
+        this._filterEnvironments(adapterOption, appEnvironment)
+      )
       .forEach((adapterOption) => {
         const { name, config } = adapterOption;
         const adapterClass = this._lookupAdapter(name);
 
         if (typeof FastBoot === 'undefined' || adapterClass.supportsFastBoot) {
-          const adapter = cachedAdapters[name] || this._activateAdapter({ adapterClass, config });
+          const adapter =
+            cachedAdapters[name] ||
+            this._activateAdapter({ adapterClass, config });
           set(activatedAdapters, name, adapter);
         }
       });
@@ -127,11 +135,16 @@ export default class Metrics extends Service {
    * @return {Void}
    */
   invoke(methodName, ...args) {
-    if (!this.enabled) { return; }
+    if (!this.enabled) {
+      return;
+    }
 
     const cachedAdapters = this._adapters;
     const allAdapterNames = keys(cachedAdapters);
-    const [selectedAdapterNames, options] = args.length > 1 ? [makeArray(args[0]), args[1]] : [allAdapterNames, args[0]];
+    const [selectedAdapterNames, options] =
+      args.length > 1
+        ? [makeArray(args[0]), args[1]]
+        : [allAdapterNames, args[0]];
     const context = assign({}, this.context);
     const mergedOptions = assign(context, options);
 
@@ -164,7 +177,10 @@ export default class Metrics extends Service {
    * @return {Adapter}
    */
   _activateAdapter({ adapterClass, config }) {
-    return adapterClass.create(getOwner(this).ownerInjection(), { this: this, config });
+    return adapterClass.create(getOwner(this).ownerInjection(), {
+      this: this,
+      config,
+    });
   }
 
   /**
@@ -177,14 +193,24 @@ export default class Metrics extends Service {
    * @return {Adapter} a local adapter or an adapter from the addon
    */
   _lookupAdapter(adapterName) {
-    assert('[ember-metrics] Could not find metrics adapter without a name.', adapterName);
+    assert(
+      '[ember-metrics] Could not find metrics adapter without a name.',
+      adapterName
+    );
 
     const dasherizedAdapterName = dasherize(adapterName);
-    const availableAdapter = getOwner(this).lookup(`ember-metrics@metrics-adapter:${dasherizedAdapterName}`);
-    const localAdapter = getOwner(this).lookup(`metrics-adapter:${dasherizedAdapterName}`);
+    const availableAdapter = getOwner(this).lookup(
+      `ember-metrics@metrics-adapter:${dasherizedAdapterName}`
+    );
+    const localAdapter = getOwner(this).lookup(
+      `metrics-adapter:${dasherizedAdapterName}`
+    );
 
     const adapter = localAdapter || availableAdapter;
-    assert(`[ember-metrics] Could not find metrics adapter ${adapterName}.`, adapter);
+    assert(
+      `[ember-metrics] Could not find metrics adapter ${adapterName}.`,
+      adapter
+    );
 
     return adapter;
   }
@@ -205,6 +231,9 @@ export default class Metrics extends Service {
     environments = environments || ['all'];
     const wrappedEnvironments = emberArray(environments);
 
-    return wrappedEnvironments.indexOf('all') > -1 || wrappedEnvironments.indexOf(appEnvironment) > -1;
+    return (
+      wrappedEnvironments.indexOf('all') > -1 ||
+      wrappedEnvironments.indexOf(appEnvironment) > -1
+    );
   }
 }

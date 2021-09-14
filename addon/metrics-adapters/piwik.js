@@ -1,7 +1,9 @@
 import { assert } from '@ember/debug';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
+import classic from 'ember-classic-decorator';
 
+@classic
 export default class Piwik extends BaseAdapter {
   toStringExtension() {
     return 'Piwik';
