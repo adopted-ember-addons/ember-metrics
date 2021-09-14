@@ -5,7 +5,9 @@ import { capitalize } from '@ember/string';
 import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
+import classic from 'ember-classic-decorator';
 
+@classic
 export default class GoogleTagManager extends BaseAdapter {
   dataLayer = 'dataLayer';
 
@@ -15,12 +17,22 @@ export default class GoogleTagManager extends BaseAdapter {
 
   init() {
     const { id, dataLayer, envParams } = this.config;
-    const envParamsString = envParams ? `&${envParams}`: '';
+    const envParamsString = envParams ? `&${envParams}` : '';
 
-    assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
+    assert(
+      `[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`,
+      id
+    );
+
+    this._injectScript(id, envParamsString);
 
     set(this, 'dataLayer', dataLayer || 'dataLayer');
 
+    this._injectScript();
+  }
+
+  // prettier-ignore
+  _injectScript(id, envParamsString) {
     (function(w, d, s, l, i) {
       w[l] = w[l] || [];
       w[l].push({
@@ -39,7 +51,7 @@ export default class GoogleTagManager extends BaseAdapter {
   trackEvent(options = {}) {
     const compactedOptions = compact(options);
     const dataLayer = this.dataLayer;
-    const gtmEvent = {'event': compactedOptions['event']};
+    const gtmEvent = { event: compactedOptions['event'] };
 
     delete compactedOptions['event'];
 
@@ -57,7 +69,7 @@ export default class GoogleTagManager extends BaseAdapter {
     const compactedOptions = compact(options);
     const dataLayer = this.dataLayer;
     const sendEvent = {
-      event: compactedOptions['event'] || 'pageview'
+      event: compactedOptions['event'] || 'pageview',
     };
 
     const pageEvent = assign(sendEvent, compactedOptions);

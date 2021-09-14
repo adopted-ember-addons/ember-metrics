@@ -1,6 +1,4 @@
 {
-  "predef": [
-    "console"
-  ],
+  "predef": ["console"],
   "strict": false
 }

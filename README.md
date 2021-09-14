@@ -1,6 +1,6 @@
 # ember-metrics
 
-*Send data to multiple analytics services without re-implementing new API*
+_Send data to multiple analytics services without re-implementing new API_
 
 ![Download count all time](https://img.shields.io/npm/dt/ember-metrics.svg) [![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) ![Build Status](https://github.com/adopted-ember-addons/ember-metrics/workflows/Test/badge.svg?branch=master) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics)
 
@@ -14,65 +14,73 @@ Writing your own adapters for currently unsupported analytics services is easy t
 
 1. `GoogleAnalytics`
 
-    - `id`: [Property ID](https://support.google.com/analytics/answer/1032385?hl=en), e.g. `UA-XXXX-Y`
+   - `id`: [Property ID](https://support.google.com/analytics/answer/1032385?hl=en), e.g. `UA-XXXX-Y`
+
 1. `Mixpanel`
 
-    - `token`: [Mixpanel token](https://mixpanel.com/help/questions/articles/where-can-i-find-my-project-token)
-    - Optionally other [config options to override](https://developer.mixpanel.com/docs/javascript-full-api-reference#mixpanelinit)
+   - `token`: [Mixpanel token](https://mixpanel.com/help/questions/articles/where-can-i-find-my-project-token)
+   - Optionally other [config options to override](https://developer.mixpanel.com/docs/javascript-full-api-reference#mixpanelinit)
+
 1. `GoogleTagManager`
 
-    - `id`: [Container ID](https://developers.google.com/tag-manager/quickstart), e.g. `GTM-XXXX`
+   - `id`: [Container ID](https://developers.google.com/tag-manager/quickstart), e.g. `GTM-XXXX`
 
-    - `dataLayer`: An array containing a single POJO of information, e.g.:
-    ```js
-    dataLayer = [{
-      'pageCategory': 'signup',
-      'visitorType': 'high-value'
-    }];
-    ```
-    - `envParams`: A string with custom arguments for configuring GTM environments (Live, Dev, etc), e.g.:
-    ```
-    envParams: "gtm_auth=xxxxx&gtm_preview=env-xx&gtm_cookies_win=x"
-    ```
+   - `dataLayer`: An array containing a single POJO of information, e.g.:
+
+   ```js
+   dataLayer = [
+     {
+       pageCategory: 'signup',
+       visitorType: 'high-value',
+     },
+   ];
+   ```
+
+   - `envParams`: A string with custom arguments for configuring GTM environments (Live, Dev, etc), e.g.:
+
+   ```
+   envParams: "gtm_auth=xxxxx&gtm_preview=env-xx&gtm_cookies_win=x"
+   ```
+
 1. `Segment`
 
-    - `key`: [Segment key](https://segment.com/docs/libraries/analytics.js/quickstart/)
+   - `key`: [Segment key](https://segment.com/docs/libraries/analytics.js/quickstart/)
 
 1. `Piwik`
 
-    - `piwikUrl`: [Tracker URL](http://developer.piwik.org/guides/tracking-javascript-guide)
-    - `siteId`: [Site Id](http://developer.piwik.org/guides/tracking-javascript-guide)
+   - `piwikUrl`: [Tracker URL](http://developer.piwik.org/guides/tracking-javascript-guide)
+   - `siteId`: [Site Id](http://developer.piwik.org/guides/tracking-javascript-guide)
 
 1. `Intercom`
 
-    - `appId`: [App ID](https://docs.intercom.com/help-and-faqs/getting-set-up/where-can-i-find-my-app-id)
+   - `appId`: [App ID](https://docs.intercom.com/help-and-faqs/getting-set-up/where-can-i-find-my-app-id)
 
 1. `Facebook Pixel`
 
-    - `id`: [ID](https://www.facebook.com/ads/manager/pixel/facebook_pixel/?act=129849836&pid=p1)
-    - dataProcessingOptions: _optional_ An object defining the method, country and state for [data processing options](https://developers.facebook.com/docs/marketing-apis/data-processing-options/)
-    ```js
-    dataProcessingOptions: {
-      method: ['LDU'],
-      country: 1,
-      state: 1000
-    }
-    ```
+   - `id`: [ID](https://www.facebook.com/ads/manager/pixel/facebook_pixel/?act=129849836&pid=p1)
+   - dataProcessingOptions: _optional_ An object defining the method, country and state for [data processing options](https://developers.facebook.com/docs/marketing-apis/data-processing-options/)
+
+   ```js
+   dataProcessingOptions: {
+     method: ['LDU'],
+     country: 1,
+     state: 1000
+   }
+   ```
 
 1. `Amplitude`
 
-    - `apiKey`: [API Key](https://developers.amplitude.com/#setting-up-our-sdks)
+   - `apiKey`: [API Key](https://developers.amplitude.com/#setting-up-our-sdks)
 
 1. `Azure App Insights`
 
-    - `instrumentationKey`: [Instrumentation Key](https://github.com/microsoft/ApplicationInsights-JS#configuration)
+   - `instrumentationKey`: [Instrumentation Key](https://github.com/microsoft/ApplicationInsights-JS#configuration)
 
 #### Community adapters
 
 1. `Adobe Dynamic Tag Management`
 
-    - [ember-metrics-adobe-dtm](https://github.com/kellyselden/ember-metrics-adobe-dtm)
-
+   - [ember-metrics-adobe-dtm](https://github.com/kellyselden/ember-metrics-adobe-dtm)
 
 ## Installing The Addon
 
@@ -82,16 +90,16 @@ ember install ember-metrics
 
 ## Compatibility
 
-* Ember.js v3.16 or above
-* Ember CLI v2.13 or above
-* Node.js v10 or above
+- Ember.js v3.20 or above
+- Ember CLI v3.20 or above
+- Node.js v12 or above
 
 ## Configuration
 
 To setup, you should first configure the service through `config/environment`:
 
 ```javascript
-module.exports = function(environment) {
+module.exports = function (environment) {
   var ENV = {
     metricsAdapters: [
       {
@@ -106,37 +114,37 @@ module.exports = function(environment) {
           // Ensure development env hits aren't sent to GA
           sendHitTask: environment !== 'development',
           // Specify Google Analytics plugins
-          require: ['ecommerce']
-        }
+          require: ['ecommerce'],
+        },
       },
       {
         name: 'Mixpanel',
         environments: ['production'],
         config: {
-          token: '0f76c037-4d76-4fce-8a0f-a9a8f89d1453'
-        }
+          token: '0f76c037-4d76-4fce-8a0f-a9a8f89d1453',
+        },
       },
       {
         name: 'Segment',
         environments: ['production'],
         config: {
-          key: '4fce-8a0f-a9a8f89d1453'
-        }
+          key: '4fce-8a0f-a9a8f89d1453',
+        },
       },
       {
         name: 'Piwik',
         environments: ['production'],
         config: {
           piwikUrl: 'http://piwik.my.com',
-          siteId: 42
-        }
+          siteId: 42,
+        },
       },
       {
         name: 'Intercom',
         environments: ['production'],
         config: {
-          appId: 'def1abc2'
-        }
+          appId: 'def1abc2',
+        },
       },
       {
         name: 'FacebookPixel',
@@ -146,9 +154,9 @@ module.exports = function(environment) {
           dataProcessingOptions: {
             method: ['LDU'],
             country: 1,
-            state: 1000
-          }
-        }
+            state: 1000,
+          },
+        },
       },
       {
         name: 'Amplitude',
@@ -157,12 +165,12 @@ module.exports = function(environment) {
           apiKey: '12345672daf5f3515f30f0000f1f0000cdfe433888',
           options: {
             trackingOptions: {
-              ip_address: false
+              ip_address: false,
             },
             // ...other amplitude configuration options
             // https://developers.amplitude.com/#sdk-advanced-settings
-          }
-        }
+          },
+        },
       },
       {
         name: 'AzureAppInsights',
@@ -171,18 +179,18 @@ module.exports = function(environment) {
           instrumentationKey: '123',
           // ...other appInsights configuration options
           // https://github.com/microsoft/ApplicationInsights-JS#configuration
-        }
+        },
       },
       {
         name: 'LocalAdapter',
         environments: ['all'], // default
         config: {
-          foo: 'bar'
-        }
-      }
-    ]
-  }
-}
+          foo: 'bar',
+        },
+      },
+    ],
+  };
+};
 ```
 
 Adapter names are PascalCased. Refer to the [list of supported adapters](#currently-supported-services-and-options) above for more information.
@@ -211,7 +219,7 @@ export default BaseAdapter.extend({
     const { apiKey, options } = Ember.get(this, 'config');
     this.setupService(apiKey);
     this.setOptions(options);
-  }
+  },
 });
 ```
 
@@ -224,7 +232,7 @@ To only activate adapters in specific environments, you can add an array of envi
 
 ## Content Security Policy
 
-If you're using [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy), you'll need to modify the content security policy to allow loading of any remote scripts.  In `config/environment.js`, add this to the `ENV` hash (modify as necessary):
+If you're using [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy), you'll need to modify the content security policy to allow loading of any remote scripts. In `config/environment.js`, add this to the `ENV` hash (modify as necessary):
 
 ```js
 // example for loading Google Analytics
@@ -262,10 +270,10 @@ export default Route.extend({
 
       this.metrics.trackPage({ page, title });
     });
-  }
+  },
 });
-
 ```
+
 [See this example with Native Classes](#native-class-usage)
 
 If you wish to only call a single service, just specify it's name as the first argument:
@@ -274,11 +282,12 @@ If you wish to only call a single service, just specify it's name as the first a
 // only invokes the `trackPage` method on the `GoogleAnalyticsAdapter`
 
 metrics.trackPage('GoogleAnalytics', {
-  title: 'My Awesome App'
+  title: 'My Awesome App',
 });
 ```
 
 #### Context
+
 Often, you may want to include information like the current user's name with every event or page view that's tracked. Any properties that are set on `metrics.context` will be merged into options for every Service call.
 
 ```js
@@ -298,8 +307,8 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 export default class ApplicationRoute extends Route {
-  @service metrics
-  @service router
+  @service metrics;
+  @service router;
 
   constructor() {
     super(...arguments);
@@ -314,7 +323,6 @@ export default class ApplicationRoute extends Route {
   }
 }
 ```
-
 
 ### API
 
@@ -338,16 +346,16 @@ There are 4 main methods implemented by the service, with the same argument sign
 
   For services that implement it, this method notifies the analytics service that an anonymous user now has a unique identifier.
 
-
 If an adapter implements specific methods you wish to call, then you can use `invoke`
 
 - `invoke(method, [analyticsName], options)`
 
   ```js
-
-  metrics.invoke('trackLink', 'Piwik', { url: 'my_favorite_link' , linkType: 'download' });
+  metrics.invoke('trackLink', 'Piwik', {
+    url: 'my_favorite_link',
+    linkType: 'download',
+  });
   ```
-
 
 ### Lazy Initialization
 
@@ -369,17 +377,17 @@ export default Route.extend({
         name: 'GoogleAnalytics',
         environments: ['all'],
         config: {
-          id
-        }
-      }
+          id,
+        },
+      },
     ]);
-  }
+  },
 });
 ```
 
 Because `activateAdapters` is idempotent, you can call it as many times as you'd like. However, it will not reinstantiate existing adapters.
 
-Since ember-metrics now automatically removes all unused adapters, it's also important to force the inclusion of the adapter via `config/environment`.  NOTE: If the adapter is already defined in the `metricsAdapters` array of `config/environment` then this step is not necessary.
+Since ember-metrics now automatically removes all unused adapters, it's also important to force the inclusion of the adapter via `config/environment`. NOTE: If the adapter is already defined in the `metricsAdapters` array of `config/environment` then this step is not necessary.
 
 ```js
 // config/environment
@@ -420,7 +428,7 @@ When the adapter is destroyed, it should remove its script tag and property. Thi
 Once you have implemented your adapter, you can add it to your [app's config](#configuration), like so:
 
 ```js
-module.exports = function(environment) {
+module.exports = function (environment) {
   var ENV = {
     metricsAdapters: [
       {
@@ -429,13 +437,13 @@ module.exports = function(environment) {
         config: {
           secret: '29fJs90qnfEa',
           options: {
-            foo: 'bar'
-          }
-        }
-      }
-    ]
-  }
-}
+            foo: 'bar',
+          },
+        },
+      },
+    ],
+  };
+};
 ```
 
 ## Testing
@@ -450,8 +458,8 @@ moduleFor('route:foo', 'Unit | Route | foo', {
     'service:metrics',
     'ember-metrics@metrics-adapter:google-analytics', // bundled adapter
     'ember-metrics@metrics-adapter:mixpanel', // bundled adapter
-    'metrics-adapter:local-dummy-adapter' // local adapter
-  ]
+    'metrics-adapter:local-dummy-adapter', // local adapter
+  ],
 });
 ```
 
@@ -460,6 +468,7 @@ moduleFor('route:foo', 'Unit | Route | foo', {
 We're grateful to these wonderful contributors who've contributed to `ember-metrics`:
 
 [//]: contributor-faces
+
 <a href="https://github.com/poteto"><img src="https://avatars0.githubusercontent.com/u/1390709?v=4" title="poteto" width="80" height="80"></a>
 <a href="https://github.com/jherdman"><img src="https://avatars3.githubusercontent.com/u/3300?v=4" title="jherdman" width="80" height="80"></a>
 <a href="https://github.com/kellyselden"><img src="https://avatars1.githubusercontent.com/u/602423?v=4" title="kellyselden" width="80" height="80"></a>
@@ -494,22 +503,22 @@ We're grateful to these wonderful contributors who've contributed to `ember-metr
 
 ## Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+- `git clone` this repository
+- `npm install`
+- `bower install`
 
 ## Running
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+- `ember server`
+- Visit your app at http://localhost:4200.
 
 ## Running Tests
 
-* `ember test`
-* `ember test --server`
+- `ember test`
+- `ember test --server`
 
 ## Building
 
-* `ember build`
+- `ember build`
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).

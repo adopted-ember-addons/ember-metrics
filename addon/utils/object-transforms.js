@@ -47,5 +47,8 @@ export function isPresent(objectInstance) {
 }
 
 export default {
-  compact, without, only, isPresent
-}
+  compact,
+  without,
+  only,
+  isPresent,
+};

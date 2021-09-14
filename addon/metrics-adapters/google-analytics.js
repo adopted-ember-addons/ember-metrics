@@ -6,7 +6,9 @@ import { capitalize } from '@ember/string';
 import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
+import classic from 'ember-classic-decorator';
 
+@classic
 export default class GoogleAnalytics extends BaseAdapter {
   toStringExtension() {
     return 'GoogleAnalytics';
@@ -17,7 +19,10 @@ export default class GoogleAnalytics extends BaseAdapter {
     const { id, sendHitTask, trace, require, debug, trackerName } = config;
     set(this, 'gaSendKey', trackerName ? trackerName + '.send' : 'send');
 
-    assert(`[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`, id);
+    assert(
+      `[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`,
+      id
+    );
 
     delete config.id;
     delete config.require;
@@ -28,12 +33,7 @@ export default class GoogleAnalytics extends BaseAdapter {
 
     const hasOptions = isPresent(Object.keys(config));
 
-    /* eslint-disable */
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script',`https://www.google-analytics.com/analytics${debug ? '_debug' : ''}.js`,'ga');
-    /* eslint-enable */
+    this._injectScript(debug);
 
     if (trace === true) {
       window.ga_debug = { trace: true };
@@ -51,6 +51,16 @@ export default class GoogleAnalytics extends BaseAdapter {
       window.ga('set', 'sendHitTask', null);
     }
   }
+
+  /* eslint-disable */
+  // prettier-ignore
+  _injectScript(debug) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script',`https://www.google-analytics.com/analytics${debug ? '_debug' : ''}.js`,'ga');
+  }
+  /* eslint-enable */
 
   identify(options = {}) {
     const compactedOptions = compact(options);

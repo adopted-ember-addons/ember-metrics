@@ -15,7 +15,7 @@ function uniqueStrings(arr) {
   var out = [];
   var dict = {};
 
-  for (var i=0;i<arr.length;i++) {
+  for (var i = 0; i < arr.length; i++) {
     var obj = arr[i];
 
     if (typeof obj === 'string' && !dict[obj]) {
@@ -30,7 +30,7 @@ function uniqueStrings(arr) {
 function getEach(arr, propName) {
   var out = [];
 
-  for (var i=0;i<arr.length;i++) {
+  for (var i = 0; i < arr.length; i++) {
     var obj = arr[i];
 
     if (typeof obj === 'object' && obj[propName]) {
@@ -42,9 +42,9 @@ function getEach(arr, propName) {
 }
 
 module.exports = {
-  name: 'ember-metrics',
+  name: require('./package').name,
 
-  included: function(app, parentAddon) {
+  included: function (app, parentAddon) {
     this._super.included.apply(this, arguments);
 
     var target = parentAddon || app;
@@ -69,20 +69,28 @@ module.exports = {
     this.whitelisted = uniqueStrings(discovered.map(normalize));
   },
 
-  treeForAddon: function() {
+  treeForAddon: function () {
     // see: https://github.com/ember-cli/ember-cli/issues/4463
     var tree = this._super.treeForAddon.apply(this, arguments);
 
-    return this.filterAdapters(tree, new RegExp('^(?:modules/)?' + this.name + '/metrics-adapters/', 'i'));
+    return this.filterAdapters(
+      tree,
+      new RegExp('^(?:modules/)?' + this.name + '/metrics-adapters/', 'i')
+    );
   },
 
-  filterAdapters: function(tree, regex) {
+  filterAdapters: function (tree, regex) {
     var whitelisted = this.whitelisted;
 
     return new Funnel(tree, {
-      exclude: [function(name) {
-        return regex.test(name) && whitelisted.indexOf(path.basename(name, '.js')) === -1;
-      }]
+      exclude: [
+        function (name) {
+          return (
+            regex.test(name) &&
+            whitelisted.indexOf(path.basename(name, '.js')) === -1
+          );
+        },
+      ],
     });
-  }
+  },
 };

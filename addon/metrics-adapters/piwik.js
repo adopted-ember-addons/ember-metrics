@@ -1,7 +1,9 @@
 import { assert } from '@ember/debug';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
+import classic from 'ember-classic-decorator';
 
+@classic
 export default class Piwik extends BaseAdapter {
   toStringExtension() {
     return 'Piwik';
@@ -10,8 +12,16 @@ export default class Piwik extends BaseAdapter {
   init() {
     const { piwikUrl, siteId } = this.config;
 
-    assert(`[ember-metrics] You must pass a \`piwikUrl\` and a \`siteId\` to the ${this.toString()} adapter`, piwikUrl && siteId);
+    assert(
+      `[ember-metrics] You must pass a \`piwikUrl\` and a \`siteId\` to the ${this.toString()} adapter`,
+      piwikUrl && siteId
+    );
 
+    this._injectScript(piwikUrl, siteId);
+  }
+
+  // prettier-ignore
+  _injectScript(piwikUrl, siteId) {
     window._paq = window._paq || [];
     (function() {
       window._paq.push(['setTrackerUrl', `${piwikUrl}/piwik.php`]);
@@ -26,7 +36,13 @@ export default class Piwik extends BaseAdapter {
   }
 
   trackEvent(options = {}) {
-    window._paq.push(['trackEvent', options.category, options.action, options.name, options.value]);
+    window._paq.push([
+      'trackEvent',
+      options.category,
+      options.action,
+      options.name,
+      options.value,
+    ]);
   }
 
   trackPage(options = {}) {
