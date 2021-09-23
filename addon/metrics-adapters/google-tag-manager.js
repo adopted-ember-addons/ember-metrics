@@ -24,11 +24,9 @@ export default class GoogleTagManager extends BaseAdapter {
       id
     );
 
-    this._injectScript(id, envParamsString);
-
     set(this, 'dataLayer', dataLayer || 'dataLayer');
 
-    this._injectScript();
+    this._injectScript(id, envParamsString);
   }
 
   // prettier-ignore
