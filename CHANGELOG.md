@@ -1,5 +1,10 @@
 # v1.1.0
 
+## v1.3.1 (2021-09-26)
+
+* Resolves duplicate GTM script injection (#291, #292)
+
+
 ## v1.3.0 (2021-09-14)
 
 ## Features
