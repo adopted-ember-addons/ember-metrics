@@ -21,11 +21,12 @@
   "license": "MIT",
   "author": "Lauren Tan",
   "directories": {
-    "doc": "doc",
+    "doc": "./doc",
     "test": "tests"
   },
   "scripts": {
     "build": "ember build --environment=production",
+    "doc": "typedoc",
     "lint": "npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
     "lint:fix": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
     "lint:hbs:fix": "ember-template-lint . --fix",

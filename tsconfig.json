@@ -20,6 +20,7 @@
     "baseUrl": ".",
     "module": "es6",
     "experimentalDecorators": true,
+    "skipLibCheck": true,
     "paths": {
       "dummy/tests/*": [
         "tests/*"
@@ -52,5 +53,11 @@
     "types/**/*",
     "test-support/**/*",
     "addon-test-support/**/*"
-  ]
+  ],
+  "typedocOptions" : {
+    "entryPoints"        : ["./addon"],
+    "entryPointStrategy" : "expand",
+    "name"               : "Ember Metrics",
+    "out"                : "doc"
+  }
 }
