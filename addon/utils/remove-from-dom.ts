@@ -5,6 +5,6 @@
  */
 export default function removeFromDOM(selectors: string): void {
   document.querySelectorAll(selectors).forEach((el: Element) => {
-    el.parentElement?.removeChild(el)
-  })
+    el.parentElement?.removeChild(el);
+  });
 }
