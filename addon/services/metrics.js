@@ -1,6 +1,5 @@
 import Service from '@ember/service';
 import { assert } from '@ember/debug';
-import { set } from '@ember/object';
 import { A as emberArray, makeArray } from '@ember/array';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
@@ -46,6 +45,11 @@ export default class Metrics extends Service {
   options;
 
   /**
+   * Environment the host application is running in (e.g. development or production).
+   */
+  appEnvironment = null;
+
+  /**
    * When the Service is created, activate adapters that were specified in the
    * configuration. This config is injected into the Service as
    * `options`.
@@ -65,7 +69,7 @@ export default class Metrics extends Service {
     });
     owner.registerOptionsForType('metrics-adapter', { instantiate: false });
 
-    set(this, 'appEnvironment', this.options.environment || 'development');
+    this.appEnvironment = this.options.environment || 'development';
 
     this.activateAdapters(adapters);
   }
@@ -97,13 +101,13 @@ export default class Metrics extends Service {
   activateAdapters(adapterOptions = []) {
     const appEnvironment = this.appEnvironment;
     const cachedAdapters = this._adapters;
-    const activatedAdapters = {};
 
-    adapterOptions
-      .filter((adapterOption) =>
-        this._filterEnvironments(adapterOption, appEnvironment)
-      )
-      .forEach((adapterOption) => {
+    const adaptersForEnv = adapterOptions.filter((adapterOption) => {
+      return this._filterEnvironments(adapterOption, appEnvironment);
+    });
+
+    const activatedAdapters = adaptersForEnv.reduce(
+      (adapters, adapterOption) => {
         const { name, config } = adapterOption;
         const adapterClass = this._lookupAdapter(name);
 
@@ -111,11 +115,18 @@ export default class Metrics extends Service {
           const adapter =
             cachedAdapters[name] ||
             this._activateAdapter({ adapterClass, config });
-          set(activatedAdapters, name, adapter);
-        }
-      });
 
-    return set(this, '_adapters', activatedAdapters);
+          adapters[name] = adapter;
+        }
+
+        return adapters;
+      },
+      {}
+    );
+
+    this._adapters = activatedAdapters;
+
+    return this._adapters;
   }
 
   /**
