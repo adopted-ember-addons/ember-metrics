@@ -1,6 +1,5 @@
 import Service from '@ember/service';
 import { assert } from '@ember/debug';
-import { A as emberArray, makeArray } from '@ember/array';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
 
@@ -63,7 +62,7 @@ export default class Metrics extends Service {
     const { environment = 'development' } = config;
     this.options = { metricsAdapters, environment };
 
-    const adapters = this.options.metricsAdapters || emberArray();
+    const adapters = this.options.metricsAdapters || [];
     owner.registerOptionsForType('ember-metrics@metrics-adapter', {
       instantiate: false,
     });
@@ -232,11 +231,13 @@ export default class Metrics extends Service {
   _filterEnvironments(adapterOption, appEnvironment) {
     let { environments } = adapterOption;
     environments = environments || ['all'];
-    const wrappedEnvironments = emberArray(environments);
 
     return (
-      wrappedEnvironments.indexOf('all') > -1 ||
-      wrappedEnvironments.indexOf(appEnvironment) > -1
+      environments.includes('all') || environments.includes(appEnvironment)
     );
   }
+}
+
+function makeArray(maybeArray) {
+  return Array.isArray(maybeArray) ? Array.from(maybeArray) : Array(maybeArray);
 }
