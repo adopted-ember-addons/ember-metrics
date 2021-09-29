@@ -1,6 +1,4 @@
-import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
-import { set } from '@ember/object';
 import { capitalize } from '@ember/string';
 import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
@@ -24,7 +22,7 @@ export default class GoogleTagManager extends BaseAdapter {
       id
     );
 
-    set(this, 'dataLayer', dataLayer || 'dataLayer');
+    this.dataLayer = dataLayer || 'dataLayer';
 
     this._injectScript(id, envParamsString);
   }
@@ -70,7 +68,7 @@ export default class GoogleTagManager extends BaseAdapter {
       event: compactedOptions['event'] || 'pageview',
     };
 
-    const pageEvent = assign(sendEvent, compactedOptions);
+    const pageEvent = { ...sendEvent, ...compactedOptions };
 
     window[dataLayer].push(pageEvent);
 

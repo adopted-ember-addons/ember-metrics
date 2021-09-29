@@ -1,4 +1,3 @@
-import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
 import { without, compact, isPresent } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
@@ -12,7 +11,7 @@ export default class Mixpanel extends BaseAdapter {
   }
 
   init() {
-    const config = assign({ batch_requests: true }, this.config);
+    const config = { ...{ batch_requests: true }, ...this.config };
     const { token } = config;
     delete config.token;
 
@@ -63,7 +62,7 @@ export default class Mixpanel extends BaseAdapter {
 
   trackPage(options = {}) {
     const event = { event: 'page viewed' };
-    const mergedOptions = assign(event, options);
+    const mergedOptions = { ...event, ...options };
 
     this.trackEvent(mergedOptions);
   }

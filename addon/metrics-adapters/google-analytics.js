@@ -1,7 +1,5 @@
-import { assign } from '@ember/polyfills';
 import { isPresent } from '@ember/utils';
 import { assert } from '@ember/debug';
-import { set } from '@ember/object';
 import { capitalize } from '@ember/string';
 import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
@@ -10,14 +8,16 @@ import classic from 'ember-classic-decorator';
 
 @classic
 export default class GoogleAnalytics extends BaseAdapter {
+  gaSendKey = null;
+
   toStringExtension() {
     return 'GoogleAnalytics';
   }
 
   init() {
-    const config = assign({}, this.config);
+    const config = { ...this.config };
     const { id, sendHitTask, trace, require, debug, trackerName } = config;
-    set(this, 'gaSendKey', trackerName ? trackerName + '.send' : 'send');
+    this.gaSendKey = trackerName ? trackerName + '.send' : 'send';
 
     assert(
       `[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`,
@@ -89,7 +89,7 @@ export default class GoogleAnalytics extends BaseAdapter {
       }
     }
 
-    const event = assign(sendEvent, gaEvent);
+    const event = { ...sendEvent, ...gaEvent };
     const gaSendKey = this.gaSendKey;
     window.ga(gaSendKey, event);
 
@@ -99,7 +99,7 @@ export default class GoogleAnalytics extends BaseAdapter {
   trackPage(options = {}) {
     const compactedOptions = compact(options);
     const sendEvent = { hitType: 'pageview' };
-    const event = assign(sendEvent, compactedOptions);
+    const event = { ...sendEvent, ...compactedOptions };
 
     for (let key in compactedOptions) {
       // eslint-disable-next-line
