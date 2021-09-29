@@ -1,5 +1,5 @@
 /**
- * Removed scripts defined by selector from DOM.
+ * Remove scripts defined by selectors from DOM.
  *
  * @param selectors One or more DOM selectors to match against.
  */
