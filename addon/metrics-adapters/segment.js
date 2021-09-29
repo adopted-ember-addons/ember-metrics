@@ -1,5 +1,4 @@
 import { assert } from '@ember/debug';
-import { assign } from '@ember/polyfills';
 import removeFromDOM from '../utils/remove-from-dom';
 import { compact } from '../utils/object-transforms';
 import BaseAdapter from './base';
@@ -12,7 +11,7 @@ export default class Segment extends BaseAdapter {
   }
 
   init() {
-    const config = assign({}, this.config);
+    const config = { ...this.config };
     const segmentKey = config.key;
 
     assert(

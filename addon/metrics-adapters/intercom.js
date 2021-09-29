@@ -1,4 +1,3 @@
-import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
 import { compact, without } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
@@ -64,7 +63,7 @@ export default class Intercom extends BaseAdapter {
 
   trackPage(options = {}) {
     const event = { event: 'page viewed' };
-    const mergedOptions = assign(event, options);
+    const mergedOptions = { ...event, ...options };
 
     this.trackEvent(mergedOptions);
   }

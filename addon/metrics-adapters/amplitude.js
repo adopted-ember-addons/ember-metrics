@@ -2,7 +2,6 @@ import BaseAdapter from 'ember-metrics/metrics-adapters/base';
 import objectTransforms from 'ember-metrics/utils/object-transforms';
 import removeFromDOM from 'ember-metrics/utils/remove-from-dom';
 import { assert } from '@ember/debug';
-import { assign } from '@ember/polyfills';
 import classic from 'ember-classic-decorator';
 
 const { without, compact, isPresent } = objectTransforms;
@@ -98,7 +97,7 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
 
   trackPage(options = {}) {
     const eventOpt = { event: 'Page View' };
-    const withEvent = assign(eventOpt, options);
+    const withEvent = { ...eventOpt, ...options };
 
     this.trackEvent(withEvent);
   }

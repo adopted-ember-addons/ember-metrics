@@ -1,4 +1,3 @@
-import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
 import { capitalize } from '@ember/string';
 import { compact } from '../utils/object-transforms';
@@ -69,7 +68,7 @@ export default class GoogleTagManager extends BaseAdapter {
       event: compactedOptions['event'] || 'pageview',
     };
 
-    const pageEvent = assign(sendEvent, compactedOptions);
+    const pageEvent = { ...sendEvent, ...compactedOptions };
 
     window[dataLayer].push(pageEvent);
 
