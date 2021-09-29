@@ -4,7 +4,6 @@ import { set } from '@ember/object';
 import { A as emberArray, makeArray } from '@ember/array';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
-const { keys } = Object;
 
 export default class Metrics extends Service {
   /**
@@ -133,7 +132,7 @@ export default class Metrics extends Service {
     }
 
     const cachedAdapters = this._adapters;
-    const allAdapterNames = keys(cachedAdapters);
+    const allAdapterNames = Object.keys(cachedAdapters);
     const [selectedAdapterNames, options] =
       args.length > 1
         ? [makeArray(args[0]), args[1]]
