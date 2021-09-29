@@ -6,9 +6,7 @@ import { A as emberArray, makeArray } from '@ember/array';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
 const { keys } = Object;
-import classic from 'ember-classic-decorator';
 
-@classic
 export default class Metrics extends Service {
   /**
    * Cached adapters to reduce multiple expensive lookups.
@@ -53,12 +51,10 @@ export default class Metrics extends Service {
    * When the Service is created, activate adapters that were specified in the
    * configuration. This config is injected into the Service as
    * `options`.
-   *
-   * @method init
-   * @param {Void}
-   * @return {Void}
    */
-  init() {
+  constructor() {
+    super(...arguments);
+
     const owner = getOwner(this);
     const config = owner.factoryFor('config:environment').class;
     const { metricsAdapters = [] } = config;
@@ -74,8 +70,6 @@ export default class Metrics extends Service {
     set(this, 'appEnvironment', this.options.environment || 'development');
 
     this.activateAdapters(adapters);
-
-    super.init(...arguments);
   }
 
   identify(...args) {
