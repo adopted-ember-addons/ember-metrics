@@ -4,6 +4,7 @@
 
 # compiled output
 /dist/
+/doc/
 /tmp/
 
 # dependencies

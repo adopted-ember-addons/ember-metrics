@@ -1,5 +1,6 @@
 # compiled output
 /dist/
+/doc/
 /tmp/
 
 # dependencies
@@ -19,7 +20,9 @@
 /.prettierrc.js
 /.template-lintrc.js
 /.watchmanconfig
+/*.tgz
 /bower.json
+/tsconfig.json
 /.github/
 /config/ember-try.js
 /CONTRIBUTING.md

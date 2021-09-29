@@ -21,6 +21,12 @@ module.exports = {
   },
   rules: {},
   overrides: [
+    {
+      files: ['./addon/**/*.ts'],
+      parser: '@typescript-eslint/parser',
+      plugins: ['@typescript-eslint'],
+      extends: ['plugin:@typescript-eslint/recommended'],
+    },
     // node files
     {
       files: [
