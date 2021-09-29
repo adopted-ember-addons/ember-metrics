@@ -41,6 +41,7 @@ module('Unit | Service | metrics', function (hooks) {
     sandbox.restore();
     delete window.ga;
     delete window.mixpanel;
+    delete window.FastBoot;
   });
 
   test('it activates local adapters', function (assert) {

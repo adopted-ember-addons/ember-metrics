@@ -1,14 +1,8 @@
 import Service from '@ember/service';
-import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
-import { set } from '@ember/object';
-import { A as emberArray, makeArray } from '@ember/array';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
-const { keys } = Object;
-import classic from 'ember-classic-decorator';
 
-@classic
 export default class Metrics extends Service {
   /**
    * Cached adapters to reduce multiple expensive lookups.
@@ -50,32 +44,33 @@ export default class Metrics extends Service {
   options;
 
   /**
+   * Environment the host application is running in (e.g. development or production).
+   */
+  appEnvironment = null;
+
+  /**
    * When the Service is created, activate adapters that were specified in the
    * configuration. This config is injected into the Service as
    * `options`.
-   *
-   * @method init
-   * @param {Void}
-   * @return {Void}
    */
-  init() {
+  constructor() {
+    super(...arguments);
+
     const owner = getOwner(this);
     const config = owner.factoryFor('config:environment').class;
     const { metricsAdapters = [] } = config;
     const { environment = 'development' } = config;
     this.options = { metricsAdapters, environment };
 
-    const adapters = this.options.metricsAdapters || emberArray();
+    const adapters = this.options.metricsAdapters || [];
     owner.registerOptionsForType('ember-metrics@metrics-adapter', {
       instantiate: false,
     });
     owner.registerOptionsForType('metrics-adapter', { instantiate: false });
 
-    set(this, 'appEnvironment', this.options.environment || 'development');
+    this.appEnvironment = this.options.environment || 'development';
 
     this.activateAdapters(adapters);
-
-    super.init(...arguments);
   }
 
   identify(...args) {
@@ -105,13 +100,13 @@ export default class Metrics extends Service {
   activateAdapters(adapterOptions = []) {
     const appEnvironment = this.appEnvironment;
     const cachedAdapters = this._adapters;
-    const activatedAdapters = {};
 
-    adapterOptions
-      .filter((adapterOption) =>
-        this._filterEnvironments(adapterOption, appEnvironment)
-      )
-      .forEach((adapterOption) => {
+    const adaptersForEnv = adapterOptions.filter((adapterOption) => {
+      return this._filterEnvironments(adapterOption, appEnvironment);
+    });
+
+    const activatedAdapters = adaptersForEnv.reduce(
+      (adapters, adapterOption) => {
         const { name, config } = adapterOption;
         const adapterClass = this._lookupAdapter(name);
 
@@ -119,11 +114,18 @@ export default class Metrics extends Service {
           const adapter =
             cachedAdapters[name] ||
             this._activateAdapter({ adapterClass, config });
-          set(activatedAdapters, name, adapter);
-        }
-      });
 
-    return set(this, '_adapters', activatedAdapters);
+          adapters[name] = adapter;
+        }
+
+        return adapters;
+      },
+      {}
+    );
+
+    this._adapters = activatedAdapters;
+
+    return this._adapters;
   }
 
   /**
@@ -140,13 +142,13 @@ export default class Metrics extends Service {
     }
 
     const cachedAdapters = this._adapters;
-    const allAdapterNames = keys(cachedAdapters);
+    const allAdapterNames = Object.keys(cachedAdapters);
     const [selectedAdapterNames, options] =
       args.length > 1
         ? [makeArray(args[0]), args[1]]
         : [allAdapterNames, args[0]];
-    const context = assign({}, this.context);
-    const mergedOptions = assign(context, options);
+    const context = { ...this.context };
+    const mergedOptions = { ...context, ...options };
 
     selectedAdapterNames
       .map((adapterName) => cachedAdapters[adapterName])
@@ -229,11 +231,13 @@ export default class Metrics extends Service {
   _filterEnvironments(adapterOption, appEnvironment) {
     let { environments } = adapterOption;
     environments = environments || ['all'];
-    const wrappedEnvironments = emberArray(environments);
 
     return (
-      wrappedEnvironments.indexOf('all') > -1 ||
-      wrappedEnvironments.indexOf(appEnvironment) > -1
+      environments.includes('all') || environments.includes(appEnvironment)
     );
   }
+}
+
+function makeArray(maybeArray) {
+  return Array.isArray(maybeArray) ? Array.from(maybeArray) : Array(maybeArray);
 }
