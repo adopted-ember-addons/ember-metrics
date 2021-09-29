@@ -1,5 +1,4 @@
 import Service from '@ember/service';
-import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
 import { set } from '@ember/object';
 import { A as emberArray, makeArray } from '@ember/array';
@@ -139,8 +138,8 @@ export default class Metrics extends Service {
       args.length > 1
         ? [makeArray(args[0]), args[1]]
         : [allAdapterNames, args[0]];
-    const context = assign({}, this.context);
-    const mergedOptions = assign(context, options);
+    const context = { ...this.context };
+    const mergedOptions = { ...context, ...options };
 
     selectedAdapterNames
       .map((adapterName) => cachedAdapters[adapterName])
