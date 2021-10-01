@@ -10,6 +10,8 @@ export default class Segment extends BaseAdapter {
     return 'Segment';
   }
 
+  SCRIPT_DATA_ATTRIBUTE = 'data-ember-metrics-segment';
+
   init() {
     const config = { ...this.config };
     const segmentKey = config.key;
@@ -83,11 +85,13 @@ export default class Segment extends BaseAdapter {
       analytics[key] = analytics.factory(key);
     }
 
+    const dataAttribute = this.SCRIPT_DATA_ATTRIBUTE;
     // Define a method to load Analytics.js from our CDN,
     // and that will be sure to only ever load it once.
     analytics.load = function (key, options) {
       // Create an async script element based on your key.
       var script = document.createElement('script');
+      script.setAttribute(dataAttribute, '');
       script.type = 'text/javascript';
       script.async = true;
       script.src =
@@ -147,7 +151,7 @@ export default class Segment extends BaseAdapter {
   }
 
   willDestroy() {
-    removeFromDOM('script[src*="segment.com"]');
+    removeFromDOM(`script[${this.SCRIPT_DATA_ATTRIBUTE}]`);
 
     delete window.analytics;
   }

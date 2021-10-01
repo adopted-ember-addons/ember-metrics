@@ -10,6 +10,8 @@ export default class FacebookPixel extends BaseAdapter {
     return 'FacebookPixel';
   }
 
+  SCRIPT_DATA_ATTRIBUTE = 'data-ember-metrics-facebook-pixel';
+
   init() {
     const { id, dataProcessingOptions } = this.config;
 
@@ -22,7 +24,7 @@ export default class FacebookPixel extends BaseAdapter {
       return;
     }
 
-    this._injectScript();
+    this._injectScript(this.SCRIPT_DATA_ATTRIBUTE);
 
     if (dataProcessingOptions) {
       const { method, country, state } = dataProcessingOptions;
@@ -38,12 +40,12 @@ export default class FacebookPixel extends BaseAdapter {
 
   /* eslint-disable */
   // prettier-ignore
-  _injectScript() {
+  _injectScript(dataAttribute) {
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);
+    t.setAttribute(dataAttribute,'');t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   }
   /* eslint-enable */
 
@@ -66,7 +68,7 @@ export default class FacebookPixel extends BaseAdapter {
   }
 
   willDestroy() {
-    removeFromDOM('script[src*="fbevents.js"]');
+    removeFromDOM(`script[${this.SCRIPT_DATA_ATTRIBUTE}]`);
 
     delete window.fbq;
     delete window._fbq;

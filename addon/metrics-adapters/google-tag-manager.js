@@ -13,6 +13,8 @@ export default class GoogleTagManager extends BaseAdapter {
     return 'GoogleTagManager';
   }
 
+  SCRIPT_DATA_ATTRIBUTE = 'data-ember-metrics-google-tag-manager';
+
   init() {
     const { id, dataLayer, envParams } = this.config;
     const envParamsString = envParams ? `&${envParams}` : '';
@@ -24,11 +26,11 @@ export default class GoogleTagManager extends BaseAdapter {
 
     this.dataLayer = dataLayer || 'dataLayer';
 
-    this._injectScript(id, envParamsString);
+    this._injectScript(id, envParamsString, this.SCRIPT_DATA_ATTRIBUTE);
   }
 
   // prettier-ignore
-  _injectScript(id, envParamsString) {
+  _injectScript(id, envParamsString, dataAttribute) {
     (function(w, d, s, l, i) {
       w[l] = w[l] || [];
       w[l].push({
@@ -38,6 +40,7 @@ export default class GoogleTagManager extends BaseAdapter {
       var f = d.getElementsByTagName(s)[0],
           j = d.createElement(s),
           dl = l !== 'dataLayer' ? '&l=' + l : '';
+      j.setAttribute(dataAttribute,'');
       j.async = true;
       j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl + envParamsString;
       f.parentNode.insertBefore(j, f);
@@ -76,7 +79,7 @@ export default class GoogleTagManager extends BaseAdapter {
   }
 
   willDestroy() {
-    removeFromDOM('script[src*="gtm.js"]');
+    removeFromDOM(`script[${this.SCRIPT_DATA_ATTRIBUTE}]`);
 
     delete window.dataLayer;
   }

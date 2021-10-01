@@ -14,6 +14,8 @@ export default class GoogleAnalytics extends BaseAdapter {
     return 'GoogleAnalytics';
   }
 
+  SCRIPT_DATA_ATTRIBUTE = 'data-ember-metrics-google-analytics';
+
   init() {
     const config = { ...this.config };
     const { id, sendHitTask, trace, require, debug, trackerName } = config;
@@ -33,7 +35,7 @@ export default class GoogleAnalytics extends BaseAdapter {
 
     const hasOptions = isPresent(Object.keys(config));
 
-    this._injectScript(debug);
+    this._injectScript(debug, this.SCRIPT_DATA_ATTRIBUTE);
 
     if (trace === true) {
       window.ga_debug = { trace: true };
@@ -54,10 +56,11 @@ export default class GoogleAnalytics extends BaseAdapter {
 
   /* eslint-disable */
   // prettier-ignore
-  _injectScript(debug) {
+  _injectScript(debug, dataAttribute) {
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      m=s.getElementsByTagName(o)[0];a.setAttribute(dataAttribute,'');
+      a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
     })(window,document,'script',`https://www.google-analytics.com/analytics${debug ? '_debug' : ''}.js`,'ga');
   }
   /* eslint-enable */
@@ -114,7 +117,7 @@ export default class GoogleAnalytics extends BaseAdapter {
   }
 
   willDestroy() {
-    removeFromDOM('script[src*="google-analytics"]');
+    removeFromDOM(`script[${this.SCRIPT_DATA_ATTRIBUTE}]`);
 
     delete window.ga;
   }

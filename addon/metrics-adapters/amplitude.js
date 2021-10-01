@@ -12,6 +12,8 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
     return 'Amplitude';
   }
 
+  SCRIPT_DATA_ATTRIBUTE = 'data-ember-metrics-amplitude';
+
   init() {
     const { config } = this;
     const { apiKey, options } = config;
@@ -21,15 +23,16 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
       apiKey
     );
 
-    this._injectScript();
+    this._injectScript(this.SCRIPT_DATA_ATTRIBUTE);
 
     window.amplitude.getInstance().init(apiKey, null, options || {});
   }
 
   // prettier-ignore
   /* eslint-disable */
-  _injectScript() {
+  _injectScript(dataAttribute) {
     (function(e,t){var n=e.amplitude||{_q:[],_iq:{}};var r=t.createElement("script")
+    ;r.setAttribute(dataAttribute,'')
     ;r.type="text/javascript"
     ;r.integrity="sha384-RsEu4WZflrqYcEacpfoGSib3qaSvdYwT4D+DrWqeBuDarSzjwUQR1jO8gDiXZd0E"
     ;r.crossOrigin="anonymous";r.async=true
@@ -111,7 +114,7 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
   }
 
   willDestroy() {
-    removeFromDOM('script[src*="amplitude"]');
+    removeFromDOM(`script[${this.SCRIPT_DATA_ATTRIBUTE}]`);
 
     delete window.amplitude;
   }
