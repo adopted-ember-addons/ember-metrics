@@ -17,16 +17,17 @@ export default class Piwik extends BaseAdapter {
       piwikUrl && siteId
     );
 
-    this._injectScript(piwikUrl, siteId);
+    this._injectScript(piwikUrl, siteId, this.SCRIPT_DATA_ATTRIBUTE);
   }
 
   // prettier-ignore
-  _injectScript(piwikUrl, siteId) {
+  _injectScript(piwikUrl, siteId, dataAttribute) {
     window._paq = window._paq || [];
     (function() {
       window._paq.push(['setTrackerUrl', `${piwikUrl}/piwik.php`]);
       window._paq.push(['setSiteId', siteId]);
       var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.setAttribute(dataAttribute,'');
       g.type='text/javascript'; g.async=true; g.defer=true; g.src=`${piwikUrl}/piwik.js`; s.parentNode.insertBefore(g,s);
     })();
   }
@@ -51,7 +52,7 @@ export default class Piwik extends BaseAdapter {
   }
 
   willDestroy() {
-    removeFromDOM('script[src*="piwik"]');
+    removeFromDOM(`[${this.SCRIPT_DATA_ATTRIBUTE}]`);
 
     delete window._paq;
   }

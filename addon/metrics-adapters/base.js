@@ -12,6 +12,8 @@ function makeToString(ret) {
 export default class BaseAdapter extends emberObject {
   static supportsFastBoot = false;
 
+  SCRIPT_DATA_ATTRIBUTE = 'data-ember-metrics';
+
   metrics = null;
 
   config = null;

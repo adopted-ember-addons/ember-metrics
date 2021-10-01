@@ -20,13 +20,13 @@ export default class Intercom extends BaseAdapter {
       appId
     );
 
-    this._injectScript(appId);
+    this._injectScript(appId, this.SCRIPT_DATA_ATTRIBUTE);
   }
 
   /* eslint-disable */
   // prettier-ignore
-  _injectScript(appId) {
-    (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',{});}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;(function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;
+  _injectScript(appId, dataAttribute) {
+    (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',{});}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;(function(){var s=d.createElement('script'); s.setAttribute(dataAttribute,'');s.type='text/javascript';s.async=true;
     s.src=`https://widget.intercom.io/widget/${appId}`;
     var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);})(); }})()
   }
@@ -70,7 +70,7 @@ export default class Intercom extends BaseAdapter {
   }
 
   willDestroy() {
-    removeFromDOM('script[src*="intercom"]');
+    removeFromDOM(`[${this.SCRIPT_DATA_ATTRIBUTE}]`);
 
     delete window.Intercom;
   }
