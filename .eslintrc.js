@@ -26,6 +26,10 @@ module.exports = {
       parser: '@typescript-eslint/parser',
       plugins: ['@typescript-eslint'],
       extends: ['plugin:@typescript-eslint/recommended'],
+      rules: {
+        'no-param-reassign': ['error', { props: false }],
+        'prettier/prettier': ['warn', { printWidth: 132 }],
+      },
     },
     // node files
     {
