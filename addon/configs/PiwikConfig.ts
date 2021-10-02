@@ -1,4 +1,4 @@
-import { BaseConfig, ValidationType as VT, Validator } from './BaseConfig';
+import { BaseConfig, Constraint, ValidationType as VT, Validator } from './BaseConfig';
 
 interface PiwikConfig extends BaseConfig {
   piwikUrl: string;
@@ -8,9 +8,11 @@ interface PiwikConfig extends BaseConfig {
 function validatePiwikConfig(config: Readonly<BaseConfig>): PiwikConfig {
   const v = new Validator(config);
 
+  const positiveInteger: Constraint<number> = (x) => x > 0 && Number.isInteger(x);
+
   return {
     piwikUrl: v.validate<string>('piwikUrl', VT.string),
-    siteId: v.validate<number>('siteId', VT.number),
+    siteId: v.validate<number>('siteId', VT.number, positiveInteger),
   };
 }
 

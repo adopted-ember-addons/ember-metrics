@@ -2,8 +2,8 @@ type BaseConfig = Record<string, unknown>;
 
 const packageName = 'ember-metrics';
 
-const err = (name: string, type: string, optional = false): Error => {
-  return new Error(`[${packageName}] Invalid ${optional ? 'optional ' : ''}${type} value for ${name}.`);
+const err = (name: string, type: string): Error => {
+  return new Error(`[${packageName}] Invalid ${type} value for ${name}.`);
 };
 
 enum ValidationType {
@@ -11,6 +11,8 @@ enum ValidationType {
   number = 'number',
   string = 'string',
 }
+
+type Constraint<T> = (x: T) => boolean;
 
 /**
  * Validate a configuration object.
@@ -26,14 +28,18 @@ class Validator {
    *
    * @typeParam T data type to validate
    *
-   * @param name name of the attribute to validate
-   * @param type name of data type to validate (must match type parameter T)
-   * @return     validated attribute as type T
+   * @param name       name of the attribute to validate
+   * @param type       name of data type to validate (must match type parameter T)
+   * @param constraint optional constraint on the value
+   * @return           validated attribute as type T
    */
-  validate<T>(this: Validator, name: string, type: ValidationType): T {
+  validate<T>(this: Validator, name: string, type: ValidationType, constraint: Constraint<T> | undefined = undefined): T {
     const value: unknown = this.config[name];
     if (typeof value === type) {
-      return value as T;
+      const v = value as T;
+      if (constraint === undefined || constraint(v)) {
+        return v;
+      }
     }
     throw err(name, type);
   }
@@ -43,19 +49,21 @@ class Validator {
    *
    * @typeParam T data type to validate
    *
-   * @param name name of the attribute to validate
-   * @param type name of data type to validate (must match type parameter T)
-   * @return     validated attribute as type T
+   * @param name       name of the attribute to validate
+   * @param type       name of data type to validate (must match type parameter T)
+   * @param constraint optional constraint on the value
+   * @return           validated attribute as type T
    */
-  validateOpt<T>(this: Validator, name: string, type: ValidationType): T | undefined {
-    const value: unknown = this.config[name];
-    if (typeof value === type) {
-      return value as T;
-    }
-    if (typeof value === 'undefined') {
+  validateOpt<T>(
+    this: Validator,
+    name: string,
+    type: ValidationType,
+    constraint: Constraint<T> | undefined = undefined
+  ): T | undefined {
+    if (typeof this.config[name] === 'undefined') {
       return undefined;
     }
-    throw err(name, type, true);
+    return this.validate<T>(name, type, constraint);
   }
 
   /**
@@ -73,7 +81,7 @@ class Validator {
       const a = value as Array<unknown>;
       for (const s of a) {
         if (typeof s !== type) {
-          throw err(name, `array of ${type}`, true);
+          throw err(name, `array of ${type}`);
         }
       }
       return a as ReadonlyArray<T>;
@@ -81,8 +89,8 @@ class Validator {
     if (typeof value === 'undefined') {
       return undefined;
     }
-    throw err(name, `array of ${type}`, true);
+    throw err(name, `array of ${type}`);
   }
 }
 
-export { BaseConfig, ValidationType, Validator };
+export { BaseConfig, Constraint, ValidationType, Validator };
