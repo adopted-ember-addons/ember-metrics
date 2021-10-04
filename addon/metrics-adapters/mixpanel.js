@@ -3,7 +3,6 @@ import { without, compact, isPresent } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 import classic from 'ember-classic-decorator';
-import canUseMetrics from '../utils/can-use-metrics';
 
 @classic
 export default class Mixpanel extends BaseAdapter {
@@ -21,10 +20,8 @@ export default class Mixpanel extends BaseAdapter {
       token
     );
 
-    if (canUseMetrics) {
-      this._injectScript();
-      window.mixpanel.init(token, config);
-    }
+    this._injectScript();
+    window.mixpanel.init(token, config);
   }
 
   /* eslint-disable */
@@ -42,13 +39,11 @@ export default class Mixpanel extends BaseAdapter {
     const { distinctId } = compactedOptions;
     const props = without(compactedOptions, 'distinctId');
 
-    if (canUseMetrics) {
-      if (isPresent(props)) {
-        window.mixpanel.identify(distinctId);
-        window.mixpanel.people.set(props);
-      } else {
-        window.mixpanel.identify(distinctId);
-      }
+    if (isPresent(props)) {
+      window.mixpanel.identify(distinctId);
+      window.mixpanel.people.set(props);
+    } else {
+      window.mixpanel.identify(distinctId);
     }
   }
 
@@ -57,12 +52,10 @@ export default class Mixpanel extends BaseAdapter {
     const { event } = compactedOptions;
     const props = without(compactedOptions, 'event');
 
-    if (canUseMetrics) {
-      if (isPresent(props)) {
-        window.mixpanel.track(event, props);
-      } else {
-        window.mixpanel.track(event);
-      }
+    if (isPresent(props)) {
+      window.mixpanel.track(event, props);
+    } else {
+      window.mixpanel.track(event);
     }
   }
 
@@ -77,20 +70,16 @@ export default class Mixpanel extends BaseAdapter {
     const compactedOptions = compact(options);
     const { alias, original } = compactedOptions;
 
-    if (canUseMetrics) {
-      if (original) {
-        window.mixpanel.alias(alias, original);
-      } else {
-        window.mixpanel.alias(alias);
-      }
+    if (original) {
+      window.mixpanel.alias(alias, original);
+    } else {
+      window.mixpanel.alias(alias);
     }
   }
 
   willDestroy() {
-    if (canUseMetrics) {
-      removeFromDOM('script[src*="mixpanel"]');
+    removeFromDOM('script[src*="mixpanel"]');
 
-      delete window.mixpanel;
-    }
+    delete window.mixpanel;
   }
 }

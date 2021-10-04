@@ -3,7 +3,6 @@ import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 import { assert } from '@ember/debug';
 import classic from 'ember-classic-decorator';
-import canUseMetrics from '../utils/can-use-metrics';
 
 @classic
 export default class FacebookPixel extends BaseAdapter {
@@ -19,7 +18,7 @@ export default class FacebookPixel extends BaseAdapter {
       id
     );
 
-    if (window.fbq || !canUseMetrics) {
+    if (window.fbq) {
       return;
     }
 
@@ -57,19 +56,19 @@ export default class FacebookPixel extends BaseAdapter {
     }
     delete compactedOptions.event;
 
-    if (window.fbq && canUseMetrics) {
+    if (window.fbq) {
       window.fbq('track', event, compactedOptions);
     }
   }
 
   trackPage(options = {}) {
-    if (window.fbq && canUseMetrics) {
+    if (window.fbq) {
       window.fbq('track', 'PageView', options);
     }
   }
 
   willDestroy() {
-    if (window.fbq && canUseMetrics) {
+    if (window.fbq) {
       removeFromDOM('script[src*="fbevents.js"]');
 
       delete window.fbq;

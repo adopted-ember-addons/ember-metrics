@@ -4,7 +4,6 @@ import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 import classic from 'ember-classic-decorator';
-import canUseMetrics from '../utils/can-use-metrics';
 
 @classic
 export default class GoogleTagManager extends BaseAdapter {
@@ -25,9 +24,7 @@ export default class GoogleTagManager extends BaseAdapter {
 
     this.dataLayer = dataLayer || 'dataLayer';
 
-    if (canUseMetrics) {
-      this._injectScript(id, envParamsString);
-    }
+    this._injectScript(id, envParamsString);
   }
 
   // prettier-ignore
@@ -59,9 +56,7 @@ export default class GoogleTagManager extends BaseAdapter {
       gtmEvent[`event${capitalizedKey}`] = compactedOptions[key];
     }
 
-    if (canUseMetrics) {
-      window[dataLayer].push(gtmEvent);
-    }
+    window[dataLayer].push(gtmEvent);
 
     return gtmEvent;
   }
@@ -75,18 +70,14 @@ export default class GoogleTagManager extends BaseAdapter {
 
     const pageEvent = { ...sendEvent, ...compactedOptions };
 
-    if (canUseMetrics) {
-      window[dataLayer].push(pageEvent);
-    }
+    window[dataLayer].push(pageEvent);
 
     return pageEvent;
   }
 
   willDestroy() {
-    if (canUseMetrics) {
-      removeFromDOM('script[src*="gtm.js"]');
+    removeFromDOM('script[src*="gtm.js"]');
 
-      delete window.dataLayer;
-    }
+    delete window.dataLayer;
   }
 }

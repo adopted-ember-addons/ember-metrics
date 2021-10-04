@@ -27,13 +27,17 @@ export default class Metrics extends Service {
   context = {};
 
   /**
-   * Indicates whether calls to the service will be forwarded to the adapters
+   * Indicates whether calls to the service will be forwarded to the adapters.
+   * This is determined by investigating the user's doNotTrack settings.
+   *
+   * Note that the doNotTrack specification is deprecated, and could stop
+   * working at any minute. As such should this feature not be detected we
+   * presume tracking is permitted.
    *
    * @property enabled
    * @type Boolean
-   * @default true
    */
-  enabled = true;
+  enabled = typeof navigator !== 'undefined' && navigator.doNotTrack !== '1';
 
   /**
    * Information about the active adapters from environment.js
@@ -80,6 +84,10 @@ export default class Metrics extends Service {
    * @return {Object} instantiated adapters
    */
   activateAdapters(adapterOptions = []) {
+    if (!this.enabled) {
+      return;
+    }
+
     const adaptersForEnv = this._adaptersForEnv(adapterOptions);
     const activeAdapters = {};
 
