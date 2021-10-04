@@ -1,4 +1,5 @@
 {
   "predef": ["console"],
-  "strict": false
+  "strict": false,
+  "esversion": 9
 }

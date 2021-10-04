@@ -3,6 +3,7 @@ import { compact, without } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 import classic from 'ember-classic-decorator';
+import canUseMetrics from '../utils/can-use-metrics';
 
 @classic
 export default class Intercom extends BaseAdapter {
@@ -20,7 +21,9 @@ export default class Intercom extends BaseAdapter {
       appId
     );
 
-    this._injectScript(appId);
+    if (canUseMetrics) {
+      this._injectScript(appId);
+    }
   }
 
   /* eslint-disable */
@@ -49,8 +52,11 @@ export default class Intercom extends BaseAdapter {
     );
 
     const method = this.booted ? 'update' : 'boot';
-    window.Intercom(method, props);
-    this.booted = true;
+
+    if (canUseMetrics) {
+      window.Intercom(method, props);
+      this.booted = true;
+    }
   }
 
   trackEvent(options = {}) {
@@ -58,7 +64,9 @@ export default class Intercom extends BaseAdapter {
     const { event = 'unspecified-event' } = compactedOptions;
     const props = without(compactedOptions, 'event');
 
-    window.Intercom('trackEvent', event, props);
+    if (canUseMetrics) {
+      window.Intercom('trackEvent', event, props);
+    }
   }
 
   trackPage(options = {}) {
@@ -69,8 +77,10 @@ export default class Intercom extends BaseAdapter {
   }
 
   willDestroy() {
-    removeFromDOM('script[src*="intercom"]');
+    if (canUseMetrics) {
+      removeFromDOM('script[src*="intercom"]');
 
-    delete window.Intercom;
+      delete window.Intercom;
+    }
   }
 }

@@ -5,6 +5,7 @@ import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 import classic from 'ember-classic-decorator';
+import canUseMetrics from '../utils/can-use-metrics';
 
 @classic
 export default class GoogleAnalytics extends BaseAdapter {
@@ -35,6 +36,10 @@ export default class GoogleAnalytics extends BaseAdapter {
     delete config.trackerName;
 
     const hasOptions = isPresent(Object.keys(config));
+
+    if (!canUseMetrics) {
+      return;
+    }
 
     this._injectScript(debug);
 
@@ -69,7 +74,9 @@ export default class GoogleAnalytics extends BaseAdapter {
     const compactedOptions = compact(options);
     const { distinctId } = compactedOptions;
 
-    window.ga('set', 'userId', distinctId);
+    if (canUseMetrics) {
+      window.ga('set', 'userId', distinctId);
+    }
   }
 
   trackEvent(options = {}) {
@@ -94,7 +101,10 @@ export default class GoogleAnalytics extends BaseAdapter {
 
     const event = { ...sendEvent, ...gaEvent };
     const gaSendKey = this.gaSendKey;
-    window.ga(gaSendKey, event);
+
+    if (canUseMetrics) {
+      window.ga(gaSendKey, event);
+    }
 
     return event;
   }
@@ -104,21 +114,25 @@ export default class GoogleAnalytics extends BaseAdapter {
     const sendEvent = { hitType: 'pageview' };
     const event = { ...sendEvent, ...compactedOptions };
 
-    for (let key in compactedOptions) {
-      // eslint-disable-next-line
-      if (compactedOptions.hasOwnProperty(key)) {
-        window.ga('set', key, compactedOptions[key]);
+    if (canUseMetrics) {
+      for (let key in compactedOptions) {
+        // eslint-disable-next-line
+        if (compactedOptions.hasOwnProperty(key)) {
+          window.ga('set', key, compactedOptions[key]);
+        }
       }
+      const gaSendKey = this.gaSendKey;
+      window.ga(gaSendKey, event);
     }
-    const gaSendKey = this.gaSendKey;
-    window.ga(gaSendKey, event);
 
     return event;
   }
 
   willDestroy() {
-    removeFromDOM('script[src*="google-analytics"]');
+    if (canUseMetrics) {
+      removeFromDOM('script[src*="google-analytics"]');
 
-    delete window.ga;
+      delete window.ga;
+    }
   }
 }

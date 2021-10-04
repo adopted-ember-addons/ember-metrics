@@ -2,6 +2,7 @@ import { assert } from '@ember/debug';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 import classic from 'ember-classic-decorator';
+import canUseMetrics from '../utils/can-use-metrics';
 
 @classic
 export default class Piwik extends BaseAdapter {
@@ -17,7 +18,9 @@ export default class Piwik extends BaseAdapter {
       piwikUrl && siteId
     );
 
-    this._injectScript(piwikUrl, siteId);
+    if (canUseMetrics) {
+      this._injectScript(piwikUrl, siteId);
+    }
   }
 
   // prettier-ignore
@@ -32,27 +35,35 @@ export default class Piwik extends BaseAdapter {
   }
 
   identify(options = {}) {
-    window._paq.push(['setUserId', options.userId]);
+    if (canUseMetrics) {
+      window._paq.push(['setUserId', options.userId]);
+    }
   }
 
   trackEvent(options = {}) {
-    window._paq.push([
-      'trackEvent',
-      options.category,
-      options.action,
-      options.name,
-      options.value,
-    ]);
+    if (canUseMetrics) {
+      window._paq.push([
+        'trackEvent',
+        options.category,
+        options.action,
+        options.name,
+        options.value,
+      ]);
+    }
   }
 
   trackPage(options = {}) {
-    window._paq.push(['setCustomUrl', options.page]);
-    window._paq.push(['trackPageView', options.title]);
+    if (canUseMetrics) {
+      window._paq.push(['setCustomUrl', options.page]);
+      window._paq.push(['trackPageView', options.title]);
+    }
   }
 
   willDestroy() {
-    removeFromDOM('script[src*="piwik"]');
+    if (canUseMetrics) {
+      removeFromDOM('script[src*="piwik"]');
 
-    delete window._paq;
+      delete window._paq;
+    }
   }
 }
