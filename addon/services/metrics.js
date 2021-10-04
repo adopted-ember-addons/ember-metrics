@@ -57,131 +57,60 @@ export default class Metrics extends Service {
     super(...arguments);
 
     const owner = getOwner(this);
-    const config = owner.factoryFor('config:environment').class;
-    const { metricsAdapters = [] } = config;
-    const { environment = 'development' } = config;
-    this.options = { metricsAdapters, environment };
 
-    const adapters = this.options.metricsAdapters || [];
     owner.registerOptionsForType('ember-metrics@metrics-adapter', {
       instantiate: false,
     });
     owner.registerOptionsForType('metrics-adapter', { instantiate: false });
 
-    this.appEnvironment = this.options.environment || 'development';
+    const config = owner.factoryFor('config:environment').class;
+    const { metricsAdapters = [] } = config;
+    const { environment = 'development' } = config;
 
-    this.activateAdapters(adapters);
-  }
-
-  identify(...args) {
-    this.invoke('identify', ...args);
-  }
-
-  alias(...args) {
-    this.invoke('alias', ...args);
-  }
-
-  trackEvent(...args) {
-    this.invoke('trackEvent', ...args);
-  }
-
-  trackPage(...args) {
-    this.invoke('trackPage', ...args);
+    this.options = { metricsAdapters, environment };
+    this.appEnvironment = environment;
+    this.activateAdapters(metricsAdapters);
   }
 
   /**
-   * Instantiates the adapters specified in the configuration and caches them
-   * for future retrieval.
+   * Instantiates adapters from passed adapter options and caches them for future retrieval.
    *
    * @method activateAdapters
    * @param {Array} adapterOptions
    * @return {Object} instantiated adapters
    */
   activateAdapters(adapterOptions = []) {
-    const appEnvironment = this.appEnvironment;
-    const cachedAdapters = this._adapters;
+    const adaptersForEnv = this._adaptersForEnv(adapterOptions);
+    const activeAdapters = {};
 
-    const adaptersForEnv = adapterOptions.filter((adapterOption) => {
-      return this._filterEnvironments(adapterOption, appEnvironment);
-    });
-
-    const activatedAdapters = adaptersForEnv.reduce(
-      (adapters, adapterOption) => {
-        const { name, config } = adapterOption;
-        const adapterClass = this._lookupAdapter(name);
-
-        if (typeof FastBoot === 'undefined' || adapterClass.supportsFastBoot) {
-          const adapter =
-            cachedAdapters[name] ||
-            this._activateAdapter({ adapterClass, config });
-
-          adapters[name] = adapter;
-        }
-
-        return adapters;
-      },
-      {}
-    );
-
-    this._adapters = activatedAdapters;
+    for (let { name, config } of adaptersForEnv) {
+      let adapterClass = this._lookupAdapter(name);
+      if (typeof FastBoot === 'undefined' || adapterClass.supportsFastBoot) {
+        activeAdapters[name] =
+          this._adapters[name] ||
+          this._activateAdapter({ adapterClass, config });
+      }
+    }
+    this._adapters = activeAdapters;
 
     return this._adapters;
   }
 
   /**
-   * Invokes a method on the passed adapter, or across all activated adapters if not passed.
+   * Returns all adapterOptions that should be activated in the current application environment.
+   * Defaults to all environments if the option is `all` or undefined.
    *
-   * @method invoke
-   * @param {String} methodName
-   * @param {Rest} args
-   * @return {Void}
-   */
-  invoke(methodName, ...args) {
-    if (!this.enabled) {
-      return;
-    }
-
-    const cachedAdapters = this._adapters;
-    const allAdapterNames = Object.keys(cachedAdapters);
-    const [selectedAdapterNames, options] =
-      args.length > 1
-        ? [makeArray(args[0]), args[1]]
-        : [allAdapterNames, args[0]];
-    const context = { ...this.context };
-    const mergedOptions = { ...context, ...options };
-
-    selectedAdapterNames
-      .map((adapterName) => cachedAdapters[adapterName])
-      .forEach((adapter) => adapter && adapter[methodName](mergedOptions));
-  }
-
-  /**
-   * On teardown, destroy cached adapters together with the Service.
-   *
-   * @method willDestroy
-   * @param {Void}
-   * @return {Void}
-   */
-  willDestroy() {
-    const cachedAdapters = this._adapters;
-
-    for (let adapterName in cachedAdapters) {
-      cachedAdapters[adapterName].destroy();
-    }
-  }
-
-  /**
-   * Instantiates an adapter.
-   *
-   * @method _activateAdapter
-   * @param {Object}
+   * @method adaptersForEnv
+   * @param {Array} adapterOptions
    * @private
-   * @return {Adapter}
+   * @return {Array} - adapter options in the current environment
    */
-  _activateAdapter({ adapterClass, config }) {
-    return adapterClass.create(getOwner(this).ownerInjection(), {
-      this: this,
-      config,
+  _adaptersForEnv(adapterOptions = []) {
+    return adapterOptions.filter(({ environments = ['all'] }) => {
+      return (
+        environments.includes('all') ||
+        environments.includes(this.appEnvironment)
+      );
     });
   }
 
@@ -200,12 +129,11 @@ export default class Metrics extends Service {
       adapterName
     );
 
-    const dasherizedAdapterName = dasherize(adapterName);
     const availableAdapter = getOwner(this).lookup(
-      `ember-metrics@metrics-adapter:${dasherizedAdapterName}`
+      `ember-metrics@metrics-adapter:${dasherize(adapterName)}`
     );
     const localAdapter = getOwner(this).lookup(
-      `metrics-adapter:${dasherizedAdapterName}`
+      `metrics-adapter:${dasherize(adapterName)}`
     );
 
     const adapter = localAdapter || availableAdapter;
@@ -218,23 +146,75 @@ export default class Metrics extends Service {
   }
 
   /**
-   * Predicate that Filters out adapters that should not be activated in the
-   * current application environment. Defaults to all environments if the option
-   * is `all` or undefined.
+   * Instantiates an adapter.
    *
-   * @method _filterEnvironments
-   * @param {Object} adapterOption
-   * @param {String} appEnvironment
+   * @method _activateAdapter
+   * @param {Object}
    * @private
-   * @return {Boolean} should an adapter be activated
+   * @return {Adapter}
    */
-  _filterEnvironments(adapterOption, appEnvironment) {
-    let { environments } = adapterOption;
-    environments = environments || ['all'];
+  _activateAdapter({ adapterClass, config }) {
+    return adapterClass.create(getOwner(this).ownerInjection(), {
+      this: this,
+      config,
+    });
+  }
 
-    return (
-      environments.includes('all') || environments.includes(appEnvironment)
-    );
+  identify() {
+    this.invoke('identify', arguments);
+  }
+
+  alias() {
+    this.invoke('alias', arguments);
+  }
+
+  trackEvent() {
+    this.invoke('trackEvent', arguments);
+  }
+
+  trackPage() {
+    this.invoke('trackPage', arguments);
+  }
+
+  /**
+   * Invokes a method on the passed adapter, or across all activated adapters if not passed.
+   *
+   * @method invoke
+   * @param {String} methodName
+   * @param {Rest} args
+   * @return {Void}
+   */
+  invoke(methodName, ...args) {
+    if (!this.enabled) {
+      return;
+    }
+
+    let selectedAdapterNames, options;
+
+    if (args.length > 1) {
+      selectedAdapterNames = makeArray(args[0]);
+      options = args[1];
+    } else {
+      selectedAdapterNames = Object.keys(this._adapters);
+      options = args[0];
+    }
+
+    for (let adapterName of selectedAdapterNames) {
+      let adapter = this._adapters[adapterName];
+      adapter && adapter[methodName]({ ...this.context, ...options });
+    }
+  }
+
+  /**
+   * On teardown, destroy cached adapters together with the Service.
+   *
+   * @method willDestroy
+   * @return {Void}
+   */
+  willDestroy() {
+    for (let adapter of this._adapters) {
+      adapter.destroy();
+    }
   }
 }
 
