@@ -3,7 +3,6 @@ import removeFromDOM from '../utils/remove-from-dom';
 import { compact } from '../utils/object-transforms';
 import BaseAdapter from './base';
 import classic from 'ember-classic-decorator';
-import canUseMetrics from '../utils/can-use-metrics';
 
 @classic
 export default class Segment extends BaseAdapter {
@@ -19,10 +18,6 @@ export default class Segment extends BaseAdapter {
       `[ember-metrics] You must pass a valid \`key\` to the ${this.toString()} adapter`,
       segmentKey
     );
-
-    if (!canUseMetrics) {
-      return;
-    }
 
     // start of segment loading snippet, taken here:
     // https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/#step-1-copy-the-snippet
@@ -120,12 +115,10 @@ export default class Segment extends BaseAdapter {
     const compactedOptions = compact(options);
     const { alias, original } = compactedOptions;
 
-    if (canUseMetrics) {
-      if (original) {
-        window.analytics.alias(alias, original);
-      } else {
-        window.analytics.alias(alias);
-      }
+    if (original) {
+      window.analytics.alias(alias, original);
+    } else {
+      window.analytics.alias(alias);
     }
   }
 
@@ -134,9 +127,7 @@ export default class Segment extends BaseAdapter {
     const { distinctId } = compactedOptions;
     delete compactedOptions.distinctId;
 
-    if (canUseMetrics) {
-      window.analytics.identify(distinctId, compactedOptions);
-    }
+    window.analytics.identify(distinctId, compactedOptions);
   }
 
   trackEvent(options = {}) {
@@ -144,9 +135,7 @@ export default class Segment extends BaseAdapter {
     const { event } = compactedOptions;
     delete compactedOptions.event;
 
-    if (canUseMetrics) {
-      window.analytics.track(event, compactedOptions);
-    }
+    window.analytics.track(event, compactedOptions);
   }
 
   trackPage(options = {}) {
@@ -154,16 +143,12 @@ export default class Segment extends BaseAdapter {
     const { page } = compactedOptions;
     delete compactedOptions.page;
 
-    if (canUseMetrics) {
-      window.analytics.page(page, compactedOptions);
-    }
+    window.analytics.page(page, compactedOptions);
   }
 
   willDestroy() {
-    if (canUseMetrics) {
-      removeFromDOM('script[src*="segment.com"]');
+    removeFromDOM('script[src*="segment.com"]');
 
-      delete window.analytics;
-    }
+    delete window.analytics;
   }
 }
