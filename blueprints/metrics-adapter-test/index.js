@@ -1,10 +1,14 @@
 /* eslint-env node */
 
 module.exports = {
-  description: 'Generates an metrics-adapter unit test',
+  description: 'Generates a metrics-adapter unit test',
   locals: function (options) {
     return {
-      friendlyTestDescription: options.entity.name + ' adapter',
+      friendlyTestDescription: [
+        'Unit',
+        'MetricsAdapter',
+        options.entity.name,
+      ].join(' | '),
     };
   },
 };
