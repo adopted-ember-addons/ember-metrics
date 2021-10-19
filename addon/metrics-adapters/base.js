@@ -15,10 +15,9 @@ export default class BaseAdapter extends emberObject {
 
   config = null;
 
-  constructor(config, metrics, owner) {
+  constructor(config, owner) {
     super(...arguments);
     setOwner(this, owner);
-    this.metrics = metrics;
     this.config = config;
     this.init();
   }

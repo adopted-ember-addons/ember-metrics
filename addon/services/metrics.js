@@ -164,8 +164,13 @@ export default class Metrics extends Service {
    * @return {Adapter}
    */
   _activateAdapter({ adapterClass, config }) {
-    let adapter = new adapterClass(config, this, getOwner(this));
-    return adapter;
+    const decoratedClass = class extends adapterClass {
+      identify = this.identify;
+      alias = this.alias;
+      trackEvent = this.trackEvent;
+      trackPage = this.trackPage;
+    };
+    return new decoratedClass(config, getOwner(this));
   }
 
   identify() {
