@@ -2,14 +2,13 @@ import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 import { assert } from '@ember/debug';
-import classic from 'ember-classic-decorator';
 
-@classic
 export default class FacebookPixel extends BaseAdapter {
   toStringExtension() {
     return 'FacebookPixel';
   }
 
+  // eslint-disable-next-line ember/classic-decorator-hooks
   init() {
     const { id, dataProcessingOptions } = this.config;
 

@@ -2,20 +2,18 @@ import BaseAdapter from 'ember-metrics/metrics-adapters/base';
 import objectTransforms from 'ember-metrics/utils/object-transforms';
 import removeFromDOM from 'ember-metrics/utils/remove-from-dom';
 import { assert } from '@ember/debug';
-import classic from 'ember-classic-decorator';
 
 const { without, compact, isPresent } = objectTransforms;
 
-@classic
 export default class AmplitudeMetricsAdapter extends BaseAdapter {
   toStringExtension() {
     return 'Amplitude';
   }
 
+  // eslint-disable-next-line ember/classic-decorator-hooks
   init() {
     const { config } = this;
     const { apiKey, options } = config;
-
     assert(
       `[ember-metrics] You must pass a valid \`apiKey\` to the ${this.toString()} adapter`,
       apiKey

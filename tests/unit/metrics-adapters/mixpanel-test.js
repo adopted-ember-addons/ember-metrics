@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Mixpanel from 'ember-metrics/metrics-adapters/mixpanel';
 
 let sandbox, config;
 
@@ -19,9 +20,7 @@ module('mixpanel adapter', function (hooks) {
   });
 
   test('#identify calls `mixpanel.identify` and `mixpanel.people.set` with the right arguments', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:mixpanel')
-      .create({ config });
+    const adapter = new Mixpanel(config);
     const identify_stub = sandbox
       .stub(window.mixpanel, 'identify')
       .callsFake(() => {
@@ -63,9 +62,7 @@ module('mixpanel adapter', function (hooks) {
   });
 
   test('#trackEvent calls `mixpanel.track` with the right arguments', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:mixpanel')
-      .create({ config });
+    const adapter = new Mixpanel(config);
     const stub = sandbox.stub(window.mixpanel, 'track').callsFake(() => {
       return true;
     });
@@ -91,9 +88,7 @@ module('mixpanel adapter', function (hooks) {
   });
 
   test('#trackPage calls `mixpanel.track` with the right arguments', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:mixpanel')
-      .create({ config });
+    const adapter = new Mixpanel(config);
     const stub = sandbox.stub(window.mixpanel, 'track').callsFake(() => {
       return true;
     });
@@ -115,9 +110,7 @@ module('mixpanel adapter', function (hooks) {
   });
 
   test('#alias calls `mixpanel.alias` with the right arguments', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:mixpanel')
-      .create({ config });
+    const adapter = new Mixpanel(config);
     const stub = sandbox.stub(window.mixpanel, 'alias').callsFake(() => {
       return true;
     });
@@ -144,9 +137,7 @@ module('mixpanel adapter', function (hooks) {
       secure_cookie: true,
       batch_requests: false,
     };
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:mixpanel')
-      .create({ config });
+    const adapter = new Mixpanel(config);
     const init_stub = sandbox.stub(window.mixpanel, 'init').callsFake(() => {
       return true;
     });

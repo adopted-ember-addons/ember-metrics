@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Piwik from 'ember-metrics/metrics-adapters/piwik';
 
-let sandbox, config;
+let sandbox, config, adapter;
 
 module('piwik adapter', function (hooks) {
   setupTest(hooks);
@@ -13,6 +14,7 @@ module('piwik adapter', function (hooks) {
       piwikUrl: '/assets',
       siteId: 42,
     };
+    adapter = new Piwik(config);
   });
 
   hooks.afterEach(function () {
@@ -20,9 +22,6 @@ module('piwik adapter', function (hooks) {
   });
 
   test('#identify calls piwik with the right arguments', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:piwik')
-      .create({ config });
     const stub = sandbox.stub(window._paq, 'push').callsFake(() => {
       return true;
     });
@@ -36,9 +35,6 @@ module('piwik adapter', function (hooks) {
   });
 
   test('#trackEvent calls piwik with the right arguments', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:piwik')
-      .create({ config });
     const stub = sandbox.stub(window._paq, 'push').callsFake(() => {
       return true;
     });
@@ -56,9 +52,6 @@ module('piwik adapter', function (hooks) {
   });
 
   test('#trackPage calls piwik with the right arguments', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:piwik')
-      .create({ config });
     const stub = sandbox.stub(window._paq, 'push').callsFake(() => {
       return true;
     });

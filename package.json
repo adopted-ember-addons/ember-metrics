@@ -43,7 +43,6 @@
   },
   "dependencies": {
     "broccoli-funnel": "^3.0.2",
-    "ember-classic-decorator": "^2.0.0",
     "ember-cli-babel": "^7.26.6",
     "ember-cli-typescript": "^4.2.1"
   },

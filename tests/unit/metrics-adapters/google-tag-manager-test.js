@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import GoogleTagManager from 'ember-metrics/metrics-adapters/google-tag-manager';
 
 let sandbox, config;
 
@@ -19,9 +20,7 @@ module('google-tag-manager adapter', function (hooks) {
   });
 
   test('#trackEvent returns the correct response shape', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:google-tag-manager')
-      .create({ config });
+    const adapter = new GoogleTagManager(config);
     sandbox.stub(window, 'dataLayer').value({ push() {} });
 
     const result = adapter.trackEvent({
@@ -47,9 +46,7 @@ module('google-tag-manager adapter', function (hooks) {
   });
 
   test('#trackPage returns the correct response shape', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:google-tag-manager')
-      .create({ config });
+    const adapter = new GoogleTagManager(config);
     sandbox.stub(window, 'dataLayer').value({ push() {} });
 
     const result = adapter.trackPage({
@@ -73,11 +70,7 @@ module('google-tag-manager adapter', function (hooks) {
     const customConfig = config;
     customConfig['dataLayer'] = 'customDataLayer';
 
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:google-tag-manager')
-      .create({
-        config: customConfig,
-      });
+    const adapter = new GoogleTagManager(config);
 
     sandbox.stub(window, 'customDataLayer').value({ push() {} });
 
@@ -100,9 +93,7 @@ module('google-tag-manager adapter', function (hooks) {
   });
 
   test('#trackPage accepts custom `keyNames` and returns the correct response shape', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:google-tag-manager')
-      .create({ config });
+    const adapter = new GoogleTagManager(config);
     sandbox.stub(window, 'dataLayer').value({ push() {} });
 
     const result = adapter.trackPage({

@@ -164,10 +164,8 @@ export default class Metrics extends Service {
    * @return {Adapter}
    */
   _activateAdapter({ adapterClass, config }) {
-    return adapterClass.create(getOwner(this).ownerInjection(), {
-      this: this,
-      config,
-    });
+    let adapter = new adapterClass(config, this, getOwner(this));
+    return adapter;
   }
 
   identify() {

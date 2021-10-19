@@ -1,14 +1,13 @@
 import { assert } from '@ember/debug';
 import BaseAdapter from './base';
 import removeFromDOM from '../utils/remove-from-dom';
-import classic from 'ember-classic-decorator';
 
-@classic
 export default class AzureAppInsightsAdapter extends BaseAdapter {
   toStringExtension() {
     return 'AzureAppInsights';
   }
 
+  // eslint-disable-next-line ember/classic-decorator-hooks
   init() {
     assert(
       `[ember-metrics] You must pass a \`instrumentationKey\`to the ${this.toString()} adapter`,

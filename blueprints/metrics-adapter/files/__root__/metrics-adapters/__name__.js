@@ -5,6 +5,7 @@ export default class <%= classifiedModuleName %> extends <%= baseClass %> {
     <%= toStringExtension %>
   }
 
+  // eslint-disable-next-line ember/classic-decorator-hooks
   init() {}
 
   identify() {}

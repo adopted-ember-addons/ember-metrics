@@ -2,13 +2,12 @@ import emberObject from '@ember/object';
 import { assert } from '@ember/debug';
 import { guidFor } from '@ember/object/internals';
 import { typeOf } from '@ember/utils';
-import classic from 'ember-classic-decorator';
+import { setOwner } from '@ember/application';
 
 function makeToString(ret) {
   return () => ret;
 }
 
-@classic
 export default class BaseAdapter extends emberObject {
   static supportsFastBoot = false;
 
@@ -16,6 +15,15 @@ export default class BaseAdapter extends emberObject {
 
   config = null;
 
+  constructor(config, metrics, owner) {
+    super(...arguments);
+    setOwner(this, owner);
+    this.metrics = metrics;
+    this.config = config;
+    this.init();
+  }
+
+  // eslint-disable-next-line ember/classic-decorator-hooks
   init() {
     assert(`[ember-metrics] ${this.toString()} must implement the init hook!`);
   }

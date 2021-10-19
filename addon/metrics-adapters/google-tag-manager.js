@@ -3,9 +3,7 @@ import { capitalize } from '@ember/string';
 import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
-import classic from 'ember-classic-decorator';
 
-@classic
 export default class GoogleTagManager extends BaseAdapter {
   dataLayer = 'dataLayer';
 
@@ -13,6 +11,7 @@ export default class GoogleTagManager extends BaseAdapter {
     return 'GoogleTagManager';
   }
 
+  // eslint-disable-next-line ember/classic-decorator-hooks
   init() {
     const { id, dataLayer, envParams } = this.config;
     const envParamsString = envParams ? `&${envParams}` : '';
