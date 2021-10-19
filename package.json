@@ -13,7 +13,10 @@
     "mixpanel",
     "piwik",
     "intercom",
-    "facebook-pixel"
+    "facebook pixel",
+    "amplitude",
+    "azure application insights",
+    "pendo"
   ],
   "homepage": "https://github.com/adopted-ember-addons/ember-metrics",
   "bugs": "https://github.com/adopted-ember-addons/ember-metrics/issues",
