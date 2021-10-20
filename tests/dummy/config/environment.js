@@ -30,6 +30,7 @@ module.exports = function (environment) {
         'facebook-pixel',
         'amplitude',
         'azure-app-insights',
+        'pendo',
       ],
     },
 
@@ -69,6 +70,13 @@ module.exports = function (environment) {
         environments: ['all'],
         config: {
           instrumentationKey: '12345',
+        },
+      },
+      {
+        name: 'Pendo',
+        environments: ['all'],
+        config: {
+          apiKey: '12345',
         },
       },
     ],

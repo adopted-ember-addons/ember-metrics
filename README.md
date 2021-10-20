@@ -76,6 +76,10 @@ Writing your own adapters for currently unsupported analytics services is easy t
 
    - `instrumentationKey`: [Instrumentation Key](https://github.com/microsoft/ApplicationInsights-JS#configuration)
 
+1. `Pendo`
+
+   - `apiKey`: [API Key](https://developers.pendo.io/docs/?bash#options)
+
 #### Community adapters
 
 1. `Adobe Dynamic Tag Management`
@@ -179,6 +183,13 @@ module.exports = function (environment) {
           instrumentationKey: '123',
           // ...other appInsights configuration options
           // https://github.com/microsoft/ApplicationInsights-JS#configuration
+        },
+      },
+      {
+        name: 'Pendo',
+        environments: ['production'],
+        config: {
+          apiKey: '123456789',
         },
       },
       {
