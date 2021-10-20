@@ -1,15 +1,14 @@
+import BaseAdapter from './base';
 import { assert } from '@ember/debug';
 import { without, compact, isPresent } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
-import BaseAdapter from './base';
-import classic from 'ember-classic-decorator';
 
-@classic
 export default class Pendo extends BaseAdapter {
   toStringExtension() {
     return 'Pendo';
   }
 
+  // eslint-disable-next-line ember/classic-decorator-hooks
   init() {
     const { apiKey } = this.config;
 
