@@ -3,6 +3,7 @@ import { Promise as EmberPromise } from 'rsvp';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import FacebookPixel from 'ember-metrics/metrics-adapters/facebook-pixel';
 
 let config, fbq, subject;
 
@@ -19,9 +20,7 @@ module('facebook-pixel adapter', function (hooks) {
       },
     };
 
-    subject = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:facebook-pixel')
-      .create({ config });
+    subject = new FacebookPixel(config);
 
     return waitForScripts();
   });

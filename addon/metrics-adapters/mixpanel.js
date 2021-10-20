@@ -2,14 +2,13 @@ import { assert } from '@ember/debug';
 import { without, compact, isPresent } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
-import classic from 'ember-classic-decorator';
 
-@classic
 export default class Mixpanel extends BaseAdapter {
   toStringExtension() {
     return 'Mixpanel';
   }
 
+  // eslint-disable-next-line ember/classic-decorator-hooks
   init() {
     const config = { ...{ batch_requests: true }, ...this.config };
     const { token } = config;

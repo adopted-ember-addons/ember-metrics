@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
+import Amplitude from 'ember-metrics/metrics-adapters/amplitude';
 
 let sandbox, config, instanceStub, identityStub, adapter;
 
@@ -22,9 +23,8 @@ module('amplitude adapter', function (hooks) {
       set: sinon.fake(),
       get: sinon.fake(),
     };
-    adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:amplitude')
-      .create({ config });
+
+    adapter = new Amplitude(config);
   });
 
   hooks.afterEach(function () {

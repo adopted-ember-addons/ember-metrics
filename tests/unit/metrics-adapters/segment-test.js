@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Segment from 'ember-metrics/metrics-adapters/segment';
 
-let sandbox, config;
+let sandbox, config, adapter;
 
 module('segment adapter', function (hooks) {
   setupTest(hooks);
@@ -12,6 +13,7 @@ module('segment adapter', function (hooks) {
     config = {
       key: 'SEGMENT_KEY',
     };
+    adapter = new Segment(config);
   });
 
   hooks.afterEach(function () {
@@ -19,9 +21,6 @@ module('segment adapter', function (hooks) {
   });
 
   test('#identify calls analytics with the right arguments', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:segment')
-      .create({ config });
     const stub = sandbox.stub(window.analytics, 'identify').callsFake(() => {
       return true;
     });
@@ -32,9 +31,6 @@ module('segment adapter', function (hooks) {
   });
 
   test('#trackEvent returns the correct response shape', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:segment')
-      .create({ config });
     const stub = sandbox.stub(window.analytics, 'track');
     adapter.trackEvent({
       event: 'Signed Up',
@@ -57,9 +53,6 @@ module('segment adapter', function (hooks) {
   });
 
   test('#trackPage returns the correct response shape', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:segment')
-      .create({ config });
     const stub = sandbox.stub(window.analytics, 'page');
     adapter.trackPage({
       page: '/my-overridden-page?id=1',
@@ -80,9 +73,6 @@ module('segment adapter', function (hooks) {
   });
 
   test('#alias returns the correct response shape', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:segment')
-      .create({ config });
     const stub = sandbox.stub(window.analytics, 'alias');
     adapter.alias({ alias: 'foo', original: 'bar' });
 

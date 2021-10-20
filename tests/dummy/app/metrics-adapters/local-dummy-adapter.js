@@ -1,8 +1,6 @@
 import BaseAdapter from 'ember-metrics/metrics-adapters/base';
 import { inject } from '@ember/service';
-import classic from 'ember-classic-decorator';
 
-@classic
 export default class LocalDummyAdapter extends BaseAdapter {
   static supportsFastBoot = true;
 
@@ -12,8 +10,9 @@ export default class LocalDummyAdapter extends BaseAdapter {
     return 'LocalDummy';
   }
 
+  // eslint-disable-next-line ember/classic-decorator-hooks
   init() {
-    this.set('application.foo', 'bar');
+    this.application.foo = 'bar';
   }
 
   trackEvent({ controller }) {

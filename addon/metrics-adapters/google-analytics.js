@@ -4,9 +4,7 @@ import { capitalize } from '@ember/string';
 import { compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
-import classic from 'ember-classic-decorator';
 
-@classic
 export default class GoogleAnalytics extends BaseAdapter {
   gaSendKey = 'send';
 
@@ -14,6 +12,7 @@ export default class GoogleAnalytics extends BaseAdapter {
     return 'GoogleAnalytics';
   }
 
+  // eslint-disable-next-line ember/classic-decorator-hooks
   init() {
     const config = { ...this.config };
     const { id, sendHitTask, trace, require, debug, trackerName } = config;

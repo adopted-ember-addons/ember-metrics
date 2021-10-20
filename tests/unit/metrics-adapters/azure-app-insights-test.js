@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import AzureAppInsights from 'ember-metrics/metrics-adapters/azure-app-insights';
 
 module('azure-app-insights adapter', function (hooks) {
   setupTest(hooks);
@@ -10,9 +11,8 @@ module('azure-app-insights adapter', function (hooks) {
     this.config = {
       instrumentationKey: '12345',
     };
-    this.adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:azure-app-insights')
-      .create({ config: this.config });
+
+    this.adapter = new AzureAppInsights(this.config);
   });
 
   hooks.afterEach(function () {
