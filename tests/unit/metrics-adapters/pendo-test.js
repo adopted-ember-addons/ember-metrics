@@ -1,31 +1,31 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import Pendo from 'ember-metrics/metrics-adapters/pendo';
 import sinon from 'sinon';
-
-let sandbox, config;
 
 module('pendo adapter', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
-    sandbox = sinon.createSandbox();
-    config = {
+    this.sandbox = sinon.createSandbox();
+
+    const config = {
       apiKey: '123456789',
     };
+
+    this.adapter = new Pendo(config);
   });
 
   hooks.afterEach(function () {
-    sandbox.restore();
+    this.sandbox.restore();
   });
 
   test('#identify calls pendo with the right arguments', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:pendo')
-      .create({ config });
-    const stub = sandbox.stub(window.pendo, 'identify').callsFake(() => {
+    const stub = this.sandbox.stub(window.pendo, 'identify').callsFake(() => {
       return true;
     });
-    adapter.identify({
+
+    this.adapter.identify({
       visitor: {
         id: 123,
         role: 'employee',
@@ -35,6 +35,7 @@ module('pendo adapter', function (hooks) {
         env: 'development',
       },
     });
+
     assert.ok(
       stub.calledWith({
         visitor: {
@@ -51,20 +52,20 @@ module('pendo adapter', function (hooks) {
   });
 
   test('#trackEvent calls pendo with the right arguments', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:pendo')
-      .create({ config });
-    const stub = sandbox.stub(window.pendo, 'track').callsFake(() => {
+    const stub = this.sandbox.stub(window.pendo, 'track').callsFake(() => {
       return true;
     });
-    adapter.trackEvent({
+
+    this.adapter.trackEvent({
       event: 'ClickedThing',
       prop1: 'ThingID',
       prop2: 'ThingValue',
     });
-    adapter.trackEvent({
+
+    this.adapter.trackEvent({
       event: 'DrinkACoffee',
     });
+
     assert.ok(
       stub.firstCall.calledWith('ClickedThing', {
         prop1: 'ThingID',
@@ -72,6 +73,7 @@ module('pendo adapter', function (hooks) {
       }),
       'it sends the correct arguments'
     );
+
     assert.ok(
       stub.secondCall.calledWith('DrinkACoffee'),
       'it sends the correct arguments'
@@ -79,25 +81,24 @@ module('pendo adapter', function (hooks) {
   });
 
   test('#trackPage calls pendo with the right arguments', function (assert) {
-    const adapter = this.owner
-      .factoryFor('ember-metrics@metrics-adapter:pendo')
-      .create({ config });
-    const stub = sandbox.stub(window.pendo, 'track').callsFake(() => {
+    const stub = this.sandbox.stub(window.pendo, 'track').callsFake(() => {
       return true;
     });
-    adapter.trackPage({
-      page: '/products/1',
-    });
-    adapter.trackPage({
+
+    this.adapter.trackPage({ page: '/products/1' });
+
+    this.adapter.trackPage({
       event: 'Page View',
       page: '/products/1',
     });
+
     assert.ok(
       stub.firstCall.calledWith('page viewed', {
         page: '/products/1',
       }),
       'it sends the correct arguments and options'
     );
+
     assert.ok(
       stub.secondCall.calledWith('Page View', {
         page: '/products/1',
