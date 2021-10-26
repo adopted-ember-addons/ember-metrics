@@ -1,5 +1,6 @@
 import { assert } from '@ember/debug';
-import { without, compact, isPresent } from '../utils/object-transforms';
+import { isPresent } from '@ember/utils';
+import { without, compact } from '../utils/object-transforms';
 import removeFromDOM from '../utils/remove-from-dom';
 import BaseAdapter from './base';
 
