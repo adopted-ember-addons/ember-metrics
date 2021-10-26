@@ -1,10 +1,8 @@
 import BaseAdapter from 'ember-metrics/metrics-adapters/base';
-import objectTransforms from 'ember-metrics/utils/object-transforms';
+import { without, compact } from 'ember-metrics/utils/object-transforms';
 import removeFromDOM from 'ember-metrics/utils/remove-from-dom';
 import { assert } from '@ember/debug';
 import { isPresent } from '@ember/utils';
-
-const { without, compact } = objectTransforms;
 
 export default class AmplitudeMetricsAdapter extends BaseAdapter {
   toStringExtension() {

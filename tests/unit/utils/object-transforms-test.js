@@ -1,4 +1,4 @@
-import objectTransforms from '../../../utils/object-transforms';
+import { without, compact } from '../../../utils/object-transforms';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | object transforms', function () {
@@ -14,7 +14,7 @@ module('Unit | Utility | object transforms', function () {
       deskLocation: 'basement',
     };
 
-    const result = objectTransforms.without(employee, ['stapler']);
+    const result = without(employee, ['stapler']);
 
     assert.deepEqual(
       result,
@@ -36,7 +36,7 @@ module('Unit | Utility | object transforms', function () {
       lastName: 'Bolton',
     };
 
-    const result = objectTransforms.compact(rawData);
+    const result = compact(rawData);
     assert.deepEqual(
       result,
       expectedResult,
