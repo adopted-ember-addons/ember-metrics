@@ -1,4 +1,8 @@
-import objectTransforms from '../../../utils/object-transforms';
+import {
+  without,
+  compact,
+  hasOwnProperties,
+} from 'ember-metrics/utils/object-transforms';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | object transforms', function () {
@@ -44,20 +48,20 @@ module('Unit | Utility | object transforms', function () {
     );
   });
 
-  test('#isPresent returns `true` if an object is not empty ', function (assert) {
+  test('#hasOwnProperties returns `true` if an object is not empty ', function (assert) {
     const rawData = {
       foo: 'bar',
     };
 
-    const result = objectTransforms.isPresent(rawData);
+    const result = hasOwnProperties(rawData);
 
     assert.true(result, 'it returns `true` if an object is not empty');
   });
 
-  test('#isPresent returns `false` if an object is empty ', function (assert) {
+  test('#hasOwnProperties returns `false` if an object is empty ', function (assert) {
     const rawData = {};
 
-    const result = objectTransforms.isPresent(rawData);
+    const result = hasOwnProperties(rawData);
 
     assert.false(result, 'it returns `false` if an object is empty');
   });

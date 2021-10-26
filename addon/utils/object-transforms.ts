@@ -1,4 +1,4 @@
-import { isPresent as emberIsPresent } from '@ember/utils';
+import { isPresent } from '@ember/utils';
 
 type Options = Record<string, string>;
 
@@ -9,7 +9,7 @@ type Options = Record<string, string>;
  * @returns {Options}
  */
 export function compact(opts: Options): Options {
-  return includeKeys(opts, (key) => emberIsPresent(opts[key]));
+  return includeKeys(opts, (key) => isPresent(opts[key]));
 }
 
 /**
@@ -41,12 +41,17 @@ function includeKeys(
   return newOpts;
 }
 
-export function isPresent(opts: Options): boolean {
-  return Object.getOwnPropertyNames(opts).length > 0;
+/**
+ * Check if given object has any own properties
+ * @param {Record<string,unknown>} obj
+ * @returns {boolean}
+ */
+export function hasOwnProperties(obj: Record<string, unknown>): boolean {
+  return Object.getOwnPropertyNames(obj).length > 0;
 }
 
 export default {
   compact,
   without,
-  isPresent,
+  hasOwnProperties,
 };
