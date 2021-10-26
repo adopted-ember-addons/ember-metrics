@@ -23,27 +23,6 @@ module('Unit | Utility | object transforms', function () {
     );
   });
 
-  test('#only returns an object with only the specified keys', function (assert) {
-    const employee = {
-      name: 'Milton Waddams',
-      stapler: 'Red',
-      deskLocation: 'basement',
-    };
-
-    const expectedResult = {
-      name: 'Milton Waddams',
-      deskLocation: 'basement',
-    };
-
-    const result = objectTransforms.only(employee, ['name', 'deskLocation']);
-
-    assert.deepEqual(
-      result,
-      expectedResult,
-      'it returns an object with only the specified keys'
-    );
-  });
-
   test('#compact returns an object with all `null` and `undefined` elements removed', function (assert) {
     const rawData = {
       firstName: 'Michael',
