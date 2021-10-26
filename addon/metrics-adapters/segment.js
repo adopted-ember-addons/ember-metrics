@@ -1,6 +1,6 @@
 import { assert } from '@ember/debug';
-import removeFromDOM from '../utils/remove-from-dom';
-import { compact } from '../utils/object-transforms';
+import removeFromDOM from 'ember-metrics/utils/remove-from-dom';
+import { compact } from 'ember-metrics/utils/object-transforms';
 import BaseAdapter from './base';
 
 export default class Segment extends BaseAdapter {

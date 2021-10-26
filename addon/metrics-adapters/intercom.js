@@ -1,6 +1,6 @@
 import { assert } from '@ember/debug';
-import { compact, without } from '../utils/object-transforms';
-import removeFromDOM from '../utils/remove-from-dom';
+import { compact, without } from 'ember-metrics/utils/object-transforms';
+import removeFromDOM from 'ember-metrics/utils/remove-from-dom';
 import BaseAdapter from './base';
 
 export default class Intercom extends BaseAdapter {
