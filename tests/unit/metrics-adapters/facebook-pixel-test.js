@@ -1,5 +1,4 @@
 import { later } from '@ember/runloop';
-import { Promise as EmberPromise } from 'rsvp';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
@@ -7,10 +6,36 @@ import FacebookPixel from 'ember-metrics/metrics-adapters/facebook-pixel';
 
 let config, fbq, subject;
 
+async function waitForScripts() {
+  return new Promise((resolve) => {
+    function init() {
+      const fbqSpy = sinon.spy(window, 'fbq');
+      return resolve(fbqSpy);
+    }
+
+    (function wait() {
+      // check for the generic script
+      if (window.fbq.instance) {
+        // now check for the custom script
+        // it may have already loaded and
+        // registering a listener will never fire
+        if (window.fbq.instance.configsLoaded[config.id]) {
+          return init();
+        } else {
+          later(wait, 10);
+        }
+      } else {
+        // generic script hasn't run yet
+        later(wait, 10);
+      }
+    })();
+  });
+}
+
 module('facebook-pixel adapter', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function () {
+  hooks.beforeEach(async function () {
     config = {
       id: '1234567890',
       dataProcessingOptions: {
@@ -22,38 +47,12 @@ module('facebook-pixel adapter', function (hooks) {
 
     subject = new FacebookPixel(config);
 
-    return waitForScripts();
+    fbq = await waitForScripts();
   });
 
   hooks.afterEach(function () {
     fbq.restore();
   });
-
-  function waitForScripts() {
-    return new EmberPromise((resolve) => {
-      function init() {
-        fbq = sinon.spy(window, 'fbq');
-        resolve();
-      }
-
-      (function wait() {
-        // check for the generic script
-        if (window.fbq.instance) {
-          // now check for the custom script
-          // it may have already loaded and
-          // registering a listener will never fire
-          if (window.fbq.instance.configsLoaded[config.id]) {
-            init();
-          } else {
-            later(wait, 10);
-          }
-        } else {
-          // generic script hasn't run yet
-          later(wait, 10);
-        }
-      })();
-    });
-  }
 
   test('#trackEvent calls `fbq.track` with the right arguments', function (assert) {
     subject.trackEvent({ event: 'Search', opt1: 'bar', opt2: 'baz' });
