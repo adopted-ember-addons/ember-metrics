@@ -69,25 +69,17 @@ module('Unit | Utility | object transforms', function () {
     const rawData = {
       foo: 'bar',
     };
-    const expectedResult = true;
 
     const result = objectTransforms.isPresent(rawData);
-    assert.equal(
-      result,
-      expectedResult,
-      'it returns `true` if an object is not empty'
-    );
+
+    assert.true(result, 'it returns `true` if an object is not empty');
   });
 
   test('#isPresent returns `false` if an object is empty ', function (assert) {
     const rawData = {};
-    const expectedResult = false;
 
     const result = objectTransforms.isPresent(rawData);
-    assert.equal(
-      result,
-      expectedResult,
-      'it returns `false` if an object is empty'
-    );
+
+    assert.false(result, 'it returns `false` if an object is empty');
   });
 });

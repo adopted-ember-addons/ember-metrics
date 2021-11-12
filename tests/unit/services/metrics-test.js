@@ -46,7 +46,7 @@ module('Unit | Service | metrics', function (hooks) {
       'it activated the LocalDummyAdapter'
     );
 
-    assert.equal(
+    assert.strictEqual(
       this.service._adapters.LocalDummyAdapter.config.foo,
       'bar',
       'it passes config options to the LocalDummyAdapter'
@@ -59,7 +59,7 @@ module('Unit | Service | metrics', function (hooks) {
       'it activated the GoogleAnalytics adapter'
     );
 
-    assert.equal(
+    assert.strictEqual(
       this.service._adapters.GoogleAnalytics.config.id,
       'UA-XXXX-Y',
       'it passes config options to the GoogleAnalytics adapter'
@@ -91,19 +91,19 @@ module('Unit | Service | metrics', function (hooks) {
       },
     ]);
 
-    assert.equal(
+    assert.strictEqual(
       this.service._adapters.GoogleAnalytics.config.id,
       'UA-XXXX-Y',
       'it does not override the GoogleAnalytics adapter'
     );
 
-    assert.equal(
+    assert.strictEqual(
       this.service._adapters.Mixpanel.config.token,
       '0f76c037-4d76-4fce-8a0f-a9a8f89d1453',
       'it does not override the Mixpanel adapter'
     );
 
-    assert.equal(
+    assert.strictEqual(
       this.service._adapters.LocalDummyAdapter.config.foo,
       'bar',
       'it does not override the LocalDummyAdapter'
