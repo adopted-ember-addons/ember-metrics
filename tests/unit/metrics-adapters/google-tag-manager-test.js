@@ -3,25 +3,19 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import GoogleTagManager from 'ember-metrics/metrics-adapters/google-tag-manager';
 
-let sandbox, config;
-
 module('google-tag-manager adapter', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
-    sandbox = sinon.createSandbox();
-    config = {
+    this.config = {
       id: 'GTM-XXXX',
     };
   });
 
-  hooks.afterEach(function () {
-    sandbox.restore();
-  });
-
   test('#trackEvent returns the correct response shape', function (assert) {
-    const adapter = new GoogleTagManager(config);
-    sandbox.stub(window, 'dataLayer').value({ push() {} });
+    const adapter = new GoogleTagManager(this.config);
+
+    sinon.stub(window, 'dataLayer').value({ push() {} });
 
     const result = adapter.trackEvent({
       event: 'click-button',
@@ -30,6 +24,7 @@ module('google-tag-manager adapter', function (hooks) {
       label: 'nav buttons',
       value: 4,
     });
+
     const expectedResult = {
       event: 'click-button',
       eventCategory: 'button',
@@ -46,13 +41,15 @@ module('google-tag-manager adapter', function (hooks) {
   });
 
   test('#trackPage returns the correct response shape', function (assert) {
-    const adapter = new GoogleTagManager(config);
-    sandbox.stub(window, 'dataLayer').value({ push() {} });
+    const adapter = new GoogleTagManager(this.config);
+
+    sinon.stub(window, 'dataLayer').value({ push() {} });
 
     const result = adapter.trackPage({
       url: '/my-overridden-page?id=1',
       title: 'my overridden page',
     });
+
     const expectedResult = {
       event: 'pageview',
       url: '/my-overridden-page?id=1',
@@ -67,12 +64,12 @@ module('google-tag-manager adapter', function (hooks) {
   });
 
   test('#trackPage accepts a custom dataLayer name', function (assert) {
-    const customConfig = config;
+    const customConfig = this.config;
     customConfig['dataLayer'] = 'customDataLayer';
 
-    const adapter = new GoogleTagManager(config);
+    const adapter = new GoogleTagManager(this.config);
 
-    sandbox.stub(window, 'customDataLayer').value({ push() {} });
+    sinon.stub(window, 'customDataLayer').value({ push() {} });
 
     const result = adapter.trackPage({
       url: '/my-overridden-page?id=1',
@@ -93,8 +90,9 @@ module('google-tag-manager adapter', function (hooks) {
   });
 
   test('#trackPage accepts custom `keyNames` and returns the correct response shape', function (assert) {
-    const adapter = new GoogleTagManager(config);
-    sandbox.stub(window, 'dataLayer').value({ push() {} });
+    const adapter = new GoogleTagManager(this.config);
+
+    sinon.stub(window, 'dataLayer').value({ push() {} });
 
     const result = adapter.trackPage({
       event: 'VirtualPageView',

@@ -3,181 +3,214 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import Intercom from 'ember-metrics/metrics-adapters/intercom';
 
-let sandbox, config, adapter;
-
 module('intercom adapter', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
-    sandbox = sinon.createSandbox();
-    config = {
+    this.config = {
       appId: 'def1abc2',
     };
-    adapter = new Intercom(config);
-  });
 
-  hooks.afterEach(function () {
-    sandbox.restore();
+    this.adapter = new Intercom(this.config);
   });
 
   test('#identify with `distinctId` calls `Intercom()` with the right arguments', function (assert) {
-    const stub = sandbox.stub(window, 'Intercom').callsFake(() => {
+    const stub = sinon.stub(window, 'Intercom').callsFake(() => {
       return true;
     });
-    adapter.identify({
+
+    this.adapter.identify({
       distinctId: 123,
       foo: 'bar',
     });
-    adapter.identify({
-      distinctId: 123,
-    });
-    assert.ok(
-      stub.firstCall.calledWith('boot', {
-        app_id: 'def1abc2',
-        foo: 'bar',
-        user_id: 123,
-      }),
+
+    this.adapter.identify({ distinctId: 123 });
+
+    assert.spy(stub.firstCall).calledWith(
+      [
+        'boot',
+        {
+          app_id: 'def1abc2',
+          foo: 'bar',
+          user_id: 123,
+        },
+      ],
       'it sends the correct arguments'
     );
-    assert.ok(
-      stub.secondCall.calledWith('update', {
-        app_id: 'def1abc2',
-        user_id: 123,
-      }),
+
+    assert.spy(stub.secondCall).calledWith(
+      [
+        'update',
+        {
+          app_id: 'def1abc2',
+          user_id: 123,
+        },
+      ],
       'it sends the correct arguments'
     );
   });
 
   test('#identify with `email` calls `Intercom()` with the right arguments', function (assert) {
-    const stub = sandbox.stub(window, 'Intercom').callsFake(() => {
+    const stub = sinon.stub(window, 'Intercom').callsFake(() => {
       return true;
     });
-    adapter.identify({
+
+    this.adapter.identify({
       email: 'tomster@ember.js',
       foo: 'bar',
     });
-    adapter.identify({
+
+    this.adapter.identify({
       email: 'tomster@ember.js',
     });
-    assert.ok(
-      stub.firstCall.calledWith('boot', {
-        app_id: 'def1abc2',
-        email: 'tomster@ember.js',
-        foo: 'bar',
-      }),
+
+    assert.spy(stub.firstCall).calledWith(
+      [
+        'boot',
+        {
+          app_id: 'def1abc2',
+          email: 'tomster@ember.js',
+          foo: 'bar',
+        },
+      ],
       'it sends the correct arguments'
     );
-    assert.ok(
-      stub.secondCall.calledWith('update', {
-        app_id: 'def1abc2',
-        email: 'tomster@ember.js',
-      }),
+
+    assert.spy(stub.secondCall).calledWith(
+      [
+        'update',
+        {
+          app_id: 'def1abc2',
+          email: 'tomster@ember.js',
+        },
+      ],
       'it sends the correct arguments'
     );
   });
 
   test('#identify without `distinctId` or `email` throws', function (assert) {
-    const stub = sandbox.stub(window, 'Intercom').callsFake(() => {
+    const stub = sinon.stub(window, 'Intercom').callsFake(() => {
       return true;
     });
+
     assert.throws(
       () => {
-        adapter.identify({
+        this.adapter.identify({
           foo: 'bar',
         });
       },
       /You must pass `distinctId` or `email`/,
       'exception is thrown'
     );
-    assert.equal(stub.callCount, 0, 'Intercom() is not called');
+
+    assert.spy(stub).calledTimes(0, 'Intercom() is not called');
   });
 
   test('#identify calls `Intercom()` with `boot` on initial call, then `update` on subsequent calls', function (assert) {
-    const stub = sandbox.stub(window, 'Intercom').callsFake(() => {
+    const stub = sinon.stub(window, 'Intercom').callsFake(() => {
       return true;
     });
-    adapter.identify({
-      distinctId: 123,
-    });
-    adapter.identify({
-      distinctId: 123,
-    });
-    adapter.identify({
-      distinctId: 123,
-    });
-    assert.ok(
-      stub.firstCall.calledWith('boot', { app_id: 'def1abc2', user_id: 123 }),
+
+    this.adapter.identify({ distinctId: 123 });
+
+    this.adapter.identify({ distinctId: 123 });
+
+    this.adapter.identify({ distinctId: 123 });
+
+    assert
+      .spy(stub.firstCall)
+      .calledWith(
+        ['boot', { app_id: 'def1abc2', user_id: 123 }],
+        'it sends the correct arguments'
+      );
+
+    assert.spy(stub.secondCall).calledWith(
+      [
+        'update',
+        {
+          app_id: 'def1abc2',
+          user_id: 123,
+        },
+      ],
       'it sends the correct arguments'
     );
-    assert.ok(
-      stub.secondCall.calledWith('update', {
-        app_id: 'def1abc2',
-        user_id: 123,
-      }),
-      'it sends the correct arguments'
-    );
-    assert.ok(
-      stub.thirdCall.calledWith('update', { app_id: 'def1abc2', user_id: 123 }),
-      'it sends the correct arguments'
-    );
+
+    assert
+      .spy(stub.thirdCall)
+      .calledWith(
+        ['update', { app_id: 'def1abc2', user_id: 123 }],
+        'it sends the correct arguments'
+      );
   });
 
   test('#trackEvent calls `Intercom()` with the right arguments', function (assert) {
-    const stub = sandbox.stub(window, 'Intercom').callsFake(() => {
+    const stub = sinon.stub(window, 'Intercom').callsFake(() => {
       return true;
     });
-    adapter.trackEvent({
+
+    this.adapter.trackEvent({
       event: 'Video played',
       videoLength: 213,
       id: 'hY7gQr0',
     });
-    adapter.trackEvent({
-      event: 'Ate a cookie',
-    });
-    adapter.trackEvent({
-      event: null,
-      id: 'hY7gQr0',
-    });
-    assert.ok(
-      stub.firstCall.calledWith('trackEvent', 'Video played', {
-        videoLength: 213,
-        id: 'hY7gQr0',
-      }),
-      'it sends the correct arguments'
-    );
-    assert.ok(
-      stub.secondCall.calledWith('trackEvent', 'Ate a cookie'),
-      'it sends the correct arguments'
-    );
-    assert.ok(
-      stub.thirdCall.calledWith('trackEvent', 'unspecified-event', {
-        id: 'hY7gQr0',
-      }),
-      'it sends the correct arguments'
-    );
+
+    this.adapter.trackEvent({ event: 'Ate a cookie' });
+
+    this.adapter.trackEvent({ event: null, id: 'hY7gQr0' });
+
+    assert
+      .spy(stub.firstCall)
+      .calledWith(
+        ['trackEvent', 'Video played', { videoLength: 213, id: 'hY7gQr0' }],
+        'it sends the correct arguments'
+      );
+
+    assert
+      .spy(stub.secondCall)
+      .calledWith(
+        ['trackEvent', 'Ate a cookie'],
+        'it sends the correct arguments'
+      );
+
+    assert
+      .spy(stub.thirdCall)
+      .calledWith(
+        ['trackEvent', 'unspecified-event', { id: 'hY7gQr0' }],
+        'it sends the correct arguments'
+      );
   });
 
   test('#trackPage calls `Intercom()` with the right arguments', function (assert) {
-    const stub = sandbox.stub(window, 'Intercom').callsFake(() => {
+    const stub = sinon.stub(window, 'Intercom').callsFake(() => {
       return true;
     });
-    adapter.trackPage({
-      page: '/products/1',
-    });
-    adapter.trackPage({
+
+    this.adapter.trackPage({ page: '/products/1' });
+
+    this.adapter.trackPage({
       event: 'Page View',
       page: '/products/1',
     });
-    assert.ok(
-      stub.firstCall.calledWith('trackEvent', 'page viewed', {
-        page: '/products/1',
-      }),
+
+    assert.spy(stub.firstCall).calledWith(
+      [
+        'trackEvent',
+        'page viewed',
+        {
+          page: '/products/1',
+        },
+      ],
       'it sends the correct arguments and options'
     );
-    assert.ok(
-      stub.secondCall.calledWith('trackEvent', 'Page View', {
-        page: '/products/1',
-      }),
+
+    assert.spy(stub.secondCall).calledWith(
+      [
+        'trackEvent',
+        'Page View',
+        {
+          page: '/products/1',
+        },
+      ],
       'it sends the correct arguments and options'
     );
   });
