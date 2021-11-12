@@ -57,7 +57,7 @@ module('google-analytics adapter', function (hooks) {
         'it sends the correct config values'
       );
 
-    assert.equal(
+    assert.strictEqual(
       adapter.gaSendKey,
       'myEngineTracker.send',
       'ga has myEngineTracker trackerName set'
