@@ -1,7 +1,7 @@
 import BaseAdapter from 'ember-metrics/metrics-adapters/base';
 import objectTransforms from 'ember-metrics/utils/object-transforms';
 import removeFromDOM from 'ember-metrics/utils/remove-from-dom';
-import { assert } from '@ember/debug';
+import { assert, deprecate } from '@ember/debug';
 
 const { without, compact, isPresent } = objectTransforms;
 
@@ -78,6 +78,18 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
     }
 
     window.amplitude.getInstance().identify(this._identity);
+
+    deprecate(
+      'Future versions of the AmplitudeAdapter will no longer issue an "Identify" event upon identifying. If you wish to retain this behaviour you will need to track this event yourself.',
+      false,
+      {
+        id: 'ember-metrics.issue-278',
+        for: 'ember-metrics',
+        since: '1.3.2',
+        until: '2.0.0',
+      }
+    );
+
     window.amplitude.getInstance().logEvent('Identify');
   }
 
