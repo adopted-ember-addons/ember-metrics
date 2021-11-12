@@ -16,6 +16,7 @@
 /.eslintrc.js
 /.git/
 /.gitignore
+/.lintstagedrc.json
 /.prettierignore
 /.prettierrc.js
 /.template-lintrc.js
