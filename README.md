@@ -469,24 +469,11 @@ We're grateful to these wonderful contributors who've contributed to `ember-metr
 
 [//]: contributor-faces
 
-## Installation
+## Contributing
 
-- `git clone` this repository
-- `npm install`
-- `bower install`
+See the [Contributing](CONTRIBUTING.md) guide for details.
 
-## Running
 
-- `ember server`
-- Visit your app at http://localhost:4200.
+## License
 
-## Running Tests
-
-- `ember test`
-- `ember test --server`
-
-## Building
-
-- `ember build`
-
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+This project is licensed under the [MIT License](LICENSE.md).
