@@ -4,13 +4,11 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import FacebookPixel from 'ember-metrics/metrics-adapters/facebook-pixel';
 
-let config, fbq, subject;
-
-async function waitForScripts() {
+async function waitForScripts(config) {
   return new Promise((resolve) => {
     function init() {
-      const fbqSpy = sinon.spy(window, 'fbq');
-      return resolve(fbqSpy);
+      const fbq = sinon.spy(window, 'fbq');
+      return resolve(fbq);
     }
 
     (function wait() {
@@ -20,7 +18,7 @@ async function waitForScripts() {
         // it may have already loaded and
         // registering a listener will never fire
         if (window.fbq.instance.configsLoaded[config.id]) {
-          return init();
+          init();
         } else {
           later(wait, 10);
         }
@@ -36,7 +34,7 @@ module('facebook-pixel adapter', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(async function () {
-    config = {
+    this.config = {
       id: '1234567890',
       dataProcessingOptions: {
         method: ['LDU'],
@@ -45,51 +43,63 @@ module('facebook-pixel adapter', function (hooks) {
       },
     };
 
-    subject = new FacebookPixel(config);
+    this.subject = new FacebookPixel(this.config);
 
-    fbq = await waitForScripts();
-  });
-
-  hooks.afterEach(function () {
-    fbq.restore();
+    this.fbq = await waitForScripts(this.config);
   });
 
   test('#trackEvent calls `fbq.track` with the right arguments', function (assert) {
-    subject.trackEvent({ event: 'Search', opt1: 'bar', opt2: 'baz' });
-    assert.ok(
-      fbq.calledWith('track', 'Search', { opt1: 'bar', opt2: 'baz' }),
-      'it sends the correct arguments and options'
-    );
+    this.subject.trackEvent({ event: 'Search', opt1: 'bar', opt2: 'baz' });
+
+    assert
+      .spy(this.fbq)
+      .calledWith(
+        ['track', 'Search', { opt1: 'bar', opt2: 'baz' }],
+        'it sends the correct arguments and options'
+      );
   });
 
   test('#trackPage calls `fbq.track` with the right arguments', function (assert) {
-    subject.trackPage({ page: '/my-page', title: 'My Title' });
-    assert.ok(
-      fbq.calledWith('track', 'PageView', {
-        page: '/my-page',
-        title: 'My Title',
-      }),
-      'it sends the correct arguments and options'
-    );
+    this.subject.trackPage({ page: '/my-page', title: 'My Title' });
+
+    assert
+      .spy(this.fbq)
+      .calledWith(
+        ['track', 'PageView', { page: '/my-page', title: 'My Title' }],
+        'it sends the correct arguments and options'
+      );
   });
 
   test('#init calls `fbq` with dataProcessingOptions', function (assert) {
-    let { dataProcessingOptions, dataProcessingCountry, dataProcessingState } =
-      fbq.instance.pluginConfig._configStore.dataProcessingOptions.global;
+    const {
+      instance: {
+        pluginConfig: {
+          _configStore: {
+            dataProcessingOptions: {
+              global: {
+                dataProcessingOptions,
+                dataProcessingCountry,
+                dataProcessingState,
+              },
+            },
+          },
+        },
+      },
+    } = this.fbq;
 
-    assert.equal(
+    assert.deepEqual(
       dataProcessingOptions,
-      'LDU',
+      ['LDU'],
       'it sends the correct Data Processing Options'
     );
 
-    assert.equal(
+    assert.strictEqual(
       dataProcessingCountry,
       1,
       'it sends the correct Data Processing Country'
     );
 
-    assert.equal(
+    assert.strictEqual(
       dataProcessingState,
       1000,
       'it sends the correct Data Processing State'

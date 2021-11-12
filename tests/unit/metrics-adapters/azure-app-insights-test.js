@@ -7,7 +7,6 @@ module('azure-app-insights adapter', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
-    this.sandbox = sinon.createSandbox();
     this.config = {
       instrumentationKey: '12345',
     };
@@ -15,12 +14,8 @@ module('azure-app-insights adapter', function (hooks) {
     this.adapter = new AzureAppInsights(this.config);
   });
 
-  hooks.afterEach(function () {
-    this.sandbox.restore();
-  });
-
   test('#trackEvent calls appInsights with the correct arguments', function (assert) {
-    const trackEventStub = this.sandbox
+    const trackEventStub = sinon
       .stub(window.appInsights, 'trackEvent')
       .callsFake(() => true);
 
@@ -32,39 +27,44 @@ module('azure-app-insights adapter', function (hooks) {
       customKey: "I'm custom!",
     });
 
-    assert.ok(
-      trackEventStub.calledWithExactly({
-        name: 'submit button',
-        properties: {
-          action: 'click',
-          category: 'login',
-          value: 1,
-          customKey: "I'm custom!",
+    assert.spy(trackEventStub).calledWithExactly(
+      [
+        {
+          name: 'submit button',
+          properties: {
+            action: 'click',
+            category: 'login',
+            value: 1,
+            customKey: "I'm custom!",
+          },
         },
-      }),
+      ],
       'it sends the correct arguments'
     );
   });
 
   test('#trackPage calls appInsights with the correct arguments', function (assert) {
-    const trackPageViewStub = this.sandbox
+    const trackPageViewStub = sinon
       .stub(window.appInsights, 'trackPageView')
       .callsFake(() => true);
 
     this.adapter.trackPage();
-    assert.ok(trackPageViewStub.calledWith(), 'it sends the correct arguments');
+
+    assert
+      .spy(trackPageViewStub)
+      .calledWith([], 'it sends the correct arguments');
 
     trackPageViewStub.resetHistory();
 
     this.adapter.trackPage({ name: 'my page' });
-    assert.ok(
-      trackPageViewStub.calledWith({ name: 'my page' }),
-      'it sends the correct arguments'
-    );
+
+    assert
+      .spy(trackPageViewStub)
+      .calledWith([{ name: 'my page' }], 'it sends the correct arguments');
   });
 
   test('#identify calls appInsights with the right arguments', function (assert) {
-    const setAuthenticatedUserContextStub = this.sandbox
+    const setAuthenticatedUserContextStub = sinon
       .stub(window.appInsights, 'setAuthenticatedUserContext')
       .callsFake(() => true);
 
