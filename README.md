@@ -225,13 +225,13 @@ Values in the `config` portion of the object are dependent on the adapter. If yo
 
 ```js
 // Example adapter
-export default BaseAdapter.extend({
+export default class ExampleAdapter extends BaseAdapter {
   init() {
-    const { apiKey, options } = Ember.get(this, 'config');
+    const { apiKey, options } = this.config;
     this.setupService(apiKey);
     this.setOptions(options);
-  },
-});
+  }
+}
 ```
 
 To only activate adapters in specific environments, you can add an array of environment names to the config, as the `environments` key. Valid environments are:
@@ -267,31 +267,27 @@ In order to use the addon, you must first [configure](#configuration) it, then i
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-export default Route.extend({
-  metrics: service(),
-  router: service(),
+export default class ApplicationRoute extends Route {
+  @service metrics;
+  @service router;
 
-  init() {
-    this._super(...arguments);
+  constructor() {
+    super(...arguments);
 
-    let router = this.router;
-    router.on('routeDidChange', () => {
-      const page = router.currentURL;
-      const title = router.currentRouteName || 'unknown';
+    this.router.on('routeDidChange', () => {
+      const page = this.router.currentURL;
+      const title = this.router.currentRouteName || 'unknown';
 
       this.metrics.trackPage({ page, title });
     });
-  },
-});
+  }
+}
 ```
-
-[See this example with Native Classes](#native-class-usage)
 
 If you wish to only call a single service, just specify it's name as the first argument:
 
 ```js
 // only invokes the `trackPage` method on the `GoogleAnalyticsAdapter`
-
 metrics.trackPage('GoogleAnalytics', {
   title: 'My Awesome App',
 });
@@ -302,37 +298,8 @@ metrics.trackPage('GoogleAnalytics', {
 Often, you may want to include information like the current user's name with every event or page view that's tracked. Any properties that are set on `metrics.context` will be merged into options for every Service call.
 
 ```js
-import { set } from '@ember/object';
-
-set(this, 'metrics.context.userName', 'Jimbo');
+this.metrics.context.userName = 'Jimbo';
 this.metrics.trackPage({ page: 'page/1' }); // { userName: 'Jimbo', page: 'page/1' }
-```
-
-## Native Class usage
-
-If you are using an app built with the [Ember Octane Blueprint](https://github.com/ember-cli/ember-octane-blueprint) or otherwise implementing Native Class syntax in your routes, the following example can be used to report route transitions to ember-metrics:
-
-```js
-// app/routes/application.js
-import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
-
-export default class ApplicationRoute extends Route {
-  @service metrics;
-  @service router;
-
-  constructor() {
-    super(...arguments);
-
-    let router = this.router;
-    router.on('routeDidChange', () => {
-      const page = router.currentURL;
-      const title = router.currentRouteName || 'unknown';
-
-      this.metrics.trackPage({ page, title });
-    });
-  }
-}
 ```
 
 ### API
@@ -373,17 +340,17 @@ If an adapter implements specific methods you wish to call, then you can use `in
 If your app implements dynamic API keys for various analytics integration, you can defer the initialization of the adapters. Instead of configuring `ember-metrics` through `config/environment`, you can call the following from any Object registered in the container:
 
 ```js
-import { Route } from '@ember/routing/route';
+// app/routes/application.js
+import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-export default Route.extend({
-  metrics: service(),
+export default class ApplicationRoute extends Route {
+  @service metrics;
 
   afterModel(model) {
-    const metrics = this.metrics;
     const id = model.googleAnalyticsKey;
 
-    metrics.activateAdapters([
+    this.metrics.activateAdapters([
       {
         name: 'GoogleAnalytics',
         environments: ['all'],
@@ -392,8 +359,8 @@ export default Route.extend({
         },
       },
     ]);
-  },
-});
+  }
+}
 ```
 
 Because `activateAdapters` is idempotent, you can call it as many times as you'd like. However, it will not reinstantiate existing adapters.
@@ -457,23 +424,6 @@ module.exports = function (environment) {
 };
 ```
 
-## Testing
-
-For unit tests using old QUnit testing API (prior to
-[RFC 232](https://github.com/emberjs/rfcs/blob/master/text/0232-simplify-qunit-testing-api.md)),
-you will need to specify the adapters in use under `needs`, like so:
-
-```js
-moduleFor('route:foo', 'Unit | Route | foo', {
-  needs: [
-    'service:metrics',
-    'ember-metrics@metrics-adapter:google-analytics', // bundled adapter
-    'ember-metrics@metrics-adapter:mixpanel', // bundled adapter
-    'metrics-adapter:local-dummy-adapter', // local adapter
-  ],
-});
-```
-
 ## Contributors
 
 We're grateful to these wonderful contributors who've contributed to `ember-metrics`:
@@ -519,24 +469,11 @@ We're grateful to these wonderful contributors who've contributed to `ember-metr
 
 [//]: contributor-faces
 
-## Installation
+## Contributing
 
-- `git clone` this repository
-- `npm install`
-- `bower install`
+See the [Contributing](CONTRIBUTING.md) guide for details.
 
-## Running
 
-- `ember server`
-- Visit your app at http://localhost:4200.
+## License
 
-## Running Tests
-
-- `ember test`
-- `ember test --server`
-
-## Building
-
-- `ember build`
-
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+This project is licensed under the [MIT License](LICENSE.md).
