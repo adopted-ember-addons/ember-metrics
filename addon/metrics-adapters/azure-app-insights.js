@@ -1,6 +1,6 @@
 import { assert } from '@ember/debug';
 import BaseAdapter from './base';
-import removeFromDOM from '../utils/remove-from-dom';
+import removeFromDOM from '../-private/utils/remove-from-dom';
 
 export default class AzureAppInsightsAdapter extends BaseAdapter {
   toStringExtension() {

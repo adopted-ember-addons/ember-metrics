@@ -1,1 +1,1 @@
-export { default } from 'ember-metrics/utils/remove-from-dom';
+export { default } from 'ember-metrics/-private/utils/remove-from-dom';

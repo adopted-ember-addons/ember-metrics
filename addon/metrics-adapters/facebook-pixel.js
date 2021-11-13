@@ -1,5 +1,5 @@
-import { compact } from 'ember-metrics/utils/object-transforms';
-import removeFromDOM from 'ember-metrics/utils/remove-from-dom';
+import { compact } from 'ember-metrics/-private/utils/object-transforms';
+import removeFromDOM from 'ember-metrics/-private/utils/remove-from-dom';
 import BaseAdapter from './base';
 import { assert } from '@ember/debug';
 
