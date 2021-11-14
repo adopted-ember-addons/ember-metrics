@@ -1,7 +1,11 @@
 import BaseAdapter from './base';
 import { assert } from '@ember/debug';
-import { without, compact, isPresent } from '../utils/object-transforms';
-import removeFromDOM from '../utils/remove-from-dom';
+import {
+  without,
+  compact,
+  hasOwnProperties,
+} from 'ember-metrics/-private/utils/object-transforms';
+import removeFromDOM from 'ember-metrics/-private/utils/remove-from-dom';
 
 export default class Pendo extends BaseAdapter {
   toStringExtension() {
@@ -45,7 +49,7 @@ export default class Pendo extends BaseAdapter {
     const { event } = compactedOptions;
     const props = without(compactedOptions, 'event');
 
-    if (isPresent(props)) {
+    if (hasOwnProperties(props)) {
       window.pendo.track(event, props);
     } else {
       window.pendo.track(event);

@@ -1,9 +1,11 @@
 import BaseAdapter from 'ember-metrics/metrics-adapters/base';
-import objectTransforms from 'ember-metrics/utils/object-transforms';
-import removeFromDOM from 'ember-metrics/utils/remove-from-dom';
+import {
+  without,
+  compact,
+  hasOwnProperties,
+} from 'ember-metrics/-private/utils/object-transforms';
+import removeFromDOM from 'ember-metrics/-private/utils/remove-from-dom';
 import { assert, deprecate } from '@ember/debug';
-
-const { without, compact, isPresent } = objectTransforms;
 
 export default class AmplitudeMetricsAdapter extends BaseAdapter {
   toStringExtension() {
@@ -98,7 +100,7 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
     const { event } = compactedOptions;
     const props = without(compactedOptions, 'event');
 
-    if (isPresent(props)) {
+    if (hasOwnProperties(props)) {
       window.amplitude.getInstance().logEvent(event, props);
     } else {
       window.amplitude.getInstance().logEvent(event);

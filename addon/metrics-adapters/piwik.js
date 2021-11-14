@@ -1,5 +1,5 @@
 import { assert } from '@ember/debug';
-import removeFromDOM from '../utils/remove-from-dom';
+import removeFromDOM from '../-private/utils/remove-from-dom';
 import BaseAdapter from './base';
 
 export default class Piwik extends BaseAdapter {

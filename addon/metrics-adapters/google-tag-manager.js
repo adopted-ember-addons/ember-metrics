@@ -1,7 +1,7 @@
 import { assert } from '@ember/debug';
 import { capitalize } from '@ember/string';
-import { compact } from '../utils/object-transforms';
-import removeFromDOM from '../utils/remove-from-dom';
+import { compact } from 'ember-metrics/-private/utils/object-transforms';
+import removeFromDOM from 'ember-metrics/-private/utils/remove-from-dom';
 import BaseAdapter from './base';
 
 export default class GoogleTagManager extends BaseAdapter {

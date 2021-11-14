@@ -1,6 +1,10 @@
 import { assert } from '@ember/debug';
-import { without, compact, isPresent } from '../utils/object-transforms';
-import removeFromDOM from '../utils/remove-from-dom';
+import {
+  without,
+  compact,
+  hasOwnProperties,
+} from 'ember-metrics/-private/utils/object-transforms';
+import removeFromDOM from 'ember-metrics/-private/utils/remove-from-dom';
 import BaseAdapter from './base';
 
 export default class Mixpanel extends BaseAdapter {
@@ -38,7 +42,7 @@ export default class Mixpanel extends BaseAdapter {
     const { distinctId } = compactedOptions;
     const props = without(compactedOptions, 'distinctId');
 
-    if (isPresent(props)) {
+    if (hasOwnProperties(props)) {
       window.mixpanel.identify(distinctId);
       window.mixpanel.people.set(props);
     } else {
@@ -51,7 +55,7 @@ export default class Mixpanel extends BaseAdapter {
     const { event } = compactedOptions;
     const props = without(compactedOptions, 'event');
 
-    if (isPresent(props)) {
+    if (hasOwnProperties(props)) {
       window.mixpanel.track(event, props);
     } else {
       window.mixpanel.track(event);

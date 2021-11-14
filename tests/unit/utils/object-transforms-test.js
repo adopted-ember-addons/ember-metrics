@@ -1,4 +1,8 @@
-import objectTransforms from '../../../utils/object-transforms';
+import {
+  without,
+  compact,
+  hasOwnProperties,
+} from 'ember-metrics/-private/utils/object-transforms';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | object transforms', function () {
@@ -14,33 +18,12 @@ module('Unit | Utility | object transforms', function () {
       deskLocation: 'basement',
     };
 
-    const result = objectTransforms.without(employee, ['stapler']);
+    const result = without(employee, ['stapler']);
 
     assert.deepEqual(
       result,
       expectedResult,
       'it returns an object without the specified keys'
-    );
-  });
-
-  test('#only returns an object with only the specified keys', function (assert) {
-    const employee = {
-      name: 'Milton Waddams',
-      stapler: 'Red',
-      deskLocation: 'basement',
-    };
-
-    const expectedResult = {
-      name: 'Milton Waddams',
-      deskLocation: 'basement',
-    };
-
-    const result = objectTransforms.only(employee, ['name', 'deskLocation']);
-
-    assert.deepEqual(
-      result,
-      expectedResult,
-      'it returns an object with only the specified keys'
     );
   });
 
@@ -57,7 +40,7 @@ module('Unit | Utility | object transforms', function () {
       lastName: 'Bolton',
     };
 
-    const result = objectTransforms.compact(rawData);
+    const result = compact(rawData);
     assert.deepEqual(
       result,
       expectedResult,
@@ -65,20 +48,20 @@ module('Unit | Utility | object transforms', function () {
     );
   });
 
-  test('#isPresent returns `true` if an object is not empty ', function (assert) {
+  test('#hasOwnProperties returns `true` if an object is not empty ', function (assert) {
     const rawData = {
       foo: 'bar',
     };
 
-    const result = objectTransforms.isPresent(rawData);
+    const result = hasOwnProperties(rawData);
 
     assert.true(result, 'it returns `true` if an object is not empty');
   });
 
-  test('#isPresent returns `false` if an object is empty ', function (assert) {
+  test('#hasOwnProperties returns `false` if an object is empty ', function (assert) {
     const rawData = {};
 
-    const result = objectTransforms.isPresent(rawData);
+    const result = hasOwnProperties(rawData);
 
     assert.false(result, 'it returns `false` if an object is empty');
   });

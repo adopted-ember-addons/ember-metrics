@@ -1,1 +1,1 @@
-export { default } from 'ember-metrics/utils/object-transforms';
+export { default } from 'ember-metrics/-private/utils/object-transforms';
