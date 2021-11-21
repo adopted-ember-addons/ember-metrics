@@ -1,4 +1,4 @@
-import removeFromDOM from '../../../utils/remove-from-dom';
+import removeFromDOM from 'ember-metrics/-private/utils/remove-from-dom';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
