@@ -43,10 +43,6 @@ module('amplitude adapter', function (hooks) {
     assert
       .spy(this.instanceStub.identify)
       .calledWith([this.identityStub], 'it sends the correct user identity');
-
-    assert
-      .spy(this.instanceStub.logEvent)
-      .calledWith(['Identify'], 'it calls a logEvent for "Identify"');
   });
 
   test('#trackEvent sends the correct request shape', function (assert) {
