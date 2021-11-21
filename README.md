@@ -429,21 +429,23 @@ module.exports = function (environment) {
 We're grateful to these wonderful contributors who've contributed to `ember-metrics`:
 
 [//]: contributor-faces
-<a href="https://github.com/poteto"><img src="https://avatars.githubusercontent.com/u/1390709?v=4" title="poteto" width="80" height="80"></a>
 <a href="https://github.com/jherdman"><img src="https://avatars.githubusercontent.com/u/3300?v=4" title="jherdman" width="80" height="80"></a>
+<a href="https://github.com/poteto"><img src="https://avatars.githubusercontent.com/u/1390709?v=4" title="poteto" width="80" height="80"></a>
 <a href="https://github.com/kellyselden"><img src="https://avatars.githubusercontent.com/u/602423?v=4" title="kellyselden" width="80" height="80"></a>
 <a href="https://github.com/chrismllr"><img src="https://avatars.githubusercontent.com/u/9942917?v=4" title="chrismllr" width="80" height="80"></a>
 <a href="https://github.com/josemarluedke"><img src="https://avatars.githubusercontent.com/u/230476?v=4" title="josemarluedke" width="80" height="80"></a>
 <a href="https://github.com/lfrost"><img src="https://avatars.githubusercontent.com/u/5996000?v=4" title="lfrost" width="80" height="80"></a>
 <a href="https://github.com/dcyriller"><img src="https://avatars.githubusercontent.com/u/6677373?v=4" title="dcyriller" width="80" height="80"></a>
+<a href="https://github.com/jfdnc"><img src="https://avatars.githubusercontent.com/u/15672873?v=4" title="jfdnc" width="80" height="80"></a>
 <a href="https://github.com/mike-north"><img src="https://avatars.githubusercontent.com/u/558005?v=4" title="mike-north" width="80" height="80"></a>
 <a href="https://github.com/jelhan"><img src="https://avatars.githubusercontent.com/u/4965703?v=4" title="jelhan" width="80" height="80"></a>
 <a href="https://github.com/jwlawrence"><img src="https://avatars.githubusercontent.com/u/488888?v=4" title="jwlawrence" width="80" height="80"></a>
 <a href="https://github.com/cah-briangantzler"><img src="https://avatars.githubusercontent.com/u/1529286?v=4" title="cah-briangantzler" width="80" height="80"></a>
+<a href="https://github.com/GreatWizard"><img src="https://avatars.githubusercontent.com/u/1322081?v=4" title="GreatWizard" width="80" height="80"></a>
 <a href="https://github.com/denneralex"><img src="https://avatars.githubusercontent.com/u/5065602?v=4" title="denneralex" width="80" height="80"></a>
 <a href="https://github.com/Turbo87"><img src="https://avatars.githubusercontent.com/u/141300?v=4" title="Turbo87" width="80" height="80"></a>
-<a href="https://github.com/GreatWizard"><img src="https://avatars.githubusercontent.com/u/1322081?v=4" title="GreatWizard" width="80" height="80"></a>
 <a href="https://github.com/CvX"><img src="https://avatars.githubusercontent.com/u/66961?v=4" title="CvX" width="80" height="80"></a>
+<a href="https://github.com/Windvis"><img src="https://avatars.githubusercontent.com/u/3533236?v=4" title="Windvis" width="80" height="80"></a>
 <a href="https://github.com/sly7-7"><img src="https://avatars.githubusercontent.com/u/1826661?v=4" title="sly7-7" width="80" height="80"></a>
 <a href="https://github.com/tyleryasaka"><img src="https://avatars.githubusercontent.com/u/6504519?v=4" title="tyleryasaka" width="80" height="80"></a>
 <a href="https://github.com/opsb"><img src="https://avatars.githubusercontent.com/u/46232?v=4" title="opsb" width="80" height="80"></a>
@@ -451,21 +453,10 @@ We're grateful to these wonderful contributors who've contributed to `ember-metr
 <a href="https://github.com/Artmann"><img src="https://avatars.githubusercontent.com/u/91954?v=4" title="Artmann" width="80" height="80"></a>
 <a href="https://github.com/colinhoernig"><img src="https://avatars.githubusercontent.com/u/195992?v=4" title="colinhoernig" width="80" height="80"></a>
 <a href="https://github.com/gmurphey"><img src="https://avatars.githubusercontent.com/u/373721?v=4" title="gmurphey" width="80" height="80"></a>
-<a href="https://github.com/jfdnc"><img src="https://avatars.githubusercontent.com/u/15672873?v=4" title="jfdnc" width="80" height="80"></a>
 <a href="https://github.com/bobisjan"><img src="https://avatars.githubusercontent.com/u/112557?v=4" title="bobisjan" width="80" height="80"></a>
 <a href="https://github.com/JoepHeijnen"><img src="https://avatars.githubusercontent.com/u/23332441?v=4" title="JoepHeijnen" width="80" height="80"></a>
 <a href="https://github.com/jrjohnson"><img src="https://avatars.githubusercontent.com/u/349624?v=4" title="jrjohnson" width="80" height="80"></a>
 <a href="https://github.com/cibernox"><img src="https://avatars.githubusercontent.com/u/265339?v=4" title="cibernox" width="80" height="80"></a>
-<a href="https://github.com/nselikoff"><img src="https://avatars.githubusercontent.com/u/1994207?v=4" title="nselikoff" width="80" height="80"></a>
-<a href="https://github.com/reidab"><img src="https://avatars2.githubusercontent.com/u/13192?v=4" title="reidab" width="80" height="80"></a>
-<a href="https://github.com/locks"><img src="https://avatars1.githubusercontent.com/u/32344?v=4" title="locks" width="80" height="80"></a>
-<a href="https://github.com/achambers"><img src="https://avatars0.githubusercontent.com/u/416724?v=4" title="achambers" width="80" height="80"></a>
-<a href="https://github.com/XrXr"><img src="https://avatars2.githubusercontent.com/u/6457510?v=4" title="XrXr" width="80" height="80"></a>
-<a href="https://github.com/alexlafroscia"><img src="https://avatars2.githubusercontent.com/u/1645881?v=4" title="alexlafroscia" width="80" height="80"></a>
-<a href="https://github.com/balinterdi"><img src="https://avatars2.githubusercontent.com/u/5022?v=4" title="balinterdi" width="80" height="80"></a>
-<a href="https://github.com/bendemboski"><img src="https://avatars3.githubusercontent.com/u/559001?v=4" title="bendemboski" width="80" height="80"></a>
-<a href="https://github.com/ballPointPenguin"><img src="https://avatars0.githubusercontent.com/u/35609?v=4" title="ballPointPenguin" width="80" height="80"></a>
-<a href="https://github.com/bdelaforest"><img src="https://avatars2.githubusercontent.com/u/7151559?v=4" title="bdelaforest" width="80" height="80"></a>
 
 [//]: contributor-faces
 
