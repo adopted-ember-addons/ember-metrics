@@ -1,5 +1,34 @@
 # v1.1.0
 
+## v1.4.0 (2021-11-21)
+
+This will be the last release in the v1 series. See below for notes on the
+forthcoming v2 release.
+
+### Changes
+
+- Numerous dependency updates
+- Modernized tests using qunit-sinon-assertions
+- Add deprecations for adapters extending EmberObject
+- Deprecate an automatic identify event with Amplitude adapter (see https://github.com/adopted-ember-addons/ember-metrics/issues/278)
+- Type numerous object transformation tools (https://github.com/adopted-ember-addons/ember-metrics/pull/343)
+- Documentation updated
+- Add the Pendo adapter
+
+### Upcoming v2 release
+
+- An upgrade guide will be made available as soon as possible
+- This should resolve the embroider-optimized scenario failures
+
+### Closing remarks
+
+A hearty thank you to all contributors. The following people contributed to this release:
+
+* @GreatWizard
+* @jfdnc
+* @Windvis
+
+
 ## v1.3.1 (2021-09-26)
 
 * Resolves duplicate GTM script injection (#291, #292)
