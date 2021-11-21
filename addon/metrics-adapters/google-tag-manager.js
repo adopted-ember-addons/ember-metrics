@@ -11,8 +11,7 @@ export default class GoogleTagManager extends BaseAdapter {
     return 'GoogleTagManager';
   }
 
-  // eslint-disable-next-line ember/classic-decorator-hooks
-  init() {
+  install() {
     const { id, dataLayer, envParams } = this.config;
     const envParamsString = envParams ? `&${envParams}` : '';
 
@@ -74,7 +73,7 @@ export default class GoogleTagManager extends BaseAdapter {
     return pageEvent;
   }
 
-  willDestroy() {
+  uninstall() {
     removeFromDOM('script[src*="gtm.js"]');
 
     delete window.dataLayer;

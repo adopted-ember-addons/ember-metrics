@@ -11,6 +11,12 @@ module('google-analytics adapter', function (hooks) {
       id: 'UA-XXXX-Y',
       require: ['ecommerce'],
     };
+
+    this.adapter = null;
+  });
+
+  hooks.afterEach(function () {
+    this.adapter.uninstall();
   });
 
   test('#init calls ga create with a valid config', function (assert) {
@@ -20,12 +26,19 @@ module('google-analytics adapter', function (hooks) {
     this.config.sampleRate = 5;
 
     const adapter = new GoogleAnalytics(this.config);
+    this.adapter = adapter;
+
+    // We can't stub GA before it exists, and we really want to check that it is installed
+    // correctly. Therefore let's set up a completely fake GA object so that we can stub
+    // its setup, and assert upon it therein.
+    sinon.stub(adapter, '_injectScript').callsFake(() => {});
+    window.ga = function () {};
 
     const stub = sinon.stub(window, 'ga').callsFake(() => {
       return true;
     });
 
-    adapter.init();
+    adapter.install();
 
     assert
       .spy(stub)
@@ -43,12 +56,19 @@ module('google-analytics adapter', function (hooks) {
     this.config.trackerName = 'myEngineTracker';
 
     const adapter = new GoogleAnalytics(this.config);
+    this.adapter = adapter;
+
+    // We can't stub GA before it exists, and we really want to check that it is installed
+    // correctly. Therefore let's set up a completely fake GA object so that we can stub
+    // its setup, and assert upon it therein.
+    sinon.stub(adapter, '_injectScript').callsFake(() => {});
+    window.ga = function () {};
 
     const stub = sinon.stub(window, 'ga').callsFake(() => {
       return true;
     });
 
-    adapter.init();
+    adapter.install();
 
     assert
       .spy(stub)
@@ -66,12 +86,19 @@ module('google-analytics adapter', function (hooks) {
 
   test('#init calls ga for any plugins specified', function (assert) {
     const adapter = new GoogleAnalytics(this.config);
+    this.adapter = adapter;
+
+    // We can't stub GA before it exists, and we really want to check that it is installed
+    // correctly. Therefore let's set up a completely fake GA object so that we can stub
+    // its setup, and assert upon it therein.
+    sinon.stub(adapter, '_injectScript').callsFake(() => {});
+    window.ga = function () {};
 
     const stub = sinon.stub(window, 'ga').callsFake(() => {
       return true;
     });
 
-    adapter.init();
+    adapter.install();
 
     assert
       .spy(stub)
@@ -80,6 +107,8 @@ module('google-analytics adapter', function (hooks) {
 
   test('#identify calls ga with the right arguments', function (assert) {
     const adapter = new GoogleAnalytics(this.config);
+    adapter.install();
+    this.adapter = adapter;
 
     const stub = sinon.stub(window, 'ga').callsFake(() => {
       return true;
@@ -94,6 +123,8 @@ module('google-analytics adapter', function (hooks) {
 
   test('#trackEvent returns the correct response shape', function (assert) {
     const adapter = new GoogleAnalytics(this.config);
+    adapter.install();
+    this.adapter = adapter;
 
     sinon.stub(window, 'ga');
 
@@ -123,6 +154,9 @@ module('google-analytics adapter', function (hooks) {
 
   test('#trackPage returns the correct response shape', function (assert) {
     const adapter = new GoogleAnalytics(this.config);
+    adapter.install();
+    this.adapter = adapter;
+
     sinon.stub(window, 'ga');
 
     const result = adapter.trackPage({
@@ -151,6 +185,8 @@ module('google-analytics adapter', function (hooks) {
 
   test('#trackEvent with trackerName returns the correct response shape', function (assert) {
     const adapter = new GoogleAnalytics(this.config);
+    adapter.install();
+    this.adapter = adapter;
 
     sinon.stub(window, 'ga');
 

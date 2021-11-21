@@ -12,8 +12,7 @@ export default class Mixpanel extends BaseAdapter {
     return 'Mixpanel';
   }
 
-  // eslint-disable-next-line ember/classic-decorator-hooks
-  init() {
+  install() {
     const config = { ...{ batch_requests: true }, ...this.config };
     const { token } = config;
     delete config.token;
@@ -80,7 +79,7 @@ export default class Mixpanel extends BaseAdapter {
     }
   }
 
-  willDestroy() {
+  uninstall() {
     removeFromDOM('script[src*="mixpanel"]');
 
     delete window.mixpanel;

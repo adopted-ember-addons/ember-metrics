@@ -12,6 +12,11 @@ module('intercom adapter', function (hooks) {
     };
 
     this.adapter = new Intercom(this.config);
+    this.adapter.install();
+  });
+
+  hooks.afterEach(function () {
+    this.adapter.uninstall();
   });
 
   test('#identify with `distinctId` calls `Intercom()` with the right arguments', function (assert) {

@@ -8,8 +8,7 @@ export default class Segment extends BaseAdapter {
     return 'Segment';
   }
 
-  // eslint-disable-next-line ember/classic-decorator-hooks
-  init() {
+  install() {
     const config = { ...this.config };
     const segmentKey = config.key;
 
@@ -145,7 +144,7 @@ export default class Segment extends BaseAdapter {
     window.analytics.page(page, compactedOptions);
   }
 
-  willDestroy() {
+  uninstall() {
     removeFromDOM('script[src*="segment.com"]');
 
     delete window.analytics;

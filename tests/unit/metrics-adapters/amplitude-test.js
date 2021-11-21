@@ -24,11 +24,16 @@ module('amplitude adapter', function (hooks) {
     };
 
     this.adapter = new Amplitude(this.config);
+    this.adapter.install();
+
+    sinon.replace(window.amplitude, 'getInstance', () => this.instanceStub);
+  });
+
+  hooks.afterEach(function () {
+    this.adapter.uninstall();
   });
 
   test('#identify sets the distinct user ID, and calls amplitude with any extra user properties', function (assert) {
-    sinon.replace(window.amplitude, 'getInstance', () => this.instanceStub);
-
     this.adapter._identity = this.identityStub;
 
     this.adapter.identify({
@@ -46,8 +51,6 @@ module('amplitude adapter', function (hooks) {
   });
 
   test('#trackEvent sends the correct request shape', function (assert) {
-    sinon.replace(window.amplitude, 'getInstance', () => this.instanceStub);
-
     this.adapter.trackEvent({
       event: 'Registered User',
       email: 'joel.embiid@sixers.net',
@@ -66,8 +69,6 @@ module('amplitude adapter', function (hooks) {
   });
 
   test('#trackPage returns the correct response shape', function (assert) {
-    sinon.replace(window.amplitude, 'getInstance', () => this.instanceStub);
-
     const pageProperties = {
       url: '/shot-charts/missed-threes',
     };
@@ -83,8 +84,6 @@ module('amplitude adapter', function (hooks) {
   });
 
   test('#optOut calls amplitude optOut with false', function (assert) {
-    sinon.replace(window.amplitude, 'getInstance', () => this.instanceStub);
-
     this.adapter.optOut();
 
     assert
@@ -93,8 +92,6 @@ module('amplitude adapter', function (hooks) {
   });
 
   test('#optIn calls amplitude optOut with false', function (assert) {
-    sinon.replace(window.amplitude, 'getInstance', () => this.instanceStub);
-
     this.adapter.optIn();
 
     assert

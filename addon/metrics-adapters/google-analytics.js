@@ -12,8 +12,7 @@ export default class GoogleAnalytics extends BaseAdapter {
     return 'GoogleAnalytics';
   }
 
-  // eslint-disable-next-line ember/classic-decorator-hooks
-  init() {
+  install() {
     const config = { ...this.config };
     const { id, sendHitTask, trace, require, debug, trackerName } = config;
 
@@ -116,7 +115,7 @@ export default class GoogleAnalytics extends BaseAdapter {
     return event;
   }
 
-  willDestroy() {
+  uninstall() {
     removeFromDOM('script[src*="google-analytics"]');
 
     delete window.ga;

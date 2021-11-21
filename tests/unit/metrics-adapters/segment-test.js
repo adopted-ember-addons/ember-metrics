@@ -12,6 +12,11 @@ module('segment adapter', function (hooks) {
     };
 
     this.adapter = new Segment(config);
+    this.adapter.install();
+  });
+
+  hooks.afterEach(function () {
+    this.adapter.uninstall();
   });
 
   test('#identify calls analytics with the right arguments', function (assert) {
