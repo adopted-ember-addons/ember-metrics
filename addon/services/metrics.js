@@ -225,9 +225,7 @@ export default class Metrics extends Service {
    * @return {Void}
    */
   willDestroy() {
-    for (let adapter of this._adapters) {
-      adapter.destroy();
-    }
+    Object.values(this._adapters).forEach((adapter) => adapter.destroy());
   }
 }
 
