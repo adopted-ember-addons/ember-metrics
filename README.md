@@ -453,10 +453,10 @@ We're grateful to these wonderful contributors who've contributed to `ember-metr
 <a href="https://github.com/Artmann"><img src="https://avatars.githubusercontent.com/u/91954?v=4" title="Artmann" width="80" height="80"></a>
 <a href="https://github.com/colinhoernig"><img src="https://avatars.githubusercontent.com/u/195992?v=4" title="colinhoernig" width="80" height="80"></a>
 <a href="https://github.com/gmurphey"><img src="https://avatars.githubusercontent.com/u/373721?v=4" title="gmurphey" width="80" height="80"></a>
+<a href="https://github.com/gilest"><img src="https://avatars.githubusercontent.com/u/36919?v=4" title="gilest" width="80" height="80"></a>
 <a href="https://github.com/bobisjan"><img src="https://avatars.githubusercontent.com/u/112557?v=4" title="bobisjan" width="80" height="80"></a>
 <a href="https://github.com/JoepHeijnen"><img src="https://avatars.githubusercontent.com/u/23332441?v=4" title="JoepHeijnen" width="80" height="80"></a>
 <a href="https://github.com/jrjohnson"><img src="https://avatars.githubusercontent.com/u/349624?v=4" title="jrjohnson" width="80" height="80"></a>
-<a href="https://github.com/cibernox"><img src="https://avatars.githubusercontent.com/u/265339?v=4" title="cibernox" width="80" height="80"></a>
 
 [//]: contributor-faces
 
