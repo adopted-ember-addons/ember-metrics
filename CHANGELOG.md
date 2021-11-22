@@ -1,5 +1,16 @@
 # v1.1.0
 
+## v1.4.1 (2021-11-22)
+
+#### Changes
+
+- Fix teardown code (https://github.com/adopted-ember-addons/ember-metrics/pull/374)
+
+#### Closing remarks
+
+Thank you to @gilest for catching this bug. D'oh!
+
+
 ## v1.4.0 (2021-11-21)
 
 This will be the last release in the v1 series. See below for notes on the
