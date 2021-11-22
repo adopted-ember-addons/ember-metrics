@@ -170,19 +170,19 @@ export default class Metrics extends Service {
   }
 
   identify() {
-    this.invoke('identify', arguments);
+    this.invoke('identify', ...arguments);
   }
 
   alias() {
-    this.invoke('alias', arguments);
+    this.invoke('alias', ...arguments);
   }
 
   trackEvent() {
-    this.invoke('trackEvent', arguments);
+    this.invoke('trackEvent', ...arguments);
   }
 
   trackPage() {
-    this.invoke('trackPage', arguments);
+    this.invoke('trackPage', ...arguments);
   }
 
   /**
