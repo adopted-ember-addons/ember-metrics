@@ -1,5 +1,12 @@
 # v1.1.0
 
+## v1.4.2 (2021-11-22)
+
+- Fix Metrics Service convenience invoke methods https://github.com/adopted-ember-addons/ember-metrics/pull/381
+
+Thanks to @jaswilli, and my apologies for the rockiness of this release.
+
+
 ## v1.4.1 (2021-11-22)
 
 #### Changes
