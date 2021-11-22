@@ -12,8 +12,7 @@ export default class Pendo extends BaseAdapter {
     return 'Pendo';
   }
 
-  // eslint-disable-next-line ember/classic-decorator-hooks
-  init() {
+  install() {
     const { apiKey } = this.config;
 
     assert(
@@ -63,7 +62,7 @@ export default class Pendo extends BaseAdapter {
     this.trackEvent(mergedOptions);
   }
 
-  willDestroy() {
+  uninstall() {
     removeFromDOM('script[src*="pendo.js"]');
 
     delete window.pendo;

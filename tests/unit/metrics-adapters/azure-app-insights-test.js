@@ -12,6 +12,11 @@ module('azure-app-insights adapter', function (hooks) {
     };
 
     this.adapter = new AzureAppInsights(this.config);
+    this.adapter.install();
+  });
+
+  hooks.afterEach(function () {
+    this.adapter.uninstall();
   });
 
   test('#trackEvent calls appInsights with the correct arguments', function (assert) {

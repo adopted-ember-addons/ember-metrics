@@ -12,6 +12,11 @@ module('pendo adapter', function (hooks) {
     };
 
     this.adapter = new Pendo(config);
+    this.adapter.install();
+  });
+
+  hooks.afterEach(function () {
+    this.adapter.uninstall();
   });
 
   test('#identify calls pendo with the right arguments', function (assert) {

@@ -12,8 +12,7 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
     return 'Amplitude';
   }
 
-  // eslint-disable-next-line ember/classic-decorator-hooks
-  init() {
+  install() {
     const { config } = this;
     const { apiKey, options } = config;
     assert(
@@ -109,9 +108,7 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
     window.amplitude.getInstance().setOptOut(false);
   }
 
-  willDestroy() {
+  uninstall() {
     removeFromDOM('script[src*="amplitude"]');
-
-    delete window.amplitude;
   }
 }
