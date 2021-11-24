@@ -1,5 +1,5 @@
 import Service from '@ember/service';
-import { assert, deprecate } from '@ember/debug';
+import { assert } from '@ember/debug';
 import { dasherize } from '@ember/string';
 import { getOwner } from '@ember/application';
 
@@ -39,16 +39,6 @@ export default class Metrics extends Service {
    */
   enabled = typeof navigator !== 'undefined' && navigator.doNotTrack !== '1';
 
-  get options() {
-    deprecate('Access to Metrics#options will be removed', {
-      id: 'ember-metrics:issue-298',
-      url: 'https://github.com/adopted-ember-addons/ember-metrics/issues/298',
-      until: '2.0.0',
-    });
-
-    return this._options;
-  }
-
   /**
    * Environment the host application is running in (e.g. development or production).
    */
@@ -56,8 +46,7 @@ export default class Metrics extends Service {
 
   /**
    * When the Service is created, activate adapters that were specified in the
-   * configuration. This config is injected into the Service as
-   * `options`.
+   * configuration. This config is injected into the Service as `options`.
    */
   constructor() {
     super(...arguments);
