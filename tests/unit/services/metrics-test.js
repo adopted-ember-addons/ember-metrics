@@ -412,4 +412,69 @@ module('Unit | Service | metrics', function (hooks) {
       'it activated the LocalDummyAdapter'
     );
   });
+
+  test('convenience methods correctly invoke a single adapter', function (assert) {
+    assert.expect(8);
+
+    const methods = ['identify', 'alias', 'trackEvent', 'trackPage'];
+    const opts = {
+      userId: '1e810c197e',
+      name: 'Bill Limbergh',
+      email: 'bill@initech.com',
+    };
+
+    methods.forEach((method) => {
+      const spy = sinon.spy(this.service._adapters.GoogleAnalytics, method);
+
+      this.service[method]('GoogleAnalytics', opts);
+
+      assert
+        .spy(spy)
+        .calledOnce(`it invokes the ${method} method on the adapter`);
+
+      assert
+        .spy(spy)
+        .calledWith(
+          [opts],
+          `it invokes the ${method} method with the correct arguments`
+        );
+    });
+  });
+
+  test('convenience methods correctly invoke available adapters when none specified', function (assert) {
+    assert.expect(24);
+
+    const methods = ['identify', 'alias', 'trackEvent', 'trackPage'];
+    const availableAdapters = [
+      'LocalDummyAdapter',
+      'Mixpanel',
+      'GoogleAnalytics',
+    ];
+    const opts = {
+      userId: '1e810c197e',
+      name: 'Bill Limbergh',
+      email: 'bill@initech.com',
+    };
+
+    methods.forEach((method) => {
+      const spies = availableAdapters.map((adapter) =>
+        sinon.spy(this.service._adapters[adapter], method)
+      );
+
+      this.service[method](opts);
+
+      spies.forEach((spy) => {
+        assert
+          .spy(spy)
+          .calledOnce(`it invokes the ${method} method on the adapter`);
+
+        assert
+          .spy(spy)
+          .calledWith(
+            [opts],
+            `it invokes the ${method} method with the correct arguments`
+          );
+      });
+    });
+  });
 });
