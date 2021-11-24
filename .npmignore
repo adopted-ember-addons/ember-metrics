@@ -25,7 +25,9 @@
 /bower.json
 /tsconfig.json
 /.github/
+/.husky/
 /config/ember-try.js
+/CODE_OF_CONDUCT.md
 /CONTRIBUTING.md
 /ember-cli-build.js
 /testem.js
