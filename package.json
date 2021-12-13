@@ -53,7 +53,7 @@
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.4.2",
-    "@embroider/test-setup": "^0.47.0",
+    "@embroider/test-setup": "^0.48.1",
     "@glimmer/tracking": "^1.0.4",
     "@types/ember-qunit": "^3.4.14",
     "@types/ember-resolver": "^5.0.10",
