@@ -53,7 +53,7 @@
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.4.2",
-    "@embroider/test-setup": "^0.50.2",
+    "@embroider/test-setup": "^1.2.0",
     "@glimmer/tracking": "^1.0.4",
     "@types/ember-qunit": "^3.4.14",
     "@types/ember-resolver": "^5.0.10",
@@ -73,7 +73,7 @@
     "@types/ember__template": "^3.16.1",
     "@types/ember__test": "^3.16.1",
     "@types/ember__test-helpers": "^2.0.2",
-    "@types/ember__utils": "^3.16.2",
+    "@types/ember__utils": "^4.0.0",
     "@types/htmlbars-inline-precompile": "^1.0.1",
     "@types/qunit": "^2.11.2",
     "@types/rsvp": "^4.0.4",
