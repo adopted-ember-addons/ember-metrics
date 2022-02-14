@@ -2061,11 +2061,12 @@
     "@types/ember__routing" "*"
     "@types/ember__service" "*"
 
-"@types/ember__runloop@*", "@types/ember__runloop@^3.16.3":
-  version "3.16.3"
-  resolved "https://registry.yarnpkg.com/@types/ember__runloop/-/ember__runloop-3.16.3.tgz#c37ed507aed0f642ef19cbc4b5d0b3a167e3ada6"
-  integrity sha512-iYT7+9z6lVOi4RSyM9tBwIOidRI0Y5nyaRtIMP1DhP8n2UZjvVG6ao4PkpFnpFWR4R8Ajj2p13SaPGxpEV62jg==
+"@types/ember__runloop@*", "@types/ember__runloop@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/ember__runloop/-/ember__runloop-4.0.0.tgz#74079b2423240f7b6a7c8f0d6485455082e21d4b"
+  integrity sha512-2BArjaywglzZ0xN0GwHZpkKJQJmjXohiY8i+cHTWLv9U34uiPjGpbIm4v5ev8zSobOcA4wHY8svJ/b/MhCpf0g==
   dependencies:
+    "@types/ember" "*"
     "@types/ember__runloop" "*"
 
 "@types/ember__service@*", "@types/ember__service@^3.16.1":
