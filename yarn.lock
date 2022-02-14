@@ -2104,10 +2104,12 @@
   dependencies:
     "@types/ember__application" "*"
 
-"@types/ember__utils@*", "@types/ember__utils@^3.16.2":
-  version "3.16.2"
-  resolved "https://registry.yarnpkg.com/@types/ember__utils/-/ember__utils-3.16.2.tgz#3fa9a0666a3e8204262e2a2960289aaf01f29467"
-  integrity sha512-tBbqewgegiKSpGZvGh3pbcoXwLCMvKVdLRE97vys75nAEz/vBzkGJm+PDz1HVaTkRukWbRhlDiTm2qFH8qRnSw==
+"@types/ember__utils@*", "@types/ember__utils@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/ember__utils/-/ember__utils-4.0.0.tgz#a7e9e11334b5e203324e6155ff74c2b33ec21567"
+  integrity sha512-gwSFUm+6t6StkQxSllbn9lqRms/dXMCQDieRfaTGN8IRatnKjJoEPME3A0T6O9afsU6viBQyqlPyFxsOWknYkg==
+  dependencies:
+    "@types/ember" "*"
 
 "@types/eslint-scope@^3.7.0":
   version "3.7.1"

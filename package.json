@@ -73,7 +73,7 @@
     "@types/ember__template": "^3.16.1",
     "@types/ember__test": "^3.16.1",
     "@types/ember__test-helpers": "^2.0.2",
-    "@types/ember__utils": "^3.16.2",
+    "@types/ember__utils": "^4.0.0",
     "@types/htmlbars-inline-precompile": "^1.0.1",
     "@types/qunit": "^2.11.2",
     "@types/rsvp": "^4.0.4",
