@@ -79,6 +79,10 @@ module.exports = {
     );
   },
 
+  treeForApp: function (tree) {
+    return this.filterAdapters(tree, new RegExp('^metrics-adapters/', 'i'));
+  },
+
   filterAdapters: function (tree, regex) {
     var whitelisted = this.whitelisted;
 
