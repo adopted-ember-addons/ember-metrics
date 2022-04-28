@@ -45,6 +45,13 @@ module.exports = function (environment) {
         },
       },
       {
+        name: 'GoogleAnalyticsFour',
+        environments: ['all'],
+        config: {
+          id: 'G-XXX',
+        },
+      },
+      {
         // if `environments` is undefined, it defaults to all
         name: 'Mixpanel',
         // environments: ['all'],
