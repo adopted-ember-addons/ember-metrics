@@ -60,7 +60,8 @@ export default class GoogleAnalyticsFour extends BaseAdapter {
   trackPage(options = {}) {
     return this.trackEvent({
       event: 'page_view',
-      ...options,
+      page_location: options.page,
+      page_title: options.title,
     });
   }
 
