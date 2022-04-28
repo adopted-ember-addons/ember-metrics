@@ -45,6 +45,7 @@ Writing your own adapters for currently unsupported analytics services is easy t
 1. `Segment`
 
    - `key`: [Segment key](https://segment.com/docs/libraries/analytics.js/quickstart/)
+   - `proxyDomain`: _optional_ [Custom domain proxy](https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/custom-proxy/)
 
 1. `Piwik`
 
@@ -429,6 +430,7 @@ module.exports = function (environment) {
 We're grateful to these wonderful contributors who've contributed to `ember-metrics`:
 
 [//]: contributor-faces
+
 <a href="https://github.com/jherdman"><img src="https://avatars.githubusercontent.com/u/3300?v=4" title="jherdman" width="80" height="80"></a>
 <a href="https://github.com/poteto"><img src="https://avatars.githubusercontent.com/u/1390709?v=4" title="poteto" width="80" height="80"></a>
 <a href="https://github.com/kellyselden"><img src="https://avatars.githubusercontent.com/u/602423?v=4" title="kellyselden" width="80" height="80"></a>
@@ -463,7 +465,6 @@ We're grateful to these wonderful contributors who've contributed to `ember-metr
 ## Contributing
 
 See the [Contributing](CONTRIBUTING.md) guide for details.
-
 
 ## License
 

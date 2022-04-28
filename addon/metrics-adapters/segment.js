@@ -11,6 +11,7 @@ export default class Segment extends BaseAdapter {
   install() {
     const config = { ...this.config };
     const segmentKey = config.key;
+    const proxyDomain = config.proxyDomain || 'https://cdn.segment.com';
 
     assert(
       `[ember-metrics] You must pass a valid \`key\` to the ${this.toString()} adapter`,
@@ -87,8 +88,7 @@ export default class Segment extends BaseAdapter {
       const script = document.createElement('script');
       script.type = 'text/javascript';
       script.async = true;
-      script.src =
-        'https://cdn.segment.com/analytics.js/v1/' + key + '/analytics.min.js';
+      script.src = `${proxyDomain}/analytics.js/v1/${key}/analytics.min.js`;
 
       // Insert our script next to the first script element.
       const first = document.getElementsByTagName('script')[0];
