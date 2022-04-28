@@ -51,8 +51,8 @@ module('google-analytics-four adapter', function (hooks) {
     sinon.stub(window, 'dataLayer').value({ push() {} });
 
     const result = adapter.trackPage({
-      page_location: 'https://example.com/my-overridden-page?id=1',
-      page_title: 'my overridden page',
+      page: 'https://example.com/my-overridden-page?id=1',
+      title: 'my overridden page',
     });
 
     const expectedResult = {
