@@ -16,6 +16,13 @@ Writing your own adapters for currently unsupported analytics services is easy t
 
    - `id`: [Property ID](https://support.google.com/analytics/answer/1032385?hl=en), e.g. `UA-XXXX-Y`
 
+1. `GoogleAnalyticsFour`
+
+   - `id`: [Measurement Id](https://support.google.com/analytics/answer/9539598?hl=en), e.g. `G-XXXX`
+   - `autoTracking`: true (default)
+By default GA4 automatically tracks page views when the history locations changes. This means that `this.metrics.trackPage()` is ignoreded by default. However, if you want to track the page views manually, you need to disable autoTracking. To avoid double counting page views make sure [Enhanced measurement](https://support.google.com/analytics/answer/9216061) is configured correctly. Typically, this means disabling *Page changes based on browser history events* under the advanced settings of the page views section.
+  - `options`: _optional_ An object which will directrly passt to the configuration tag
+
 1. `Mixpanel`
 
    - `token`: [Mixpanel token](https://mixpanel.com/help/questions/articles/where-can-i-find-my-project-token)
@@ -129,6 +136,18 @@ module.exports = function (environment) {
           sendHitTask: environment !== 'development',
           // Specify Google Analytics plugins
           require: ['ecommerce'],
+        },
+      },
+      {
+        name: 'GoogleAnalyticsFour',
+        environments: ['development', 'production'],
+        config: {
+          id: 'G-XXXX',
+          autoTracking: true,
+          options: {
+            anonymize_ip: true,
+            debug_mode: environment === 'development',
+          }
         },
       },
       {
