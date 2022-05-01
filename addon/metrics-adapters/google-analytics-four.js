@@ -9,9 +9,11 @@ export default class GoogleAnalyticsFour extends BaseAdapter {
   }
 
   install() {
-    const { id, options } = this.config;
+    const { id, autoTracking, options } = this.config;
+
+    // If we disable autoTracking we need to stop sending a page view on page load during configuation. https://developers.google.com/analytics/devguides/collection/ga4/views?technology=websites#disable_pageviews
     const defaultOptions = {
-      send_page_view: false,
+      send_page_view: autoTracking ?? true,
     };
     const compactedOptions = compact({
       ...defaultOptions,
@@ -58,10 +60,21 @@ export default class GoogleAnalyticsFour extends BaseAdapter {
   }
 
   trackPage(options = {}) {
+    const autoTracking = this.config.autoTracking ?? true;
+
+    if (autoTracking) {
+      return;
+    }
+
+    options.page_location = options?.page;
+    options.page_title = options?.title;
+
+    delete options.page;
+    delete options.title;
+
     return this.trackEvent({
       event: 'page_view',
-      page_location: options.page,
-      page_title: options.title,
+      ...options,
     });
   }
 
