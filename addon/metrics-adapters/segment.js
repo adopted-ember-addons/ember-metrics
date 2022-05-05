@@ -11,6 +11,7 @@ export default class Segment extends BaseAdapter {
   install() {
     const config = { ...this.config };
     const segmentKey = config.key;
+    const proxyDomain = config.proxyDomain || 'https://cdn.segment.com';
 
     assert(
       `[ember-metrics] You must pass a valid \`key\` to the ${this.toString()} adapter`,
@@ -18,9 +19,7 @@ export default class Segment extends BaseAdapter {
     );
 
     // start of segment loading snippet, taken here:
-    // https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/#step-1-copy-the-snippet
-
-    /* eslint-disable no-console */
+    // https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/#step-2-copy-the-segment-snippet
 
     // Create a queue, but don't obliterate an existing one!
     let analytics = (window.analytics = window.analytics || []);
@@ -28,7 +27,7 @@ export default class Segment extends BaseAdapter {
     // If the real analytics.js is already on the page return.
     if (analytics.initialize) return;
 
-    // If the snippet was invoked already show an error
+    // If the snippet was invoked already show an error.
     if (analytics.invoked) {
       if (window.console && console.error) {
         console.error('Segment snippet included twice.');
@@ -42,8 +41,6 @@ export default class Segment extends BaseAdapter {
 
     // A list of the methods in Analytics.js to stub.
     analytics.methods = [
-      'addSourceMiddleware',
-      'addDestinationMiddleware',
       'trackSubmit',
       'trackClick',
       'trackLink',
@@ -60,15 +57,18 @@ export default class Segment extends BaseAdapter {
       'once',
       'off',
       'on',
+      'addSourceMiddleware',
+      'addIntegrationMiddleware',
+      'setAnonymousId',
+      'addDestinationMiddleware',
     ];
-
     // Define a factory to create stubs. These are placeholders
     // for methods in Analytics.js so that you never have to wait
     // for it to load to actually record data. The `method` is
     // stored as the first argument, so we can replay the data.
     analytics.factory = function (method) {
       return function () {
-        var args = Array.prototype.slice.call(arguments);
+        let args = Array.prototype.slice.call(arguments);
         args.unshift(method);
         analytics.push(args);
         return analytics;
@@ -76,8 +76,8 @@ export default class Segment extends BaseAdapter {
     };
 
     // For each of our methods, generate a queueing stub.
-    for (var i = 0; i < analytics.methods.length; i++) {
-      var key = analytics.methods[i];
+    for (let i = 0; i < analytics.methods.length; i++) {
+      const key = analytics.methods[i];
       analytics[key] = analytics.factory(key);
     }
 
@@ -85,26 +85,24 @@ export default class Segment extends BaseAdapter {
     // and that will be sure to only ever load it once.
     analytics.load = function (key, options) {
       // Create an async script element based on your key.
-      var script = document.createElement('script');
+      const script = document.createElement('script');
       script.type = 'text/javascript';
       script.async = true;
-      script.src =
-        'https://cdn.segment.com/analytics.js/v1/' + key + '/analytics.min.js';
+      script.src = `${proxyDomain}/analytics.js/v1/${key}/analytics.min.js`;
 
       // Insert our script next to the first script element.
-      var first = document.getElementsByTagName('script')[0];
+      const first = document.getElementsByTagName('script')[0];
       first.parentNode.insertBefore(script, first);
       analytics._loadOptions = options;
     };
+    analytics._writeKey = segmentKey;
 
     // Add a version to keep track of what's in the wild.
-    analytics.SNIPPET_VERSION = '4.1.0';
+    analytics.SNIPPET_VERSION = '4.15.2';
 
     // Load Analytics.js with your key, which will automatically
-    // load the tools you've enabled for your account.
+    // load the tools you've enabled for your account. Boosh!
     analytics.load(segmentKey);
-
-    /* eslint-enable no-console */
 
     // end of segment loading snippet
   }
