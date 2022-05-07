@@ -81,6 +81,11 @@ Writing your own adapters for currently unsupported analytics services is easy t
 
    - `apiKey`: [API Key](https://developers.pendo.io/docs/?bash#options)
 
+1.`MatomoTagManager`
+
+  - `matomoUrl`: [Matomo URL](https://developer.matomo.org/guides/tagmanager/embedding)
+  - `containerId`: [Container ID](https://developer.matomo.org/guides/tagmanager/embedding), e.g. `GTM-XXXX`
+
 #### Community adapters
 
 1. `Adobe Dynamic Tag Management`
@@ -198,6 +203,14 @@ module.exports = function (environment) {
         environments: ['all'], // default
         config: {
           foo: 'bar',
+        },
+      },
+      {
+        name: 'MatomoTagManager',
+        environments: ['production'], 
+        config: {
+          matomoUrl: 'https://matomo.my.com',
+          containerId: 'acd123'
         },
       },
     ],

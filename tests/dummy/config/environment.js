@@ -31,6 +31,7 @@ module.exports = function (environment) {
         'amplitude',
         'azure-app-insights',
         'pendo',
+        'matomo-tag-manager',
       ],
     },
 
