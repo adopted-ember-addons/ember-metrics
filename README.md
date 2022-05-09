@@ -81,10 +81,10 @@ Writing your own adapters for currently unsupported analytics services is easy t
 
    - `apiKey`: [API Key](https://developers.pendo.io/docs/?bash#options)
 
-1.`MatomoTagManager`
+1. `MatomoTagManager`
 
   - `matomoUrl`: [Matomo URL](https://developer.matomo.org/guides/tagmanager/embedding)
-  - `containerId`: [Container ID](https://developer.matomo.org/guides/tagmanager/embedding), e.g. `GTM-XXXX`
+  - `containerId`: [Container ID](https://developer.matomo.org/guides/tagmanager/embedding), e.g. `acbd1234`
 
 #### Community adapters
 
@@ -209,7 +209,7 @@ module.exports = function (environment) {
         name: 'MatomoTagManager',
         environments: ['production'], 
         config: {
-          matomoUrl: 'https://matomo.my.com',
+          matomoUrl: 'matomo.my.com',
           containerId: 'acd123'
         },
       },

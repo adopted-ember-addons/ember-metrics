@@ -8,7 +8,7 @@ module('matomo-tag-manager adapter', function (hooks) {
 
   hooks.beforeEach(function () {
     const config = {
-      matomoUrl: '/assets',
+      matomoUrl: 'matomo.my.example.net',
       containerId: 'abcd123',
     };
 
