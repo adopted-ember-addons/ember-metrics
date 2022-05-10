@@ -1,5 +1,23 @@
 # v1.1.0
 
+## v1.5.0 (2022-05-10)
+
+### Changes
+
+- Reexport the built-in MetricsAdapters from the app folder (https://github.com/adopted-ember-addons/ember-metrics/pull/432)
+- Add Matomo Tag Manager adapter (https://github.com/adopted-ember-addons/ember-metrics/pull/439)
+- Segment improvements (https://github.com/adopted-ember-addons/ember-metrics/pull/436)
+
+### Closing remarks
+
+Many thanks to our contributors:
+
+- @Windvis
+- @VincentHardouin
+- @GabrielCousin
+
+
+
 ## v1.4.1 (2021-11-22)
 
 #### Changes
