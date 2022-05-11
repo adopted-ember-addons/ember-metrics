@@ -44,13 +44,8 @@ module('facebook-pixel adapter', function (hooks) {
     };
 
     this.subject = new FacebookPixel(this.config);
-    this.subject.install();
 
     this.fbq = await waitForScripts(this.config);
-  });
-
-  hooks.afterEach(function () {
-    this.subject.uninstall();
   });
 
   test('#trackEvent calls `fbq.track` with the right arguments', function (assert) {

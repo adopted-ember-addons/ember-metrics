@@ -12,14 +12,8 @@ module('google-tag-manager adapter', function (hooks) {
     };
   });
 
-  hooks.afterEach(function () {
-    this.adapter.uninstall();
-  });
-
   test('#trackEvent returns the correct response shape', function (assert) {
     const adapter = new GoogleTagManager(this.config);
-    this.adapter = adapter;
-    adapter.install();
 
     sinon.stub(window, 'dataLayer').value({ push() {} });
 
@@ -48,8 +42,6 @@ module('google-tag-manager adapter', function (hooks) {
 
   test('#trackPage returns the correct response shape', function (assert) {
     const adapter = new GoogleTagManager(this.config);
-    this.adapter = adapter;
-    adapter.install();
 
     sinon.stub(window, 'dataLayer').value({ push() {} });
 
@@ -76,8 +68,6 @@ module('google-tag-manager adapter', function (hooks) {
     customConfig['dataLayer'] = 'customDataLayer';
 
     const adapter = new GoogleTagManager(this.config);
-    this.adapter = adapter;
-    adapter.install();
 
     sinon.stub(window, 'customDataLayer').value({ push() {} });
 
@@ -101,8 +91,6 @@ module('google-tag-manager adapter', function (hooks) {
 
   test('#trackPage accepts custom `keyNames` and returns the correct response shape', function (assert) {
     const adapter = new GoogleTagManager(this.config);
-    this.adapter = adapter;
-    adapter.install();
 
     sinon.stub(window, 'dataLayer').value({ push() {} });
 

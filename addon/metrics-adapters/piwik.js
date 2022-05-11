@@ -7,7 +7,8 @@ export default class Piwik extends BaseAdapter {
     return 'Piwik';
   }
 
-  install() {
+  // eslint-disable-next-line ember/classic-decorator-hooks
+  init() {
     const { piwikUrl, siteId } = this.config;
 
     assert(
@@ -48,7 +49,7 @@ export default class Piwik extends BaseAdapter {
     window._paq.push(['trackPageView', options.title]);
   }
 
-  uninstall() {
+  willDestroy() {
     removeFromDOM('script[src*="piwik"]');
 
     delete window._paq;
