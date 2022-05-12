@@ -153,9 +153,13 @@ export default class Metrics extends Service {
    * @return {Adapter}
    */
   _activateAdapter({ adapterClass, config }) {
-    const adapter = new adapterClass(config);
-    adapter.install();
-    return adapter;
+    const decoratedClass = class extends adapterClass {
+      identify = this.identify;
+      alias = this.alias;
+      trackEvent = this.trackEvent;
+      trackPage = this.trackPage;
+    };
+    return new decoratedClass(config, getOwner(this));
   }
 
   identify() {
@@ -207,10 +211,10 @@ export default class Metrics extends Service {
    * On teardown, destroy cached adapters together with the Service.
    *
    * @method willDestroy
-   * @return {void}
+   * @return {Void}
    */
   willDestroy() {
-    Object.values(this._adapters).forEach((adapter) => adapter.uninstall());
+    Object.values(this._adapters).forEach((adapter) => adapter.destroy());
   }
 }
 

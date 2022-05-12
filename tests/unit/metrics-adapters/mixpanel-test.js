@@ -10,14 +10,8 @@ module('mixpanel adapter', function (hooks) {
     this.config = { token: 'meowmeows' };
   });
 
-  hooks.afterEach(function () {
-    this.adapter.uninstall();
-  });
-
   test('#identify calls `mixpanel.identify` and `mixpanel.people.set` with the right arguments', function (assert) {
     const adapter = new Mixpanel(this.config);
-    this.adapter = adapter;
-    adapter.install();
 
     const identifyStub = sinon
       .stub(window.mixpanel, 'identify')
@@ -67,8 +61,6 @@ module('mixpanel adapter', function (hooks) {
 
   test('#trackEvent calls `mixpanel.track` with the right arguments', function (assert) {
     const adapter = new Mixpanel(this.config);
-    this.adapter = adapter;
-    adapter.install();
 
     const stub = sinon.stub(window.mixpanel, 'track').callsFake(() => {
       return true;
@@ -100,8 +92,6 @@ module('mixpanel adapter', function (hooks) {
 
   test('#trackPage calls `mixpanel.track` with the right arguments', function (assert) {
     const adapter = new Mixpanel(this.config);
-    this.adapter = adapter;
-    adapter.install();
 
     const stub = sinon.stub(window.mixpanel, 'track').callsFake(() => {
       return true;
@@ -131,8 +121,6 @@ module('mixpanel adapter', function (hooks) {
 
   test('#alias calls `mixpanel.alias` with the right arguments', function (assert) {
     const adapter = new Mixpanel(this.config);
-    this.adapter = adapter;
-    adapter.install();
 
     const stub = sinon.stub(window.mixpanel, 'alias').callsFake(() => {
       return true;
@@ -165,16 +153,12 @@ module('mixpanel adapter', function (hooks) {
     };
 
     const adapter = new Mixpanel(config);
-    this.adapter = adapter;
 
-    sinon.stub(adapter, '_injectScript').callsFake(() => {});
-
-    window.mixpanel = { init() {} };
     const initStub = sinon.stub(window.mixpanel, 'init').callsFake(() => {
       return true;
     });
 
-    adapter.install();
+    adapter.init();
 
     assert.spy(initStub.firstCall).calledWith(
       [

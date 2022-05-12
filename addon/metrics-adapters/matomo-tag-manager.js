@@ -7,7 +7,8 @@ export default class MatomoTagManager extends BaseAdapter {
     return 'MatomoTagManager';
   }
 
-  install() {
+  // eslint-disable-next-line ember/classic-decorator-hooks
+  init() {
     const { matomoUrl, containerId } = this.config;
 
     assert(

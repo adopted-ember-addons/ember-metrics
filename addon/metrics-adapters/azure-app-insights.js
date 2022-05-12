@@ -7,7 +7,8 @@ export default class AzureAppInsightsAdapter extends BaseAdapter {
     return 'AzureAppInsights';
   }
 
-  install() {
+  // eslint-disable-next-line ember/classic-decorator-hooks
+  init() {
     assert(
       `[ember-metrics] You must pass a \`instrumentationKey\`to the ${this.toString()} adapter`,
       this.config.instrumentationKey
@@ -50,7 +51,7 @@ export default class AzureAppInsightsAdapter extends BaseAdapter {
     }
   }
 
-  uninstall() {
+  willDestroy() {
     removeFromDOM('script[src*="azure"]');
 
     delete window.appInsights;

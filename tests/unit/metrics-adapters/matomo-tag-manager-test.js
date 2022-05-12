@@ -13,11 +13,6 @@ module('matomo-tag-manager adapter', function (hooks) {
     };
 
     this.adapter = new MatomoTagManager(config);
-    this.adapter.install();
-  });
-
-  hooks.afterEach(function () {
-    this.adapter.uninstall();
   });
 
   test('#identify calls MatomoTagManager with the right arguments', function (assert) {

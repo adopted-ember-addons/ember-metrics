@@ -13,7 +13,8 @@ export default class Intercom extends BaseAdapter {
     return 'Intercom';
   }
 
-  install() {
+  // eslint-disable-next-line ember/classic-decorator-hooks
+  init() {
     const { appId } = this.config;
 
     assert(
@@ -70,7 +71,7 @@ export default class Intercom extends BaseAdapter {
     this.trackEvent(mergedOptions);
   }
 
-  uninstall() {
+  willDestroy() {
     removeFromDOM('script[src*="intercom"]');
 
     delete window.Intercom;

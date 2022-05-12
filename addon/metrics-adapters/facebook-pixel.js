@@ -8,7 +8,8 @@ export default class FacebookPixel extends BaseAdapter {
     return 'FacebookPixel';
   }
 
-  install() {
+  // eslint-disable-next-line ember/classic-decorator-hooks
+  init() {
     const { id, dataProcessingOptions } = this.config;
 
     assert(
@@ -65,7 +66,7 @@ export default class FacebookPixel extends BaseAdapter {
     }
   }
 
-  uninstall() {
+  willDestroy() {
     if (window.fbq) {
       removeFromDOM('script[src*="fbevents.js"]');
 

@@ -1,15 +1,18 @@
 import BaseAdapter from 'ember-metrics/metrics-adapters/base';
+import { inject as service } from '@ember/service';
 
 export default class LocalDummyAdapter extends BaseAdapter {
   static supportsFastBoot = true;
-  foo = null;
+
+  @service application;
 
   toStringExtension() {
     return 'LocalDummy';
   }
 
-  install() {
-    this.foo = 'bar';
+  // eslint-disable-next-line ember/classic-decorator-hooks
+  init() {
+    this.application.foo = 'bar';
   }
 
   trackEvent({ controller }) {
@@ -18,5 +21,5 @@ export default class LocalDummyAdapter extends BaseAdapter {
     }
   }
 
-  uninstall() {}
+  willDestroy() {}
 }
