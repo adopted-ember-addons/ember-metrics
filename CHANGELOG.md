@@ -1,5 +1,12 @@
 # v1.1.0
 
+## v1.5.1 (2022-05-12)
+
+### Changes
+
+- Revert a broad refactor to native classes that's not backwards compatible https://github.com/adopted-ember-addons/ember-metrics/pull/372
+
+
 ## v1.5.0 (2022-05-10)
 
 ### Changes
