@@ -1,5 +1,17 @@
 # v1.1.0
 
+## v2.0.0-beta.1 (2022-05-12)
+
+### Changes
+
+A significant the Metrics adapter API. We're rewriting these as native classes
+in order to move away from the Ember Object model. Historically we've relied
+upon the `init` and `willDestroy` hooks to do our cleanup. Moving forward an
+`install` and `uninstall` hook will need to be defined. Please see the
+[Google Analytics](https://github.com/adopted-ember-addons/ember-metrics/blob/4d0f088a302597d3ab7b2e5efd08ce51a78b1d68/addon/metrics-adapters/google-analytics.js)
+for an example.
+
+
 ## v1.5.0 (2022-05-10)
 
 ### Changes
