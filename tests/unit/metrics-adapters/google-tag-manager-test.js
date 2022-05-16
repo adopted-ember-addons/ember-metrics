@@ -16,33 +16,38 @@ module('google-tag-manager adapter', function (hooks) {
     this.adapter.uninstall();
   });
 
-  test('#trackEvent returns the correct response shape', function (assert) {
+  test('#trackEvent pushes the event into the dataLayer', function (assert) {
     const adapter = new GoogleTagManager(this.config);
     this.adapter = adapter;
     adapter.install();
 
-    sinon.stub(window, 'dataLayer').value({ push() {} });
+    const events = [];
+    sinon.stub(window, 'dataLayer').value({
+      push(e) {
+        events.push(e);
+      },
+    });
 
-    const result = adapter.trackEvent({
+    const eventPayload = {
       event: 'click-button',
       category: 'button',
       action: 'click',
       label: 'nav buttons',
       value: 4,
-    });
-
-    const expectedResult = {
-      event: 'click-button',
-      eventCategory: 'button',
-      eventAction: 'click',
-      eventLabel: 'nav buttons',
-      eventValue: 4,
     };
+
+    const result = adapter.trackEvent(eventPayload);
 
     assert.deepEqual(
       result,
-      expectedResult,
+      eventPayload,
       'it sends the correct response shape'
+    );
+
+    assert.deepEqual(
+      events[0],
+      eventPayload,
+      'it pushes the event into the dataLayer'
     );
   });
 
