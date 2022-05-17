@@ -1,5 +1,12 @@
 # v1.1.0
 
+## v1.5.2 (2022-05-17)
+
+### Changes
+
+Introduce deprecation warning for some GA behaviour (https://github.com/adopted-ember-addons/ember-metrics/pull/444)
+
+
 ## v1.5.1 (2022-05-12)
 
 ### Changes
