@@ -323,22 +323,6 @@ module('Unit | Service | metrics', function (hooks) {
     );
   });
 
-  test('it can be disabled', function (assert) {
-    const googleAnalyticsSpy = sinon.spy(
-      this.service._adapters.GoogleAnalytics,
-      'trackPage'
-    );
-
-    set(this.service, 'enabled', false);
-
-    this.service.invoke('trackPage', 'GoogleAnalytics', {
-      page: 'page/1',
-      title: 'page one',
-    });
-
-    assert.spy(googleAnalyticsSpy).calledTimes(0, 'it does not call adapters');
-  });
-
   test('it implements standard contracts', function (assert) {
     delete window.mixpanel.toString;
 
