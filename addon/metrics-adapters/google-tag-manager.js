@@ -1,4 +1,4 @@
-import { assert } from '@ember/debug';
+import { assert, deprecate } from '@ember/debug';
 import { capitalize } from '@ember/string';
 import { compact } from 'ember-metrics/-private/utils/object-transforms';
 import removeFromDOM from 'ember-metrics/-private/utils/remove-from-dom';
@@ -46,6 +46,17 @@ export default class GoogleTagManager extends BaseAdapter {
     const compactedOptions = compact(options);
     const dataLayer = this.dataLayer;
     const gtmEvent = { event: compactedOptions['event'] };
+
+    deprecate(
+      'Future versions of the GoogleTagManagerAdapter will no longer prefix top-level dataLayer keys with `event`. If you wish to retain this behaviour you will need to override the adapter and prefix the keys yourself.',
+      false,
+      {
+        id: 'ember-metrics.issue-438',
+        for: 'ember-metrics',
+        since: '1.5.0',
+        until: '2.0.0',
+      }
+    );
 
     delete compactedOptions['event'];
 
