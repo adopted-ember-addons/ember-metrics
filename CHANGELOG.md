@@ -1,5 +1,3 @@
-# v1.1.0
-
 ## v2.0.0-beta.1 (2022-05-12)
 
 ### Changes
@@ -11,6 +9,18 @@ upon the `init` and `willDestroy` hooks to do our cleanup. Moving forward an
 [Google Analytics](https://github.com/adopted-ember-addons/ember-metrics/blob/4d0f088a302597d3ab7b2e5efd08ce51a78b1d68/addon/metrics-adapters/google-analytics.js)
 for an example.
 
+## v1.5.2 (2022-05-17)
+
+### Changes
+
+Introduce deprecation warning for some GA behaviour (https://github.com/adopted-ember-addons/ember-metrics/pull/444)
+
+
+## v1.5.1 (2022-05-12)
+
+### Changes
+
+- Revert a broad refactor to native classes that's not backwards compatible https://github.com/adopted-ember-addons/ember-metrics/pull/372
 
 ## v1.5.0 (2022-05-10)
 
