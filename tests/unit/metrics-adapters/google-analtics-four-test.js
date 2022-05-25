@@ -9,6 +9,7 @@ module('google-analytics-four adapter', function (hooks) {
   hooks.beforeEach(function () {
     this.config = {
       id: 'G-XXX',
+      autoTracking: false,
     };
   });
 
