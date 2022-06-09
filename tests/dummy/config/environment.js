@@ -32,6 +32,7 @@ module.exports = function (environment) {
         'azure-app-insights',
         'pendo',
         'matomo-tag-manager',
+        'hotjar',
       ],
     },
 
