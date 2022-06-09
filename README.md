@@ -83,8 +83,12 @@ Writing your own adapters for currently unsupported analytics services is easy t
 
 1. `MatomoTagManager`
 
-  - `matomoUrl`: [Matomo URL](https://developer.matomo.org/guides/tagmanager/embedding)
-  - `containerId`: [Container ID](https://developer.matomo.org/guides/tagmanager/embedding), e.g. `acbd1234`
+   - `matomoUrl`: [Matomo URL](https://developer.matomo.org/guides/tagmanager/embedding)
+   - `containerId`: [Container ID](https://developer.matomo.org/guides/tagmanager/embedding), e.g. `acbd1234`
+
+1. `Hotjar`
+
+   - `siteId`: [SiteID](https://help.hotjar.com/hc/en-us/articles/115009336727-How-to-Install-your-Hotjar-Tracking-Code)
 
 #### Community adapters
 
@@ -211,6 +215,13 @@ module.exports = function (environment) {
         config: {
           matomoUrl: 'matomo.my.com',
           containerId: 'acd123'
+        },
+      },
+      {
+        name: 'Hotjar',
+        environments: ['production'],
+        config: {
+          siteId: '123456789',
         },
       },
     ],
