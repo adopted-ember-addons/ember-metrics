@@ -58,7 +58,7 @@
     "@types/ember-qunit": "^3.4.14",
     "@types/ember-resolver": "^5.0.10",
     "@types/ember__application": "^3.16.3",
-    "@types/ember__array": "^3.16.4",
+    "@types/ember__array": "^4.0.2",
     "@types/ember__component": "^3.16.6",
     "@types/ember__controller": "^3.16.6",
     "@types/ember__debug": "^3.16.5",
