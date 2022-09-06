@@ -1977,11 +1977,12 @@
     "@types/ember__object" "*"
     "@types/ember__routing" "*"
 
-"@types/ember__array@*", "@types/ember__array@^3.16.4":
-  version "3.16.4"
-  resolved "https://registry.yarnpkg.com/@types/ember__array/-/ember__array-3.16.4.tgz#d61b5b876e4976de03aa027ea89cb48cd640d49d"
-  integrity sha512-K21LKDNDW3ug0fLsFUTHZPyaFnzUUZEOtsmzmmeXKI6apJcoaz/yF3V0fvM2FUWNLs6rXB3PXegtzik6lq44Yw==
+"@types/ember__array@*", "@types/ember__array@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@types/ember__array/-/ember__array-4.0.2.tgz#795b377f6cbb9830413227522680feed674aa126"
+  integrity sha512-d2eU8O5QtqDd/ZqMV3yzIbULh8wPx6UMvxwJ0ThnNgCIFcZLO98deM5w6m5aU6K48Xu1wWzjJBa0jktGSFWXJw==
   dependencies:
+    "@types/ember" "*"
     "@types/ember__array" "*"
     "@types/ember__object" "*"
 
