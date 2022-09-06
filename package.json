@@ -62,7 +62,7 @@
     "@types/ember__component": "^3.16.6",
     "@types/ember__controller": "^3.16.6",
     "@types/ember__debug": "^3.16.5",
-    "@types/ember__engine": "^3.16.3",
+    "@types/ember__engine": "^4.0.2",
     "@types/ember__error": "^3.16.1",
     "@types/ember__object": "^4.0.4",
     "@types/ember__polyfills": "^3.12.1",
