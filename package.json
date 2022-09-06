@@ -65,7 +65,7 @@
     "@types/ember__engine": "^4.0.2",
     "@types/ember__error": "^3.16.1",
     "@types/ember__object": "^4.0.4",
-    "@types/ember__polyfills": "^3.12.1",
+    "@types/ember__polyfills": "^4.0.0",
     "@types/ember__routing": "^3.16.15",
     "@types/ember__runloop": "^4.0.1",
     "@types/ember__service": "^3.16.1",
