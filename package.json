@@ -57,7 +57,7 @@
     "@glimmer/tracking": "^1.0.4",
     "@types/ember-qunit": "^5.0.1",
     "@types/ember-resolver": "^5.0.10",
-    "@types/ember__application": "^3.16.3",
+    "@types/ember__application": "^4.0.1",
     "@types/ember__array": "^4.0.2",
     "@types/ember__component": "^4.0.10",
     "@types/ember__controller": "^4.0.1",
