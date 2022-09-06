@@ -68,7 +68,7 @@
     "@types/ember__polyfills": "^3.12.1",
     "@types/ember__routing": "^3.16.15",
     "@types/ember__runloop": "^4.0.1",
-    "@types/ember__service": "^3.16.1",
+    "@types/ember__service": "^4.0.0",
     "@types/ember__string": "^3.16.3",
     "@types/ember__template": "^4.0.0",
     "@types/ember__test": "^3.16.1",
