@@ -1976,14 +1976,14 @@
     "@types/ember__array" "*"
     "@types/ember__object" "*"
 
-"@types/ember__component@*", "@types/ember__component@^3.16.6":
-  version "3.16.6"
-  resolved "https://registry.yarnpkg.com/@types/ember__component/-/ember__component-3.16.6.tgz#affc4798ee97f58747f5d173b8f739ddab26e551"
-  integrity sha512-Zi82wppu0wtijXKAsyn75KBauJKIIHoYk5cbk7OmOKE2zmV1qzCfsxjM8x9iTJpu97T1P0vXWZ91aXM7KeQFMw==
+"@types/ember__component@*", "@types/ember__component@^4.0.10":
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/@types/ember__component/-/ember__component-4.0.10.tgz#554d9d384c6441003f0bdfbb709dab7085007cdb"
+  integrity sha512-ggF6EoKp7o0FKmZ9UKUzsLXHfcho+mKFnHQfUL1k/sUjkHxSd33fIATYuNIGZARRn2JzhYYfRqkgRIRBsoEiaQ==
   dependencies:
+    "@types/ember" "*"
     "@types/ember__component" "*"
     "@types/ember__object" "*"
-    "@types/jquery" "*"
 
 "@types/ember__controller@*", "@types/ember__controller@^3.16.6":
   version "3.16.6"
