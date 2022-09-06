@@ -2182,10 +2182,10 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/htmlbars-inline-precompile@*", "@types/htmlbars-inline-precompile@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@types/htmlbars-inline-precompile/-/htmlbars-inline-precompile-1.0.1.tgz#de564513fabb165746aecd76369c87bd85e5bbb4"
-  integrity sha512-sVD2e6QAAHW0Y6Btse+tTA9k9g0iKm87wjxRsgZRU5EwSooz80tenbV+fA+f2BI2g0G2CqxsS1rIlwQCtPRQow==
+"@types/htmlbars-inline-precompile@*", "@types/htmlbars-inline-precompile@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/htmlbars-inline-precompile/-/htmlbars-inline-precompile-3.0.0.tgz#4d3f19eeb2af9f4605620e13a566dae3952a4f68"
+  integrity sha512-n1YwM/Q937KmS9W4Ytran71nzhhcT2FDQI00eRGBNUyeErLZspBdDBewEe1F8tcRlUdsCVo2AZBLJsRjEceTRg==
 
 "@types/http-cache-semantics@*":
   version "4.0.1"
@@ -6256,9 +6256,9 @@ escodegen@^2.0.0:
     source-map "~0.6.1"
 
 eslint-config-prettier@^8.3.0:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.3.0.tgz#f7471b20b6fe8a9a9254cc684454202886a2dd7a"
-  integrity sha512-BgZuLUSeKzvlL/VUjx/Yb787VQ26RU3gGjA3iiFvdsp/2bMfVIWUVP7tjxtjS0e+HP409cPlPvNkQloz8C91ew==
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.5.0.tgz#5a81680ec934beca02c7b1a61cf8ca34b66feab1"
+  integrity sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==
 
 eslint-plugin-ember@^10.5.4:
   version "10.5.8"
