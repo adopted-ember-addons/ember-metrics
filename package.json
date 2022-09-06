@@ -71,7 +71,7 @@
     "@types/ember__service": "^4.0.0",
     "@types/ember__string": "^3.16.3",
     "@types/ember__template": "^4.0.0",
-    "@types/ember__test": "^3.16.1",
+    "@types/ember__test": "^4.0.0",
     "@types/ember__test-helpers": "^2.0.2",
     "@types/ember__utils": "^4.0.0",
     "@types/htmlbars-inline-precompile": "^3.0.0",
