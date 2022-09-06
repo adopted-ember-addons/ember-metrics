@@ -2090,10 +2090,10 @@
     "@types/ember__test-helpers" "*"
     "@types/htmlbars-inline-precompile" "*"
 
-"@types/ember__test@*", "@types/ember__test@^3.16.1":
-  version "3.16.1"
-  resolved "https://registry.yarnpkg.com/@types/ember__test/-/ember__test-3.16.1.tgz#8407e42b9835a13ef0c6ef7a7ce3aa3d7ebcb7ed"
-  integrity sha512-0ICnkM4BDwOKhqmLQRpfvNuZlb6QOqE+FhP5fPaWXWy7bgcL9CY7kMRc7N+wZQbTvbSKqgEdfbvjd0bJsIrz5w==
+"@types/ember__test@*", "@types/ember__test@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/ember__test/-/ember__test-4.0.0.tgz#1a7dcbe24fedfc34fa60547b03f130a14397c4b6"
+  integrity sha512-vI/qhZkexJLN25lp1UAfjJv4R6pPtrQlAmPDXkKd8PNjwRk3KANFVRzdghN7HWhXgQ+s91PbvxEnZ3eZiRPdcQ==
   dependencies:
     "@types/ember__application" "*"
 
@@ -6336,9 +6336,9 @@ eslint-plugin-node@^11.1.0:
     semver "^6.1.0"
 
 eslint-plugin-prettier@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-4.0.0.tgz#8b99d1e4b8b24a762472b4567992023619cb98e0"
-  integrity sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-4.2.1.tgz#651cbb88b1dab98bfd42f017a12fa6b2d993f94b"
+  integrity sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ==
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
@@ -7925,9 +7925,9 @@ humanize-ms@^1.2.1:
     ms "^2.0.0"
 
 husky@>=6:
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-7.0.4.tgz#242048245dc49c8fb1bf0cc7cfb98dd722531535"
-  integrity sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-8.0.1.tgz#511cb3e57de3e3190514ae49ed50f6bc3f50b3e9"
+  integrity sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24:
   version "0.4.24"
