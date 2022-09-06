@@ -1976,14 +1976,14 @@
     "@types/ember__array" "*"
     "@types/ember__object" "*"
 
-"@types/ember__component@*", "@types/ember__component@^3.16.6":
-  version "3.16.6"
-  resolved "https://registry.yarnpkg.com/@types/ember__component/-/ember__component-3.16.6.tgz#affc4798ee97f58747f5d173b8f739ddab26e551"
-  integrity sha512-Zi82wppu0wtijXKAsyn75KBauJKIIHoYk5cbk7OmOKE2zmV1qzCfsxjM8x9iTJpu97T1P0vXWZ91aXM7KeQFMw==
+"@types/ember__component@*", "@types/ember__component@^4.0.10":
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/@types/ember__component/-/ember__component-4.0.10.tgz#554d9d384c6441003f0bdfbb709dab7085007cdb"
+  integrity sha512-ggF6EoKp7o0FKmZ9UKUzsLXHfcho+mKFnHQfUL1k/sUjkHxSd33fIATYuNIGZARRn2JzhYYfRqkgRIRBsoEiaQ==
   dependencies:
+    "@types/ember" "*"
     "@types/ember__component" "*"
     "@types/ember__object" "*"
-    "@types/jquery" "*"
 
 "@types/ember__controller@*", "@types/ember__controller@^3.16.6":
   version "3.16.6"
@@ -2016,10 +2016,10 @@
     "@types/ember__object" "*"
     "@types/ember__owner" "*"
 
-"@types/ember__error@*", "@types/ember__error@^3.16.1":
-  version "3.16.1"
-  resolved "https://registry.yarnpkg.com/@types/ember__error/-/ember__error-3.16.1.tgz#752d977f4ee35d4fa66bcfeebae6e85240fc62a6"
-  integrity sha512-bnB58krc18B8qgSMsRBbrVbNb4msyb8pMzS9Yo3brw/bRjuPb1ONUrjieAVHeespXlXNJOusvvX/pji641iCPQ==
+"@types/ember__error@*", "@types/ember__error@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/ember__error/-/ember__error-4.0.0.tgz#c73037e65c1c3d7060b97f98135ba73c712972b1"
+  integrity sha512-1WVMR65/QTqPzMWafK2vKEwGafILxRxItbWJng6eEJyKDHRvvHFCl3XzJ4dQjdFcfOlozsn0mmEYCpjKoyzMqA==
 
 "@types/ember__object@*", "@types/ember__object@^4.0.4":
   version "4.0.4"
@@ -2059,10 +2059,10 @@
     "@types/ember" "*"
     "@types/ember__runloop" "*"
 
-"@types/ember__service@*", "@types/ember__service@^3.16.1":
-  version "3.16.1"
-  resolved "https://registry.yarnpkg.com/@types/ember__service/-/ember__service-3.16.1.tgz#e8f941ec50ff4a7531487dc60830b4e6c7da6a47"
-  integrity sha512-XYl75IZGE+ZqRiCr9tBLXNYBVM9WX18AQHw/73QSQP/7sfyv5QFP/C/KvJrwP9wJmqh0BS2lVAXP3Nx4/BRNTw==
+"@types/ember__service@*", "@types/ember__service@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/ember__service/-/ember__service-4.0.0.tgz#ae6164e3b5d927fe17513b49867b52dc0222490d"
+  integrity sha512-FbN2y6tRb6NIV+kmzQcxRAoB17vH7qHCfzcKlxsmt2EI7fboLTcdeKpZKPBEromRXg83fx67QX1b95WcwSGtaw==
   dependencies:
     "@types/ember__object" "*"
 
