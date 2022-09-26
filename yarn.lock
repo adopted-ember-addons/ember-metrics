@@ -1940,9 +1940,9 @@
     "@types/ms" "*"
 
 "@types/ember-qunit@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@types/ember-qunit/-/ember-qunit-5.0.1.tgz#1c4f2239d367e96df8253821218b64afe2b7180c"
-  integrity sha512-ofNGGRE9kEV0KBK7H0PBixctXrwkE6jyqd50KTR0SBOEZWehUqIfA44b6JpwJm+yrn29BM/53DWh0NcH/zP5zQ==
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@types/ember-qunit/-/ember-qunit-5.0.2.tgz#ea8b3959724c0b190213b748937e4e9ae11165a8"
+  integrity sha512-LXp0Ew4wPhaCMuw49cNDHWs/bROn+Msb4ypMG1t60EMBx0UaEoX0tZlkf5bQJfdD249WZTu5cCtKvl47xbQzxA==
   dependencies:
     "@types/ember-resolver" "*"
     "@types/ember__test" "*"
