@@ -9,7 +9,9 @@ module('google-analytics-four adapter', function (hooks) {
   hooks.beforeEach(function () {
     this.config = {
       id: 'G-XXX',
-      autoTracking: false,
+      options: {
+        send_page_view: false,
+      },
     };
   });
 
@@ -69,6 +71,30 @@ module('google-analytics-four adapter', function (hooks) {
       result,
       expectedResult,
       'it sends the correct response shape'
+    );
+  });
+
+  test('#trackPage does not send any data by default', function (assert) {
+    const adapter = new GoogleAnalyticsFour({
+      id: 'G-XXX',
+    });
+
+    this.adapter = adapter;
+    adapter.install();
+
+    sinon.stub(window, 'dataLayer').value({ push() {} });
+
+    const result = adapter.trackPage({
+      page: 'https://example.com/my-overridden-page?id=1',
+      title: 'my overridden page',
+    });
+
+    const expectedResult = undefined;
+
+    assert.deepEqual(
+      result,
+      expectedResult,
+      'response is undefined, becaus send_page_view ist true by default'
     );
   });
 });

@@ -9,27 +9,23 @@ export default class GoogleAnalyticsFour extends BaseAdapter {
   }
 
   install() {
-    const { id, autoTracking, options } = this.config;
-
-    // If we disable autoTracking we need to stop sending a page view on page load during configuation. https://developers.google.com/analytics/devguides/collection/ga4/views?technology=websites#disable_pageviews
-    const defaultOptions = {
-      send_page_view: autoTracking ?? true,
-    };
-    const compactedOptions = compact({
-      ...defaultOptions,
-      ...options,
-    });
+    const { id, options } = this.config;
 
     assert(
       `[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`,
       id
     );
 
+    this.options = {
+      send_page_view: true,
+      ...options,
+    };
+
     this._injectScript(id);
 
     window.dataLayer = window.dataLayer || [];
     this.gtag('js', new Date());
-    this.gtag('config', id, compactedOptions);
+    this.gtag('config', id, compact(this.options));
   }
 
   _injectScript(id) {
@@ -60,17 +56,19 @@ export default class GoogleAnalyticsFour extends BaseAdapter {
   }
 
   trackPage(options = {}) {
-    const autoTracking = this.config.autoTracking ?? true;
-
-    if (autoTracking) {
+    if (this.options.send_page_view) {
       return;
     }
 
-    options.page_location = options?.page;
-    options.page_title = options?.title;
+    if (options?.page && !options?.page_location) {
+      options.page_location = options?.page;
+      delete options.page;
+    }
 
-    delete options.page;
-    delete options.title;
+    if (options?.title && !options?.page_title) {
+      options.page_title = options?.title;
+      delete options.title;
+    }
 
     return this.trackEvent({
       event: 'page_view',

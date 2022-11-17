@@ -19,9 +19,16 @@ Writing your own adapters for currently unsupported analytics services is easy t
 1. `GoogleAnalyticsFour`
 
    - `id`: [Measurement Id](https://support.google.com/analytics/answer/9539598?hl=en), e.g. `G-XXXX`
-   - `autoTracking`: true (default)
-By default GA4 automatically tracks page views when the history locations changes. This means that `this.metrics.trackPage()` is ignoreded by default. However, if you want to track the page views manually, you need to disable autoTracking. To avoid double counting page views make sure [Enhanced measurement](https://support.google.com/analytics/answer/9216061) is configured correctly. Typically, this means disabling *Page changes based on browser history events* under the advanced settings of the page views section.
-  - `options`: _optional_ An object which will directrly passt to the configuration tag
+   - `options`: _optional_ An object which will directrly passt to the configuration tag, e.g.:
+
+   ```js
+   options = {
+     anonymize_ip: true,
+     debug_mode: environment === 'development',
+   };
+   ```
+
+   By default GA4 automatically tracks page views when the history locations changes. This means that `this.metrics.trackPage()` is ignoreded by default. However, if you want to track the page views manually, you need to set `send_page_view: false` inside the options. To avoid double counting page views make sure [enhanced measurement](https://support.google.com/analytics/answer/9216061) is configured correctly. Typically, this means disabling _Page changes based on browser history events_ under the advanced settings of the page views section.
 
 1. `Mixpanel`
 
@@ -45,8 +52,8 @@ By default GA4 automatically tracks page views when the history locations change
 
    - `envParams`: A string with custom arguments for configuring GTM environments (Live, Dev, etc), e.g.:
 
-   ```
-   envParams: "gtm_auth=xxxxx&gtm_preview=env-xx&gtm_cookies_win=x"
+   ```js
+   envParams: 'gtm_auth=xxxxx&gtm_preview=env-xx&gtm_cookies_win=x';
    ```
 
 1. `Segment`
@@ -140,14 +147,13 @@ module.exports = function (environment) {
       },
       {
         name: 'GoogleAnalyticsFour',
-        environments: ['development', 'production'],
+        environments: ['production'],
         config: {
           id: 'G-XXXX',
-          autoTracking: true,
           options: {
             anonymize_ip: true,
             debug_mode: environment === 'development',
-          }
+          },
         },
       },
       {
@@ -230,10 +236,10 @@ module.exports = function (environment) {
       },
       {
         name: 'MatomoTagManager',
-        environments: ['production'], 
+        environments: ['production'],
         config: {
           matomoUrl: 'matomo.my.com',
-          containerId: 'acd123'
+          containerId: 'acd123',
         },
       },
       {
