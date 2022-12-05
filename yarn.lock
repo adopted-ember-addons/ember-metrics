@@ -1976,9 +1976,9 @@
     "@types/ember__application" "*"
 
 "@types/ember__utils@*", "@types/ember__utils@^4.0.0":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@types/ember__utils/-/ember__utils-4.0.1.tgz#106a7a9652bacc44c735ed1ffd6d3651ac03fdce"
-  integrity sha512-FhXZ37uY1BNgt63XoPH++PkAsMnF7P5wjPRluXecbFpEFHXP6enFbx1F5vjyoPtFjLEl4R3ftLM5QbEWsuyF5g==
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@types/ember__utils/-/ember__utils-4.0.2.tgz#97fcdf05032df68ef07b9ae82e08fe0c51c73cf9"
+  integrity sha512-LWkLgf09/GqyrUuoKtAB6qP7n36yAzc2yOh1L5fVpZGCBv5KQiGWUQv5uBoo4c1mllD+IBOMxei3bR4cx6SwZA==
   dependencies:
     "@types/ember" "*"
 
