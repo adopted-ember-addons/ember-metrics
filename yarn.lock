@@ -1803,11 +1803,12 @@
     "@types/qunit" "*"
 
 "@types/ember-resolver@*", "@types/ember-resolver@^5.0.10":
-  version "5.0.11"
-  resolved "https://registry.yarnpkg.com/@types/ember-resolver/-/ember-resolver-5.0.11.tgz#db931fb5c2d6bda4e29adea132fb48c7ed17aa62"
-  integrity sha512-2BL9d8kBdNUO9Je6KBF7Q34BSwbQG6vzCzTeSopt8FAmLDfaDU9xDDdyZobpfy9GR36mCSeG9b9wr4bgYh/MYw==
+  version "5.0.13"
+  resolved "https://registry.yarnpkg.com/@types/ember-resolver/-/ember-resolver-5.0.13.tgz#db66678076ca625ed80b629c09619ae85c1c1f7a"
+  integrity sha512-pO964cAPhAaFJoS28M8+b5MzAhQ/tVuNM4GDUIAexheQat36axG2WTG8LQ5ea07MSFPesrRFk2T3z88pfvdYKA==
   dependencies:
     "@types/ember__object" "*"
+    "@types/ember__owner" "*"
 
 "@types/ember@*":
   version "3.16.5"
