@@ -19,7 +19,7 @@ Writing your own adapters for currently unsupported analytics services is easy t
 1. `GoogleAnalyticsFour`
 
    - `id`: [Measurement Id](https://support.google.com/analytics/answer/9539598?hl=en), e.g. `G-XXXX`
-   - `options`: _optional_ An object which will directrly passt to the configuration tag, e.g.:
+   - `options`: _optional_ An object which will be directly passed to the configuration tag, e.g.:
 
    ```js
    options = {
