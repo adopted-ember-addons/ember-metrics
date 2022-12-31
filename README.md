@@ -110,6 +110,10 @@ Writing your own adapters for currently unsupported analytics services is easy t
 
    - [ember-metrics-adobe-dtm](https://github.com/kellyselden/ember-metrics-adobe-dtm)
 
+1. `Simple Analytics`
+
+   - [ember-metrics-simple-analytics](https://github.com/mrloop/ember-metrics-simple-analytics)
+
 ## Installing The Addon
 
 ```shell
