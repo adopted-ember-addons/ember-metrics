@@ -65,6 +65,10 @@ export default class Metrics extends Service {
     this._options = { metricsAdapters, environment };
     this.appEnvironment = environment;
     this.activateAdapters(metricsAdapters);
+
+    if (navigator !== 'undefined' && navigator.doNotTrack == '1' && environment !== 'production') {
+      console.warn('[ember-metrics] Browser settings specify do not track. No metrics will be sent to any adapter.')
+    }
   }
 
   /**
