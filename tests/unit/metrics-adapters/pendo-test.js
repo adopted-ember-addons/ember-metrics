@@ -9,6 +9,7 @@ module('pendo adapter', function (hooks) {
   hooks.beforeEach(function () {
     const config = {
       apiKey: '123456789',
+      sourceUrl: 'https://test.io/',
     };
 
     this.adapter = new Pendo(config);

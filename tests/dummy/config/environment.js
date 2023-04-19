@@ -86,6 +86,7 @@ module.exports = function (environment) {
         environments: ['all'],
         config: {
           apiKey: '12345',
+          sourceUrl: 'https://test.io/',
         },
       },
     ],

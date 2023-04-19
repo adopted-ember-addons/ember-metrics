@@ -229,6 +229,7 @@ module.exports = function (environment) {
         environments: ['production'],
         config: {
           apiKey: '123456789',
+          sourceUrl: 'https://cdn.pendo.io/agent/static',
         },
       },
       {
