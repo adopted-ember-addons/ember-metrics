@@ -32,7 +32,7 @@ export default class MatomoTagManager extends BaseAdapter {
   }
 
   trackEvent(options = {}) {
-    window._mtm.push([
+    _paq.push([
       'trackEvent',
       options.category,
       options.action,
