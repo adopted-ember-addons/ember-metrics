@@ -42,8 +42,8 @@ export default class MatomoTagManager extends BaseAdapter {
   }
 
   trackPage(options = {}) {
-    window._mtm.push(['setCustomUrl', options.page]);
-    window._mtm.push(['trackPageView', options.title]);
+    _paq.push(['setCustomUrl', options.page]);
+    _paq.push(['trackPageView', options.title]);
   }
 
   uninstall() {
