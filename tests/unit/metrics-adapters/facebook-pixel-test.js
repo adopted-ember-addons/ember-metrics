@@ -2,7 +2,7 @@ import { later } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import FacebookPixel from 'ember-metrics/metrics-adapters/facebook-pixel';
+import FacebookPixel from 'dcp-ember-metrics/metrics-adapters/facebook-pixel';
 
 async function waitForScripts(config) {
   return new Promise((resolve) => {

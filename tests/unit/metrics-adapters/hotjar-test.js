@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import Hotjar from 'ember-metrics/metrics-adapters/hotjar';
+import Hotjar from 'dcp-ember-metrics/metrics-adapters/hotjar';
 
 module('hotjar adapter', function (hooks) {
   setupTest(hooks);

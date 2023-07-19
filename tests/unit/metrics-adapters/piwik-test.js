@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import Piwik from 'ember-metrics/metrics-adapters/piwik';
+import Piwik from 'dcp-ember-metrics/metrics-adapters/piwik';
 
 module('piwik adapter', function (hooks) {
   setupTest(hooks);

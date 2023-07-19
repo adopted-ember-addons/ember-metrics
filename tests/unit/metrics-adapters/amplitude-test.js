@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
-import Amplitude from 'ember-metrics/metrics-adapters/amplitude';
+import Amplitude from 'dcp-ember-metrics/metrics-adapters/amplitude';
 
 module('amplitude adapter', function (hooks) {
   setupTest(hooks);

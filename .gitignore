@@ -22,8 +22,11 @@ package-lock.json
 /testem.log
 /yarn-error.log
 .idea*
+.DS_Store
+*.DS_Store
 
 # ember-try
 /.node_modules.ember-try/
 /bower.json.ember-try
 /package.json.ember-try
+

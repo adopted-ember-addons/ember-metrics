@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import GoogleAnalyticsFour from 'ember-metrics/metrics-adapters/google-analytics-four';
+import GoogleAnalyticsFour from 'dcp-ember-metrics/metrics-adapters/google-analytics-four';
 
 module('google-analytics-four adapter', function (hooks) {
   setupTest(hooks);

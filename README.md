@@ -425,7 +425,7 @@ Since ember-metrics now automatically removes all unused adapters, it's also imp
 // config/environment
 module.exports = function(environment) {
   var ENV = {
-    'ember-metrics': {
+    'dcp-ember-metrics': {
       includeAdapters: ['google-analytics']
     }
   };

@@ -22,7 +22,7 @@ module.exports = function (environment) {
       // when it is created
     },
 
-    'ember-metrics': {
+    'dcp-ember-metrics': {
       includeAdapters: [
         'segment',
         'google-tag-manager',

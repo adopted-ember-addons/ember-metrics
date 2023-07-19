@@ -53,7 +53,7 @@ export default class Metrics extends Service {
 
     const owner = getOwner(this);
 
-    owner.registerOptionsForType('ember-metrics@metrics-adapter', {
+    owner.registerOptionsForType('dcp-ember-metrics@metrics-adapter', {
       instantiate: false,
     });
     owner.registerOptionsForType('metrics-adapter', { instantiate: false });

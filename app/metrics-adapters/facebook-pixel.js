@@ -1,1 +1,1 @@
-export { default } from 'ember-metrics/metrics-adapters/facebook-pixel';
+export { default } from 'dcp-ember-metrics/metrics-adapters/facebook-pixel';

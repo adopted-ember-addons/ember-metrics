@@ -3,8 +3,8 @@ import {
   without,
   compact,
   hasOwnProperties,
-} from 'ember-metrics/-private/utils/object-transforms';
-import removeFromDOM from 'ember-metrics/-private/utils/remove-from-dom';
+} from 'dcp-ember-metrics/-private/utils/object-transforms';
+import removeFromDOM from 'dcp-ember-metrics/-private/utils/remove-from-dom';
 import BaseAdapter from './base';
 
 export default class Mixpanel extends BaseAdapter {

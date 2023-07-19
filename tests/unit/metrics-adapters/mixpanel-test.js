@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import Mixpanel from 'ember-metrics/metrics-adapters/mixpanel';
+import Mixpanel from 'dcp-ember-metrics/metrics-adapters/mixpanel';
 
 module('mixpanel adapter', function (hooks) {
   setupTest(hooks);

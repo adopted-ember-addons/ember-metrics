@@ -1,4 +1,4 @@
-import BaseAdapter from 'ember-metrics/metrics-adapters/base';
+import BaseAdapter from 'dcp-ember-metrics/metrics-adapters/base';
 
 export default class LocalDummyAdapter extends BaseAdapter {
   static supportsFastBoot = true;

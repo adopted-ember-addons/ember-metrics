@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import AzureAppInsights from 'ember-metrics/metrics-adapters/azure-app-insights';
+import AzureAppInsights from 'dcp-ember-metrics/metrics-adapters/azure-app-insights';
 
 module('azure-app-insights adapter', function (hooks) {
   setupTest(hooks);

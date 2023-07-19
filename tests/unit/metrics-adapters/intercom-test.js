@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import Intercom from 'ember-metrics/metrics-adapters/intercom';
+import Intercom from 'dcp-ember-metrics/metrics-adapters/intercom';
 
 module('intercom adapter', function (hooks) {
   setupTest(hooks);

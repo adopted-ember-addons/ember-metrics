@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import Segment from 'ember-metrics/metrics-adapters/segment';
+import Segment from 'dcp-ember-metrics/metrics-adapters/segment';
 
 module('segment adapter', function (hooks) {
   setupTest(hooks);

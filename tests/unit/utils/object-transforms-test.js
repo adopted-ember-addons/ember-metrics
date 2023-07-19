@@ -2,7 +2,7 @@ import {
   without,
   compact,
   hasOwnProperties,
-} from 'ember-metrics/-private/utils/object-transforms';
+} from 'dcp-ember-metrics/-private/utils/object-transforms';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | object transforms', function () {

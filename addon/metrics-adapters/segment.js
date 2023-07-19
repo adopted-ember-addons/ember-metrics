@@ -1,6 +1,6 @@
 import { assert } from '@ember/debug';
-import removeFromDOM from 'ember-metrics/-private/utils/remove-from-dom';
-import { compact } from 'ember-metrics/-private/utils/object-transforms';
+import removeFromDOM from 'dcp-ember-metrics/-private/utils/remove-from-dom';
+import { compact } from 'dcp-ember-metrics/-private/utils/object-transforms';
 import BaseAdapter from './base';
 
 export default class Segment extends BaseAdapter {

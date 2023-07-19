@@ -4,8 +4,8 @@ import {
   without,
   compact,
   hasOwnProperties,
-} from 'ember-metrics/-private/utils/object-transforms';
-import removeFromDOM from 'ember-metrics/-private/utils/remove-from-dom';
+} from 'dcp-ember-metrics/-private/utils/object-transforms';
+import removeFromDOM from 'dcp-ember-metrics/-private/utils/remove-from-dom';
 
 export default class Pendo extends BaseAdapter {
   toStringExtension() {

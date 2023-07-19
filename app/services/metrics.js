@@ -1,1 +1,1 @@
-export { default } from 'ember-metrics/services/metrics';
+export { default } from 'dcp-ember-metrics/services/metrics';

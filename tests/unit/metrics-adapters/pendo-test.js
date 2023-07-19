@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import Pendo from 'ember-metrics/metrics-adapters/pendo';
+import Pendo from 'dcp-ember-metrics/metrics-adapters/pendo';
 import sinon from 'sinon';
 
 module('pendo adapter', function (hooks) {

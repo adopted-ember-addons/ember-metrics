@@ -1,10 +1,10 @@
-import BaseAdapter from 'ember-metrics/metrics-adapters/base';
+import BaseAdapter from 'dcp-ember-metrics/metrics-adapters/base';
 import {
   without,
   compact,
   hasOwnProperties,
-} from 'ember-metrics/-private/utils/object-transforms';
-import removeFromDOM from 'ember-metrics/-private/utils/remove-from-dom';
+} from 'dcp-ember-metrics/-private/utils/object-transforms';
+import removeFromDOM from 'dcp-ember-metrics/-private/utils/remove-from-dom';
 import { assert } from '@ember/debug';
 
 export default class AmplitudeMetricsAdapter extends BaseAdapter {
