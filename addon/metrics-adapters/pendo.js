@@ -16,7 +16,7 @@ export default class Pendo extends BaseAdapter {
     const { apiKey } = this.config;
 
     assert(
-      `[ember-metrics] You must pass a valid \`apiKey\` to the ${this.toString()} adapter`,
+      `[dcp-ember-metrics] You must pass a valid \`apiKey\` to the ${this.toString()} adapter`,
       apiKey
     );
 

@@ -18,7 +18,7 @@ export default class Mixpanel extends BaseAdapter {
     delete config.token;
 
     assert(
-      `[ember-metrics] You must pass a valid \`token\` to the ${this.toString()} adapter`,
+      `[dcp-ember-metrics] You must pass a valid \`token\` to the ${this.toString()} adapter`,
       token
     );
 

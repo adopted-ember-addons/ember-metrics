@@ -16,7 +16,7 @@ export default class GoogleTagManager extends BaseAdapter {
     const envParamsString = envParams ? `&${envParams}` : '';
 
     assert(
-      `[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`,
+      `[dcp-ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`,
       id
     );
 

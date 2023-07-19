@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Generates an ember-metrics adapter.',
+  description: 'Generates an dcp-ember-metrics adapter.',
 
   locals: function (options) {
     var importStatement =

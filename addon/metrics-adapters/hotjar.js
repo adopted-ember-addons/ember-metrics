@@ -11,7 +11,7 @@ export default class Hotjar extends BaseAdapter {
     const { siteId } = this.config;
 
     assert(
-      `[ember-metrics] You must pass a \`siteId\` to the ${this.toString()} adapter`,
+      `[dcp-ember-metrics] You must pass a \`siteId\` to the ${this.toString()} adapter`,
       siteId
     );
 

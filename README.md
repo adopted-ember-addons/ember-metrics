@@ -1,8 +1,8 @@
-# ember-metrics
+# dcp-ember-metrics
 
 _Send data to multiple analytics services without re-implementing new API_
 
-![Download count all time](https://img.shields.io/npm/dt/ember-metrics.svg) [![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) ![Build Status](https://github.com/adopted-ember-addons/ember-metrics/workflows/Test/badge.svg?branch=master) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics)
+![Download count all time](https://img.shields.io/npm/dt/dcp-ember-metrics.svg) [![npm version](https://badge.fury.io/js/dcp-ember-metrics.svg)](http://badge.fury.io/js/dcp-ember-metrics) ![Build Status](https://github.com/dhochbaum-dcp/dcp-ember-metrics/workflows/Test/badge.svg?branch=master) [![Ember Observer Score](http://emberobserver.com/badges/dcp-ember-metrics.svg)](http://emberobserver.com/addons/dcp-ember-metrics)
 
 This addon adds a simple `metrics` service to your app that makes it simple to send data to multiple analytics services without having to implement a new API each time.
 
@@ -108,16 +108,16 @@ Writing your own adapters for currently unsupported analytics services is easy t
 
 1. `Adobe Dynamic Tag Management`
 
-   - [ember-metrics-adobe-dtm](https://github.com/kellyselden/ember-metrics-adobe-dtm)
+   - [dcp-ember-metrics-adobe-dtm](https://github.com/kellyselden/dcp-ember-metrics-adobe-dtm)
 
 1. `Simple Analytics`
 
-   - [ember-metrics-simple-analytics](https://github.com/mrloop/ember-metrics-simple-analytics)
+   - [dcp-ember-metrics-simple-analytics](https://github.com/mrloop/dcp-ember-metrics-simple-analytics)
 
 ## Installing The Addon
 
 ```shell
-ember install ember-metrics
+ember install dcp-ember-metrics
 ```
 
 ## Compatibility
@@ -391,7 +391,7 @@ If an adapter implements specific methods you wish to call, then you can use `in
 
 ### Lazy Initialization
 
-If your app implements dynamic API keys for various analytics integration, you can defer the initialization of the adapters. Instead of configuring `ember-metrics` through `config/environment`, you can call the following from any Object registered in the container:
+If your app implements dynamic API keys for various analytics integration, you can defer the initialization of the adapters. Instead of configuring `dcp-ember-metrics` through `config/environment`, you can call the following from any Object registered in the container:
 
 ```js
 // app/routes/application.js
@@ -419,7 +419,7 @@ export default class ApplicationRoute extends Route {
 
 Because `activateAdapters` is idempotent, you can call it as many times as you'd like. However, it will not reinstantiate existing adapters.
 
-Since ember-metrics now automatically removes all unused adapters, it's also important to force the inclusion of the adapter via `config/environment`. NOTE: If the adapter is already defined in the `metricsAdapters` array of `config/environment` then this step is not necessary.
+Since dcp-ember-metrics now automatically removes all unused adapters, it's also important to force the inclusion of the adapter via `config/environment`. NOTE: If the adapter is already defined in the `metricsAdapters` array of `config/environment` then this step is not necessary.
 
 ```js
 // config/environment
@@ -480,7 +480,7 @@ module.exports = function (environment) {
 
 ## Contributors
 
-We're grateful to these wonderful contributors who've contributed to `ember-metrics`:
+We're grateful to these wonderful contributors who've contributed to `dcp-ember-metrics`:
 
 [//]: contributor-faces
 

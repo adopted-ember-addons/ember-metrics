@@ -16,7 +16,7 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
     const { config } = this;
     const { apiKey, options } = config;
     assert(
-      `[ember-metrics] You must pass a valid \`apiKey\` to the ${this.toString()} adapter`,
+      `[dcp-ember-metrics] You must pass a valid \`apiKey\` to the ${this.toString()} adapter`,
       apiKey
     );
 
@@ -66,7 +66,7 @@ export default class AmplitudeMetricsAdapter extends BaseAdapter {
     }
 
     assert(
-      `[ember-metrics] [${this.toString()}] It appears you did not pass a distictId param to "identify". You will need to do so in order for the session to be tagged to a specific user.`,
+      `[dcp-ember-metrics] [${this.toString()}] It appears you did not pass a distictId param to "identify". You will need to do so in order for the session to be tagged to a specific user.`,
       distinctId
     );
 

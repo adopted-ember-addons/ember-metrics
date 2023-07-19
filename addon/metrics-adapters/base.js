@@ -18,13 +18,13 @@ export default class BaseAdapter {
 
   install() {
     assert(
-      `[ember-metrics] ${this.toString()} must implement the install hook!`
+      `[dcp-ember-metrics] ${this.toString()} must implement the install hook!`
     );
   }
 
   uninstall() {
     assert(
-      `[ember-metrics] ${this.toString()} must implement the uninstall hook!`
+      `[dcp-ember-metrics] ${this.toString()} must implement the uninstall hook!`
     );
   }
 
@@ -33,7 +33,7 @@ export default class BaseAdapter {
     const extension = hasToStringExtension
       ? ':' + this.toStringExtension()
       : '';
-    const ret = `ember-metrics@metrics-adapter:${extension}:${guidFor(this)}`;
+    const ret = `dcp-ember-metrics@metrics-adapter:${extension}:${guidFor(this)}`;
 
     this.toString = makeToString(ret);
     return ret;

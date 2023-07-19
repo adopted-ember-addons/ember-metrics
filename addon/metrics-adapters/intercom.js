@@ -17,7 +17,7 @@ export default class Intercom extends BaseAdapter {
     const { appId } = this.config;
 
     assert(
-      `[ember-metrics] You must pass a valid \`appId\` to the ${this.toString()} adapter`,
+      `[dcp-ember-metrics] You must pass a valid \`appId\` to the ${this.toString()} adapter`,
       appId
     );
 
@@ -45,7 +45,7 @@ export default class Intercom extends BaseAdapter {
     }
 
     assert(
-      `[ember-metrics] You must pass \`distinctId\` or \`email\` to \`identify()\` when using the ${this.toString()} adapter`,
+      `[dcp-ember-metrics] You must pass \`distinctId\` or \`email\` to \`identify()\` when using the ${this.toString()} adapter`,
       props.email || props.user_id
     );
 

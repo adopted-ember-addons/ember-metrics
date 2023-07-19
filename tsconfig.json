@@ -29,16 +29,16 @@
         "tests/dummy/app/*",
         "app/*"
       ],
-      "ember-metrics": [
+      "dcp-ember-metrics": [
         "addon"
       ],
-      "ember-metrics/*": [
+      "dcp-ember-metrics/*": [
         "addon/*"
       ],
-      "ember-metrics/test-support": [
+      "dcp-ember-metrics/test-support": [
         "addon-test-support"
       ],
-      "ember-metrics/test-support/*": [
+      "dcp-ember-metrics/test-support/*": [
         "addon-test-support/*"
       ],
       "*": [

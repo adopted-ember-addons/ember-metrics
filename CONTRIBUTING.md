@@ -3,7 +3,7 @@
 ## Installation
 
 - `git clone <repository-url>`
-- `cd ember-metrics`
+- `cd dcp-ember-metrics`
 - `yarn install`
 
 ## Linting

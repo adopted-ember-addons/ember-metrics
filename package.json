@@ -1,5 +1,5 @@
 {
-  "name": "ember-metrics",
+  "name": "dcp-ember-metrics",
   "version": "2.0.0-beta.1",
   "description": "Send data to multiple analytics integrations without re-implementing new API",
   "keywords": [
@@ -18,9 +18,9 @@
     "azure application insights",
     "pendo"
   ],
-  "homepage": "https://github.com/adopted-ember-addons/ember-metrics",
-  "bugs": "https://github.com/adopted-ember-addons/ember-metrics/issues",
-  "repository": "https://github.com/adopted-ember-addons/ember-metrics",
+  "homepage": "https://github.com/dhochbaum-dcp/dcp-ember-metrics",
+  "bugs": "https://github.com/dhochbaum-dcp/dcp-ember-metrics/issues",
+  "repository": "https://github.com/dhochbaum-dcp/dcp-ember-metrics",
   "license": "MIT",
   "author": "Lauren Tan",
   "directories": {

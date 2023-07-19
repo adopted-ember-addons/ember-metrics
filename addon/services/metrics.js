@@ -124,12 +124,12 @@ export default class Metrics extends Service {
    */
   _lookupAdapter(adapterName) {
     assert(
-      '[ember-metrics] Could not find metrics adapter without a name.',
+      '[dcp-ember-metrics] Could not find metrics adapter without a name.',
       adapterName
     );
 
     const availableAdapter = getOwner(this).lookup(
-      `ember-metrics@metrics-adapter:${dasherize(adapterName)}`
+      `dcp-ember-metrics@metrics-adapter:${dasherize(adapterName)}`
     );
     const localAdapter = getOwner(this).lookup(
       `metrics-adapter:${dasherize(adapterName)}`
@@ -137,7 +137,7 @@ export default class Metrics extends Service {
 
     const adapter = localAdapter || availableAdapter;
     assert(
-      `[ember-metrics] Could not find metrics adapter ${adapterName}.`,
+      `[dcp-ember-metrics] Could not find metrics adapter ${adapterName}.`,
       adapter
     );
 

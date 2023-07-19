@@ -14,7 +14,7 @@ export default class Segment extends BaseAdapter {
     const proxyDomain = config.proxyDomain || 'https://cdn.segment.com';
 
     assert(
-      `[ember-metrics] You must pass a valid \`key\` to the ${this.toString()} adapter`,
+      `[dcp-ember-metrics] You must pass a valid \`key\` to the ${this.toString()} adapter`,
       segmentKey
     );
 

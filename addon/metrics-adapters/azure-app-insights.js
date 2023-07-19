@@ -9,7 +9,7 @@ export default class AzureAppInsightsAdapter extends BaseAdapter {
 
   install() {
     assert(
-      `[ember-metrics] You must pass a \`instrumentationKey\`to the ${this.toString()} adapter`,
+      `[dcp-ember-metrics] You must pass a \`instrumentationKey\`to the ${this.toString()} adapter`,
       this.config.instrumentationKey
     );
 

@@ -12,7 +12,7 @@ export default class FacebookPixel extends BaseAdapter {
     const { id, dataProcessingOptions } = this.config;
 
     assert(
-      `[ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`,
+      `[dcp-ember-metrics] You must pass a valid \`id\` to the ${this.toString()} adapter`,
       id
     );
 

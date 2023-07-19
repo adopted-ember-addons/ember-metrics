@@ -11,7 +11,7 @@ export default class MatomoTagManager extends BaseAdapter {
     const { matomoUrl, containerId } = this.config;
 
     assert(
-      `[ember-metrics] You must pass a \`matomoUrl\` and a \`containerId\` to the ${this.toString()} adapter`,
+      `[dcp-ember-metrics] You must pass a \`matomoUrl\` and a \`containerId\` to the ${this.toString()} adapter`,
       matomoUrl && containerId
     );
 
