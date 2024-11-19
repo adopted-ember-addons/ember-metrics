@@ -118,6 +118,9 @@
     "typescript": "^4.4.3",
     "webpack": "5"
   },
+  "resolutions": {
+    "@babel/plugin-transform-modules-amd": "7.16.5"
+  },
   "engines": {
     "node": "18.* || 20.* || >= 22"
   },
