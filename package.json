@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
+    "@ember/string": "^4.0.0",
     "@ember/test-helpers": "^2.4.2",
     "@embroider/test-setup": "^2.0.0",
     "@glimmer/tracking": "^1.0.4",
@@ -117,6 +118,9 @@
     "typedoc": "^0.23.14",
     "typescript": "^4.4.3",
     "webpack": "5"
+  },
+  "peerDependencies": {
+    "@ember/string": "^4.0.0"
   },
   "engines": {
     "node": "12.* || 14.* || >= 16"
