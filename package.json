@@ -130,7 +130,7 @@
     "ember-source": ">= 3.28.0"
   },
   "engines": {
-    "node": "14.* || 16.* || >= 18"
+    "node": "18.* || 20.* || >= 22"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
