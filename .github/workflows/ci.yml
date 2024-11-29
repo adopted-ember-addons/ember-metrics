@@ -59,6 +59,7 @@ jobs:
         try-scenario:
           - ember-lts-3.28
           - ember-lts-4.12
+          - ember-lts-5.12
           - ember-classic
           # - ember-release
           # - ember-beta
