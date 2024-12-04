@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 import { assert } from '@ember/debug';
 import { dasherize } from '@ember/string';
-import { getOwner } from '@ember/application';
+import { getOwner, setOwner } from '@ember/application';
 
 export default class Metrics extends Service {
   /**
@@ -154,6 +154,7 @@ export default class Metrics extends Service {
    */
   _activateAdapter({ adapterClass, config }) {
     const adapter = new adapterClass(config);
+    setOwner(adapter, getOwner(this));
     adapter.install();
     return adapter;
   }
