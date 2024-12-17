@@ -162,5 +162,9 @@
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
+  },
+  "volta": {
+    "node": "18.20.5",
+    "pnpm": "8.15.9"
   }
 }
