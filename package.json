@@ -127,9 +127,11 @@
     "@ember/string": ">= 3.0.0",
     "ember-source": ">= 3.28.0"
   },
-  "resolutions": {
-    "@babel/plugin-transform-modules-amd": "7.16.5",
-    "@ember/string": "^4.0.0"
+  "pnpm": {
+    "overrides": {
+      "@babel/plugin-transform-modules-amd": "7.16.5",
+      "@ember/string": "^4.0.0"
+    }
   },
   "engines": {
     "node": "18.* || 20.* || >= 22"
