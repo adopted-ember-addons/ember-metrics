@@ -48,7 +48,7 @@ importers:
         version: 1.1.2
       '@types/ember-qunit':
         specifier: ^5.0.1
-        version: 5.0.2(@babel/core@7.26.9)(ember-source@4.12.4(@babel/core@7.26.9)(@glimmer/component@1.1.2(@babel/core@7.26.9))(webpack@5.98.0))
+        version: 5.0.2
       '@types/ember-resolver':
         specifier: ^5.0.10
         version: 5.0.13
@@ -98,8 +98,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.6
       '@types/ember__test-helpers':
-        specifier: ^2.0.2
-        version: 2.9.3(@babel/core@7.26.9)(ember-source@4.12.4(@babel/core@7.26.9)(@glimmer/component@1.1.2(@babel/core@7.26.9))(webpack@5.98.0))
+        specifier: ~2.6.0
+        version: 2.6.1
       '@types/ember__utils':
         specifier: ^4.0.0
         version: 4.0.7
@@ -1208,9 +1208,8 @@ packages:
   '@types/ember__template@4.0.7':
     resolution: {integrity: sha512-jv4hhG+8d1zdma+jhbCdJ3Ak7C22YNatGyWWvB3N9zbXq358AAPXaJoyNY8QTDbD/RIR9P6yoRk4u9vLbF6zfA==}
 
-  '@types/ember__test-helpers@2.9.3':
-    resolution: {integrity: sha512-GTucagS2Yqla9EkCe478DvF0n3SYaiJMf4v27SKw0DNm3JRoDGxfHp5guIKfoyeLH8yASl3RtsBwD5jNwM4qmw==}
-    deprecated: This is a stub types definition. @ember/test-helpers provides its own type definitions, so you do not need this installed.
+  '@types/ember__test-helpers@2.6.1':
+    resolution: {integrity: sha512-d2RShuBSaBzp04nt8ad+mNE1F6rbIcIIud8WFUVQqGSUGHuZQUq1051Jza12ksCUnXduyE/J9UDjyZvNKOHeBQ==}
 
   '@types/ember__test@4.0.6':
     resolution: {integrity: sha512-Nswm/epfTepXknT8scZvWyyop1aqJcZcyzY4THGHFcXvYQQfA9rgmgrx6vo9vCJmYHh3jm0TTAIAIfoCvGaX5g==}
@@ -8228,18 +8227,12 @@ snapshots:
     dependencies:
       '@types/ms': 2.1.0
 
-  '@types/ember-qunit@5.0.2(@babel/core@7.26.9)(ember-source@4.12.4(@babel/core@7.26.9)(@glimmer/component@1.1.2(@babel/core@7.26.9))(webpack@5.98.0))':
+  '@types/ember-qunit@5.0.2':
     dependencies:
       '@types/ember-resolver': 5.0.13
       '@types/ember__test': 4.0.6
-      '@types/ember__test-helpers': 2.9.3(@babel/core@7.26.9)(ember-source@4.12.4(@babel/core@7.26.9)(@glimmer/component@1.1.2(@babel/core@7.26.9))(webpack@5.98.0))
+      '@types/ember__test-helpers': 2.6.1
       '@types/qunit': 2.19.12
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@glint/environment-ember-loose'
-      - '@glint/template'
-      - ember-source
-      - supports-color
 
   '@types/ember-resolver@5.0.13':
     dependencies:
@@ -8356,15 +8349,12 @@ snapshots:
 
   '@types/ember__template@4.0.7': {}
 
-  '@types/ember__test-helpers@2.9.3(@babel/core@7.26.9)(ember-source@4.12.4(@babel/core@7.26.9)(@glimmer/component@1.1.2(@babel/core@7.26.9))(webpack@5.98.0))':
+  '@types/ember__test-helpers@2.6.1':
     dependencies:
-      '@ember/test-helpers': 2.9.4(@babel/core@7.26.9)(ember-source@4.12.4(@babel/core@7.26.9)(@glimmer/component@1.1.2(@babel/core@7.26.9))(webpack@5.98.0))
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@glint/environment-ember-loose'
-      - '@glint/template'
-      - ember-source
-      - supports-color
+      '@types/ember-resolver': 5.0.13
+      '@types/ember__application': 3.16.10
+      '@types/ember__error': 4.0.6
+      '@types/htmlbars-inline-precompile': 3.0.3
 
   '@types/ember__test@4.0.6':
     dependencies:
