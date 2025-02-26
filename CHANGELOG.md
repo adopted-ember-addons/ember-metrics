@@ -1,3 +1,5 @@
+# Changelog
+
 ## v2.0.0-beta.1 (2022-05-12)
 
 ### Changes
@@ -14,7 +16,6 @@ for an example.
 ### Changes
 
 Introduce deprecation warning for some GA behaviour (https://github.com/adopted-ember-addons/ember-metrics/pull/444)
-
 
 ## v1.5.1 (2022-05-12)
 
@@ -38,8 +39,6 @@ Many thanks to our contributors:
 - @VincentHardouin
 - @GabrielCousin
 
-
-
 ## v1.4.1 (2021-11-22)
 
 #### Changes
@@ -49,7 +48,6 @@ Many thanks to our contributors:
 #### Closing remarks
 
 Thank you to @gilest for catching this bug. D'oh!
-
 
 ## v1.4.0 (2021-11-21)
 
@@ -75,15 +73,13 @@ forthcoming v2 release.
 
 A hearty thank you to all contributors. The following people contributed to this release:
 
-* @GreatWizard
-* @jfdnc
-* @Windvis
-
+- @GreatWizard
+- @jfdnc
+- @Windvis
 
 ## v1.3.1 (2021-09-26)
 
-* Resolves duplicate GTM script injection (#291, #292)
-
+- Resolves duplicate GTM script injection (#291, #292)
 
 ## v1.3.0 (2021-09-14)
 
