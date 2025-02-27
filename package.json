@@ -62,7 +62,7 @@
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^4.0.0",
     "@ember/test-helpers": "^2.9.3",
-    "@embroider/test-setup": "^2.1.1",
+    "@embroider/test-setup": "^4.0.0",
     "@glimmer/tracking": "^1.1.2",
     "@types/ember-qunit": "^5.0.1",
     "@types/ember-resolver": "^5.0.10",
