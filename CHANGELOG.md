@@ -2,31 +2,46 @@
 
 ## Release (2025-02-27)
 
+ember-metrics 2.0.1 (patch)
+
+#### :house: Internal
+
+- `ember-metrics`
+  - [#561](https://github.com/adopted-ember-addons/ember-metrics/pull/561) Re-enable embroider-optimized ([@kategengler](https://github.com/kategengler))
+
+#### Committers: 1
+
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+
+## Release (2025-02-27)
+
 ember-metrics 2.0.0 (major)
 
 #### :boom: Breaking Change
 
 - `ember-metrics`
   - A significant the Metrics adapter API. We're rewriting these as native classes
-in order to move away from the Ember Object model. Historically we've relied
-upon the `init` and `willDestroy` hooks to do our cleanup. Moving forward an
-`install` and `uninstall` hook will need to be defined. Please see the
-[Google Analytics](https://github.com/adopted-ember-addons/ember-metrics/blob/4d0f088a302597d3ab7b2e5efd08ce51a78b1d68/addon/metrics-adapters/google-analytics.js)
-for an example. 
+    in order to move away from the Ember Object model. Historically we've relied
+    upon the `init` and `willDestroy` hooks to do our cleanup. Moving forward an
+    `install` and `uninstall` hook will need to be defined. Please see the
+    [Google Analytics](https://github.com/adopted-ember-addons/ember-metrics/blob/4d0f088a302597d3ab7b2e5efd08ce51a78b1d68/addon/metrics-adapters/google-analytics.js)
+    for an example.
   - [#553](https://github.com/adopted-ember-addons/ember-metrics/pull/553) Fix @ember/string resolution issues by depending on ember-auto-import ([@jelhan](https://github.com/jelhan))
   - [#547](https://github.com/adopted-ember-addons/ember-metrics/pull/547) Support Ember v5 by addin @ember/string to peerDependencies ([@jelhan](https://github.com/jelhan))
   - [#549](https://github.com/adopted-ember-addons/ember-metrics/pull/549) Drop support for Ember < 3.28 ([@jelhan](https://github.com/jelhan))
   - [#548](https://github.com/adopted-ember-addons/ember-metrics/pull/548) Drop support for node < 18 ([@jelhan](https://github.com/jelhan))
 
 #### :tada: Enhancement
+
 - `ember-metrics`
   - [#449](https://github.com/adopted-ember-addons/ember-metrics/pull/449) Add hotjar adapter ([@arrudadev](https://github.com/arrudadev))
   - [#437](https://github.com/adopted-ember-addons/ember-metrics/pull/437) Add Google Analytics 4 adapter ([@kennstenicht](https://github.com/kennstenicht))
 
 #### ⚠️ Deprecations
+
 - `ember-metrics`
   - [#444](https://github.com/adopted-ember-addons/ember-metrics/pull/444) Add deprecation warning for top-level key prefixing in GoogleTagManager adapter ([@opposable-crumbs](https://github.com/opposable-crumbs))
-  
+
 #### :bug: Bug Fix
 
 - `ember-metrics`
