@@ -53,8 +53,8 @@ export default class GoogleTagManager extends BaseAdapter {
       {
         id: 'ember-metrics.issue-438',
         for: 'ember-metrics',
-        since: '1.5.0',
-        until: '2.0.0',
+        since: '2.0.0',
+        until: '3.0.0',
       }
     );
 
