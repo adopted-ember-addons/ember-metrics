@@ -1,0 +1,25 @@
+{
+  "solution": {
+    "ember-metrics": {
+      "impact": "major",
+      "oldVersion": "2.0.0-beta.1",
+      "newVersion": "2.0.0",
+      "constraints": [
+        {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./package.json"
+    }
+  },
+  "description": "## Release (2025-02-27)\n\nember-metrics 2.0.0 (major)\n\n#### :boom: Breaking Change\n* `ember-metrics`\n  * [#553](https://github.com/adopted-ember-addons/ember-metrics/pull/553) Fix @ember/string resolution issues by depending on ember-auto-import ([@jelhan](https://github.com/jelhan))\n  * [#547](https://github.com/adopted-ember-addons/ember-metrics/pull/547) Support Ember v5 by addin @ember/string to peerDependencies ([@jelhan](https://github.com/jelhan))\n  * [#549](https://github.com/adopted-ember-addons/ember-metrics/pull/549) drop support for Ember < 3.28 ([@jelhan](https://github.com/jelhan))\n  * [#548](https://github.com/adopted-ember-addons/ember-metrics/pull/548) drop support for node < 18 ([@jelhan](https://github.com/jelhan))\n\n#### :bug: Bug Fix\n* `ember-metrics`\n  * [#562](https://github.com/adopted-ember-addons/ember-metrics/pull/562) Bump the versions of the GoogleTagManagerAdapter deprecation ([@kategengler](https://github.com/kategengler))\n\n#### :house: Internal\n* `ember-metrics`\n  * [#560](https://github.com/adopted-ember-addons/ember-metrics/pull/560) Re-enable ember-try scenarios in CI ([@kategengler](https://github.com/kategengler))\n  * [#559](https://github.com/adopted-ember-addons/ember-metrics/pull/559) Remove release-it ([@kategengler](https://github.com/kategengler))\n  * [#551](https://github.com/adopted-ember-addons/ember-metrics/pull/551) Fix prepack step to unblock release ([@jelhan](https://github.com/jelhan))\n  * [#554](https://github.com/adopted-ember-addons/ember-metrics/pull/554) Upgrade pnpm ([@kategengler](https://github.com/kategengler))\n  * [#552](https://github.com/adopted-ember-addons/ember-metrics/pull/552) Migrate to PNPM ([@jelhan](https://github.com/jelhan))\n  * [#550](https://github.com/adopted-ember-addons/ember-metrics/pull/550) upgrade with Ember CLI v4.12 blueprints ([@jelhan](https://github.com/jelhan))\n\n#### Committers: 2\n- Jeldrik Hanschke ([@jelhan](https://github.com/jelhan))\n- Katie Gengler ([@kategengler](https://github.com/kategengler))\n"
+}

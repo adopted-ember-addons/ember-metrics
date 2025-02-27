@@ -1,5 +1,55 @@
 # Changelog
 
+## Release (2025-02-27)
+
+ember-metrics 2.0.0 (major)
+
+#### :boom: Breaking Change
+
+- `ember-metrics`
+  - A significant the Metrics adapter API. We're rewriting these as native classes
+in order to move away from the Ember Object model. Historically we've relied
+upon the `init` and `willDestroy` hooks to do our cleanup. Moving forward an
+`install` and `uninstall` hook will need to be defined. Please see the
+[Google Analytics](https://github.com/adopted-ember-addons/ember-metrics/blob/4d0f088a302597d3ab7b2e5efd08ce51a78b1d68/addon/metrics-adapters/google-analytics.js)
+for an example. 
+  - [#553](https://github.com/adopted-ember-addons/ember-metrics/pull/553) Fix @ember/string resolution issues by depending on ember-auto-import ([@jelhan](https://github.com/jelhan))
+  - [#547](https://github.com/adopted-ember-addons/ember-metrics/pull/547) Support Ember v5 by addin @ember/string to peerDependencies ([@jelhan](https://github.com/jelhan))
+  - [#549](https://github.com/adopted-ember-addons/ember-metrics/pull/549) Drop support for Ember < 3.28 ([@jelhan](https://github.com/jelhan))
+  - [#548](https://github.com/adopted-ember-addons/ember-metrics/pull/548) Drop support for node < 18 ([@jelhan](https://github.com/jelhan))
+
+#### :tada: Enhancement
+- `ember-metrics`
+  - [#449](https://github.com/adopted-ember-addons/ember-metrics/pull/449) Add hotjar adapter ([@arrudadev](https://github.com/arrudadev))
+  - [#437](https://github.com/adopted-ember-addons/ember-metrics/pull/437) Add Google Analytics 4 adapter ([@kennstenicht](https://github.com/kennstenicht))
+
+#### ⚠️ Deprecations
+- `ember-metrics`
+  - [#444](https://github.com/adopted-ember-addons/ember-metrics/pull/444) Add deprecation warning for top-level key prefixing in GoogleTagManager adapter ([@opposable-crumbs](https://github.com/opposable-crumbs))
+  
+#### :bug: Bug Fix
+
+- `ember-metrics`
+  - [#562](https://github.com/adopted-ember-addons/ember-metrics/pull/562) Bump the versions of the GoogleTagManagerAdapter deprecation ([@kategengler](https://github.com/kategengler))
+
+#### :house: Internal
+
+- `ember-metrics`
+  - [#560](https://github.com/adopted-ember-addons/ember-metrics/pull/560) Re-enable ember-try scenarios in CI ([@kategengler](https://github.com/kategengler))
+  - [#559](https://github.com/adopted-ember-addons/ember-metrics/pull/559) Remove release-it ([@kategengler](https://github.com/kategengler))
+  - [#551](https://github.com/adopted-ember-addons/ember-metrics/pull/551) Fix prepack step to unblock release ([@jelhan](https://github.com/jelhan))
+  - [#554](https://github.com/adopted-ember-addons/ember-metrics/pull/554) Upgrade pnpm ([@kategengler](https://github.com/kategengler))
+  - [#552](https://github.com/adopted-ember-addons/ember-metrics/pull/552) Migrate to PNPM ([@jelhan](https://github.com/jelhan))
+  - [#550](https://github.com/adopted-ember-addons/ember-metrics/pull/550) upgrade with Ember CLI v4.12 blueprints ([@jelhan](https://github.com/jelhan))
+
+#### Committers: 2
+
+- Jeldrik Hanschke ([@jelhan](https://github.com/jelhan))
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+- Nate ([@opposable-crumbs](https://github.com/opposable-crumbs))
+- Alexandre Arruda ([@arrudadev](https://github.com/arrudadev))
+- Chris Wiedenmann ([@kennstenicht](https://github.com/kennstenicht))
+
 ## v2.0.0-beta.1 (2022-05-12)
 
 ### Changes
