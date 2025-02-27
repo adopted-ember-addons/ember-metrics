@@ -67,11 +67,11 @@ jobs:
           - ember-lts-4.12
           - ember-lts-5.12
           - ember-classic
-          # - ember-release
-          # - ember-beta
-          # - ember-canary
-          # - embroider-safe
-          # - embroider-optimized
+          - ember-release
+          - ember-beta
+          - ember-canary
+          - embroider-safe
+          - embroider-optimized
 
     steps:
       - uses: actions/checkout@v3
