@@ -30,6 +30,7 @@ module.exports = function (environment) {
         'pendo',
         'matomo-tag-manager',
         'hotjar',
+        'plausible',
       ],
     },
 

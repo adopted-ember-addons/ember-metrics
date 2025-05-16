@@ -16,7 +16,8 @@
     "facebook pixel",
     "amplitude",
     "azure application insights",
-    "pendo"
+    "pendo",
+    "plausible"
   ],
   "homepage": "https://github.com/adopted-ember-addons/ember-metrics",
   "bugs": "https://github.com/adopted-ember-addons/ember-metrics/issues",
