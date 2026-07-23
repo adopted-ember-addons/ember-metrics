@@ -23,127 +23,107 @@
   "repository": "https://github.com/adopted-ember-addons/ember-metrics",
   "license": "MIT",
   "author": "Lauren Tan",
-  "directories": {
-    "doc": "./doc",
-    "test": "tests"
+  "imports": {
+    "#src/*": "./src/*"
   },
-  "scripts": {
-    "build": "ember build --environment=production",
-    "contributors": "npx contributor-faces -e \"(*-bot|*\\[bot\\]|*-tomster|homu|bors)\"",
-    "doc": "typedoc",
-    "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
-    "lint:css": "stylelint \"**/*.css\"",
-    "lint:css:fix": "concurrently \"npm:lint:css -- --fix\"",
-    "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\"",
-    "lint:hbs:fix": "ember-template-lint . --fix",
-    "lint:js": "eslint . --cache",
-    "lint:js:fix": "eslint . --fix",
-    "prepack": "ember ts:precompile",
-    "postpack": "ember ts:clean",
-    "prepare": "husky install",
-    "start": "ember serve",
-    "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
-    "test:all": "ember try:each",
-    "test:ember": "ember test",
-    "test:ember-compatibility": "ember try:each"
-  },
-  "lint-staged": {
-    "*.js": "eslint --cache --fix"
-  },
-  "dependencies": {
-    "broccoli-funnel": "^3.0.2",
-    "ember-auto-import": "^2.6.3",
-    "ember-cli-babel": "^7.26.11",
-    "ember-cli-typescript": "^5.1.1"
-  },
-  "devDependencies": {
-    "@babel/eslint-parser": "^7.21.3",
-    "@babel/plugin-proposal-decorators": "^7.21.0",
-    "@ember/optional-features": "^2.0.0",
-    "@ember/string": "^4.0.0",
-    "@ember/test-helpers": "^2.9.3",
-    "@embroider/test-setup": "^4.0.0",
-    "@glimmer/tracking": "^1.1.2",
-    "@types/ember-qunit": "^5.0.1",
-    "@types/ember-resolver": "^5.0.10",
-    "@types/ember__application": "^3.16.3",
-    "@types/ember__array": "^4.0.2",
-    "@types/ember__component": "^4.0.10",
-    "@types/ember__controller": "^4.0.1",
-    "@types/ember__debug": "^4.0.1",
-    "@types/ember__engine": "^4.0.2",
-    "@types/ember__error": "^4.0.0",
-    "@types/ember__object": "^4.0.4",
-    "@types/ember__polyfills": "^4.0.0",
-    "@types/ember__routing": "^4.0.10",
-    "@types/ember__runloop": "^4.0.1",
-    "@types/ember__service": "^4.0.0",
-    "@types/ember__string": "^3.16.3",
-    "@types/ember__template": "^4.0.0",
-    "@types/ember__test": "^4.0.0",
-    "@types/ember__test-helpers": "~2.6.0",
-    "@types/ember__utils": "^4.0.0",
-    "@types/htmlbars-inline-precompile": "^3.0.0",
-    "@types/qunit": "^2.11.2",
-    "@types/rsvp": "^4.0.4",
-    "@typescript-eslint/eslint-plugin": "^5.57.1",
-    "@typescript-eslint/parser": "^5.57.1",
-    "broccoli-asset-rev": "^3.0.0",
-    "concurrently": "^8.0.1",
-    "ember-cli": "~4.12.3",
-    "ember-cli-dependency-checker": "^3.3.1",
-    "ember-cli-htmlbars": "^6.2.0",
-    "ember-cli-inject-live-reload": "^2.1.0",
-    "ember-cli-sri": "^2.1.1",
-    "ember-cli-terser": "^4.0.2",
-    "ember-cli-typescript-blueprints": "^3.0.0",
-    "ember-load-initializers": "^2.1.2",
-    "ember-qunit": "^6.2.0",
-    "ember-resolver": "^13.1.0",
-    "ember-sinon": "^5.0.0",
-    "ember-sinon-qunit": "^6.0.0",
-    "ember-source": "~4.12.0",
-    "ember-source-channel-url": "^3.0.0",
-    "ember-try": "^3.0.0",
-    "eslint": "^8.37.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-ember": "^11.5.0",
-    "eslint-plugin-n": "^15.7.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-qunit": "^7.3.4",
-    "husky": ">=6",
-    "lint-staged": ">=10",
-    "loader.js": "^4.7.0",
-    "prettier": "^2.8.7",
-    "qunit": "^2.19.4",
-    "qunit-sinon-assertions": "^1.0.0",
-    "release-plan": "^0.13.1",
-    "stylelint": "^15.4.0",
-    "stylelint-config-standard": "^32.0.0",
-    "stylelint-prettier": "^3.0.0",
-    "typedoc": "^0.23.14",
-    "typescript": "^4.4.3",
-    "webpack": "^5.78.0"
-  },
-  "peerDependencies": {
-    "@ember/string": ">= 3.0.0",
-    "ember-source": ">= 3.28.0"
-  },
-  "engines": {
-    "node": "18.* || 20.* || >= 22"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
-  },
-  "pnpm": {
-    "overrides": {
-      "@babel/plugin-transform-modules-amd": "7.16.5"
+  "exports": {
+    ".": {
+      "types": "./declarations/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./addon-main.js": "./addon-main.cjs",
+    "./*.css": "./dist/*.css",
+    "./*": {
+      "types": "./declarations/*.d.ts",
+      "default": "./dist/*.js"
     }
   },
+  "files": [
+    "addon-main.cjs",
+    "blueprints",
+    "declarations",
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "rollup --config",
+    "format": "prettier . --cache --write",
+    "lint": "concurrently \"pnpm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",
+    "lint:fix": "concurrently \"pnpm:lint:*:fix\" --names \"fix:\" --prefixColors auto && pnpm run format",
+    "lint:format": "prettier . --cache --check",
+    "lint:hbs": "ember-template-lint . --no-error-on-unmatched-pattern",
+    "lint:hbs:fix": "ember-template-lint . --fix --no-error-on-unmatched-pattern",
+    "lint:js": "eslint . --cache",
+    "lint:js:fix": "eslint . --fix",
+    "lint:publish": "pnpm build && publint run --level error",
+    "lint:types": "ember-tsc --noEmit",
+    "prepack": "rollup --config",
+    "start": "vite dev",
+    "test": "vite build --mode=development --out-dir dist-tests && testem --file testem.cjs ci --port 0"
+  },
+  "dependencies": {
+    "@embroider/addon-shim": "^1.10.3",
+    "decorator-transforms": "^2.2.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@babel/eslint-parser": "^7.29.7",
+    "@babel/plugin-transform-typescript": "^7.29.7",
+    "@babel/runtime": "^7.29.7",
+    "@ember/app-tsconfig": "^2.0.0",
+    "@ember/library-tsconfig": "^2.0.0",
+    "@ember/test-helpers": "^5.4.3",
+    "@ember/test-waiters": "^4.1.2",
+    "@embroider/addon-dev": "^8.3.1",
+    "@embroider/compat": "^4.1.21",
+    "@embroider/core": "^4.6.2",
+    "@embroider/macros": "^1.20.5",
+    "@embroider/vite": "^1.7.8",
+    "@eslint/js": "^9.39.5",
+    "@glimmer/component": "^2.1.1",
+    "@glint/ember-tsc": "^1.8.12",
+    "@glint/template": "^1.7.8",
+    "@glint/tsserver-plugin": "^2.5.18",
+    "@rollup/plugin-babel": "^7.1.0",
+    "@types/qunit": "^2.19.14",
+    "@types/sinon": "^22.0.0",
+    "babel-plugin-ember-template-compilation": "^4.0.0",
+    "concurrently": "^10.0.3",
+    "ember-page-title": "^9.0.3",
+    "ember-qunit": "^9.1.0",
+    "ember-source": "^7.1.0",
+    "ember-strict-application-resolver": "^0.1.1",
+    "ember-template-lint": "^7.9.3",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-ember": "^13.4.1",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-n": "^18.2.2",
+    "globals": "^17.7.0",
+    "prettier": "^3.9.6",
+    "prettier-plugin-ember-template-tag": "^2.1.7",
+    "publint": "^0.3.21",
+    "qunit": "^2.26.0",
+    "qunit-dom": "^3.6.0",
+    "qunit-sinon-assertions": "^1.0.0",
+    "release-plan": "^0.18.0",
+    "rollup": "^4.62.2",
+    "sinon": "^22.1.0",
+    "testem": "^3.20.1",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.65.0",
+    "vite": "^8.1.5"
+  },
+  "packageManager": "pnpm@11.15.1+sha512.81350b07e53c9538a02f1f2303b4290fa2d7be04e56e2a970c4cc4b417dc761de196edabd49d55c7dc9580db81007c44143e4e3d7e462b3000d23c255122d065",
   "ember": {
     "edition": "octane"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "version": 2,
+    "type": "addon",
+    "main": "addon-main.cjs",
+    "app-js": {
+      "./services/metrics.js": "./dist/_app_/services/metrics.js"
+    }
   }
 }

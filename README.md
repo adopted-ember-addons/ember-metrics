@@ -1,25 +1,49 @@
 # ember-metrics
 
-_Send data to multiple analytics services without re-implementing new API_
+_Send data to multiple analytics services without re-implementing a new API_
 
-![Download count all time](https://img.shields.io/npm/dt/ember-metrics.svg) [![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) ![Build Status](https://github.com/adopted-ember-addons/ember-metrics/workflows/Test/badge.svg?branch=master) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics)
+![Download count all time](https://img.shields.io/npm/dt/ember-metrics.svg) [![npm version](https://badge.fury.io/js/ember-metrics.svg)](http://badge.fury.io/js/ember-metrics) [![CI](https://github.com/adopted-ember-addons/ember-metrics/actions/workflows/ci.yml/badge.svg)](https://github.com/adopted-ember-addons/ember-metrics/actions/workflows/ci.yml) [![Ember Observer Score](http://emberobserver.com/badges/ember-metrics.svg)](http://emberobserver.com/addons/ember-metrics)
 
-This addon adds a simple `metrics` service to your app that makes it simple to send data to multiple analytics services without having to implement a new API each time.
+This addon adds a simple `metrics` service to your app that makes it easy to
+send data to multiple analytics services without having to implement a new API
+each time. Track events, page views, and more through one API, and add or
+remove analytics services just by changing how you activate their adapters.
 
-Using this addon, you can easily use bundled adapters for various analytics services, and one API to track events, page views, and more. When you decide to add another analytics service to your stack, all you need to do is add it to your configuration, and that's it!
+Writing your own adapter for an unsupported service is easy too — see
+[Writing your own adapters](#writing-your-own-adapters).
 
-Writing your own adapters for currently unsupported analytics services is easy too. If you'd like to then share it with the world, submit a pull request and we'll add it to the bundled adapters.
+> **Upgrading from the classic (string-name) API?** Adapters are now activated
+> by passing adapter **classes** to `metrics.activateAdapters(...)` rather than
+> by string name via `config/environment`. This makes the addon compatible with
+> `ember-strict-application-resolver` and Embroider's static builds. See
+> [Configuration & activation](#configuration--activation).
 
-#### Currently supported services and options
+## Compatibility
 
-1. `GoogleAnalytics`
+- Ember.js v5.8 or above
+- Embroider or ember-auto-import v2
+
+## Installation
+
+```sh
+ember install ember-metrics
+```
+
+## Supported services and options
+
+Each service ships as an adapter class you import from
+`ember-metrics/metrics-adapters/<name>` (dasherized), e.g.
+`ember-metrics/metrics-adapters/google-analytics-four`. The options below are
+the values you put in that adapter's `config`.
+
+1. `GoogleAnalytics` — `ember-metrics/metrics-adapters/google-analytics`
 
    - `id`: [Property ID](https://support.google.com/analytics/answer/1032385?hl=en), e.g. `UA-XXXX-Y`
 
-1. `GoogleAnalyticsFour`
+1. `GoogleAnalyticsFour` — `ember-metrics/metrics-adapters/google-analytics-four`
 
    - `id`: [Measurement Id](https://support.google.com/analytics/answer/9539598?hl=en), e.g. `G-XXXX`
-   - `options`: _optional_ An object which will be directly passed to the configuration tag, e.g.:
+   - `options`: _optional_ An object passed directly to the configuration tag, e.g.:
 
    ```js
    options = {
@@ -28,17 +52,22 @@ Writing your own adapters for currently unsupported analytics services is easy t
    };
    ```
 
-   By default GA4 automatically tracks page views when the history locations changes. This means that `this.metrics.trackPage()` is ignoreded by default. However, if you want to track the page views manually, you need to set `send_page_view: false` inside the options. To avoid double counting page views make sure [enhanced measurement](https://support.google.com/analytics/answer/9216061) is configured correctly. Typically, this means disabling _Page changes based on browser history events_ under the advanced settings of the page views section.
+   By default GA4 automatically tracks page views when the history location
+   changes. This means `this.metrics.trackPage()` is ignored by default. If you
+   want to track page views manually, set `send_page_view: false` inside the
+   options. To avoid double counting, make sure
+   [enhanced measurement](https://support.google.com/analytics/answer/9216061)
+   is configured correctly — typically disabling _Page changes based on browser
+   history events_ under the advanced settings of the page views section.
 
-1. `Mixpanel`
+1. `Mixpanel` — `ember-metrics/metrics-adapters/mixpanel`
 
    - `token`: [Mixpanel token](https://mixpanel.com/help/questions/articles/where-can-i-find-my-project-token)
    - Optionally other [config options to override](https://developer.mixpanel.com/docs/javascript-full-api-reference#mixpanelinit)
 
-1. `GoogleTagManager`
+1. `GoogleTagManager` — `ember-metrics/metrics-adapters/google-tag-manager`
 
    - `id`: [Container ID](https://developers.google.com/tag-manager/quickstart), e.g. `GTM-XXXX`
-
    - `dataLayer`: An array containing a single POJO of information, e.g.:
 
    ```js
@@ -56,24 +85,24 @@ Writing your own adapters for currently unsupported analytics services is easy t
    envParams: 'gtm_auth=xxxxx&gtm_preview=env-xx&gtm_cookies_win=x';
    ```
 
-1. `Segment`
+1. `Segment` — `ember-metrics/metrics-adapters/segment`
 
    - `key`: [Segment key](https://segment.com/docs/libraries/analytics.js/quickstart/)
    - `proxyDomain`: _optional_ [Custom domain proxy](https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/custom-proxy/)
 
-1. `Piwik`
+1. `Piwik` — `ember-metrics/metrics-adapters/piwik`
 
    - `piwikUrl`: [Tracker URL](http://developer.piwik.org/guides/tracking-javascript-guide)
    - `siteId`: [Site Id](http://developer.piwik.org/guides/tracking-javascript-guide)
 
-1. `Intercom`
+1. `Intercom` — `ember-metrics/metrics-adapters/intercom`
 
    - `appId`: [App ID](https://docs.intercom.com/help-and-faqs/getting-set-up/where-can-i-find-my-app-id)
 
-1. `Facebook Pixel`
+1. `FacebookPixel` — `ember-metrics/metrics-adapters/facebook-pixel`
 
    - `id`: [ID](https://www.facebook.com/ads/manager/pixel/facebook_pixel/?act=129849836&pid=p1)
-   - dataProcessingOptions: _optional_ An object defining the method, country and state for [data processing options](https://developers.facebook.com/docs/marketing-apis/data-processing-options/)
+   - `dataProcessingOptions`: _optional_ An object defining the method, country and state for [data processing options](https://developers.facebook.com/docs/marketing-apis/data-processing-options/)
 
    ```js
    dataProcessingOptions: {
@@ -83,28 +112,28 @@ Writing your own adapters for currently unsupported analytics services is easy t
    }
    ```
 
-1. `Amplitude`
+1. `Amplitude` — `ember-metrics/metrics-adapters/amplitude`
 
    - `apiKey`: [API Key](https://developers.amplitude.com/#setting-up-our-sdks)
 
-1. `Azure App Insights`
+1. `AzureAppInsights` — `ember-metrics/metrics-adapters/azure-app-insights`
 
    - `instrumentationKey`: [Instrumentation Key](https://github.com/microsoft/ApplicationInsights-JS#configuration)
 
-1. `Pendo`
+1. `Pendo` — `ember-metrics/metrics-adapters/pendo`
 
    - `apiKey`: [API Key](https://developers.pendo.io/docs/?bash#options)
 
-1. `MatomoTagManager`
+1. `MatomoTagManager` — `ember-metrics/metrics-adapters/matomo-tag-manager`
 
    - `matomoUrl`: [Matomo URL](https://developer.matomo.org/guides/tagmanager/embedding)
    - `containerId`: [Container ID](https://developer.matomo.org/guides/tagmanager/embedding), e.g. `acbd1234`
 
-1. `Hotjar`
+1. `Hotjar` — `ember-metrics/metrics-adapters/hotjar`
 
    - `siteId`: [SiteID](https://help.hotjar.com/hc/en-us/articles/115009336727-How-to-Install-your-Hotjar-Tracking-Code)
 
-#### Community adapters
+### Community adapters
 
 1. `Adobe Dynamic Tag Management`
 
@@ -114,190 +143,109 @@ Writing your own adapters for currently unsupported analytics services is easy t
 
    - [ember-metrics-simple-analytics](https://github.com/mrloop/ember-metrics-simple-analytics)
 
-## Installing The Addon
+## Configuration & activation
 
-```shell
-ember install ember-metrics
-```
+The `metrics` service doesn't activate anything on its own — you activate
+adapters explicitly by passing adapter **classes** (not string names) to
+`metrics.activateAdapters(...)`. This keeps the addon compatible with
+`ember-strict-application-resolver` and Embroider's static builds: there's no
+container lookup by convention, nothing depends on `config:environment` being
+registered on the owner, and only the adapters you actually import end up in
+your build.
 
-## Compatibility
+A good place to do this once is your application route — it runs on boot,
+before anything renders:
 
-- Ember.js v3.28 or above
-- Ember CLI v3.28 or above
-- Node.js v18 or above
+```js
+// app/routes/application.js
+import Route from '@ember/routing/route';
+import { service } from '@ember/service';
+import ENV from 'my-app/config/environment';
+import GoogleAnalytics from 'ember-metrics/metrics-adapters/google-analytics';
+import Mixpanel from 'ember-metrics/metrics-adapters/mixpanel';
 
-## Configuration
+export default class ApplicationRoute extends Route {
+  @service metrics;
 
-To setup, you should first configure the service through `config/environment`:
+  constructor() {
+    super(...arguments);
 
-```javascript
-module.exports = function (environment) {
-  var ENV = {
-    metricsAdapters: [
+    // Needed only if you gate adapters per environment (see `environments` below).
+    this.metrics.appEnvironment = ENV.environment;
+
+    this.metrics.activateAdapters([
       {
         name: 'GoogleAnalytics',
+        adapter: GoogleAnalytics,
         environments: ['development', 'production'],
         config: {
           id: 'UA-XXXX-Y',
           // Use `analytics_debug.js` in development
-          debug: environment === 'development',
+          debug: ENV.environment === 'development',
           // Use verbose tracing of GA events
-          trace: environment === 'development',
+          trace: ENV.environment === 'development',
           // Ensure development env hits aren't sent to GA
-          sendHitTask: environment !== 'development',
+          sendHitTask: ENV.environment !== 'development',
           // Specify Google Analytics plugins
           require: ['ecommerce'],
         },
       },
       {
-        name: 'GoogleAnalyticsFour',
-        environments: ['production'],
-        config: {
-          id: 'G-XXXX',
-          options: {
-            anonymize_ip: true,
-            debug_mode: environment === 'development',
-          },
-        },
-      },
-      {
         name: 'Mixpanel',
+        adapter: Mixpanel,
         environments: ['production'],
         config: {
           token: '0f76c037-4d76-4fce-8a0f-a9a8f89d1453',
         },
       },
-      {
-        name: 'Segment',
-        environments: ['production'],
-        config: {
-          key: '4fce-8a0f-a9a8f89d1453',
-        },
-      },
-      {
-        name: 'Piwik',
-        environments: ['production'],
-        config: {
-          piwikUrl: 'http://piwik.my.com',
-          siteId: 42,
-        },
-      },
-      {
-        name: 'Intercom',
-        environments: ['production'],
-        config: {
-          appId: 'def1abc2',
-        },
-      },
-      {
-        name: 'FacebookPixel',
-        environments: ['production'],
-        config: {
-          id: '1234567890',
-          dataProcessingOptions: {
-            method: ['LDU'],
-            country: 1,
-            state: 1000,
-          },
-        },
-      },
-      {
-        name: 'Amplitude',
-        environments: ['production'],
-        config: {
-          apiKey: '12345672daf5f3515f30f0000f1f0000cdfe433888',
-          options: {
-            trackingOptions: {
-              ip_address: false,
-            },
-            // ...other amplitude configuration options
-            // https://developers.amplitude.com/#sdk-advanced-settings
-          },
-        },
-      },
-      {
-        name: 'AzureAppInsights',
-        environments: ['production'],
-        config: {
-          instrumentationKey: '123',
-          // ...other appInsights configuration options
-          // https://github.com/microsoft/ApplicationInsights-JS#configuration
-        },
-      },
-      {
-        name: 'Pendo',
-        environments: ['production'],
-        config: {
-          apiKey: '123456789',
-        },
-      },
-      {
-        name: 'LocalAdapter',
-        environments: ['all'], // default
-        config: {
-          foo: 'bar',
-        },
-      },
-      {
-        name: 'MatomoTagManager',
-        environments: ['production'],
-        config: {
-          matomoUrl: 'matomo.my.com',
-          containerId: 'acd123',
-        },
-      },
-      {
-        name: 'Hotjar',
-        environments: ['production'],
-        config: {
-          siteId: '123456789',
-        },
-      },
-    ],
-  };
-};
-```
-
-Adapter names are PascalCased. Refer to the [list of supported adapters](#currently-supported-services-and-options) above for more information.
-
-The `metricsAdapters` option in `ENV` accepts an array of objects containing settings for each analytics service you want to use in your app in the following format:
-
-```js
-/**
- * @param {String} name Adapter name
- * @param {Array} environments Environments that the adapter should be activated in
- * @param {Object} config Configuration options for the service
- */
-{
-  name: 'Analytics',
-  environments: ['all'],
-  config: {}
-}
-```
-
-Values in the `config` portion of the object are dependent on the adapter. If you're writing your own adapter, you will be able to retrieve the options passed into it:
-
-```js
-// Example adapter
-export default class ExampleAdapter extends BaseAdapter {
-  init() {
-    const { apiKey, options } = this.config;
-    this.setupService(apiKey);
-    this.setOptions(options);
+    ]);
   }
 }
 ```
 
-To only activate adapters in specific environments, you can add an array of environment names to the config, as the `environments` key. Valid environments are:
+Anywhere that runs once early works — `activateAdapters` is idempotent. The
+application route is a good default because it needs no legacy initializer API
+and has clean access to the service.
 
-- `development`
-- `test`
-- `production`
-- `all` (default, will be activated in all environments)
+Each entry in the array has the following shape:
+
+```js
+/**
+ * @param {String}   name          A label you choose, used to target this
+ *                                 adapter with `invoke` and the single-adapter
+ *                                 form of the convenience methods.
+ * @param {Function} adapter       The adapter class itself.
+ * @param {String[]} environments  Environments to activate the adapter in.
+ *                                 Defaults to `['all']`.
+ * @param {Object}   config        Configuration passed to the adapter's
+ *                                 constructor (see the options for each
+ *                                 service above).
+ */
+{
+  name: 'GoogleAnalytics',
+  adapter: GoogleAnalytics,
+  environments: ['all'],
+  config: {},
+}
+```
+
+To only activate an adapter in specific environments, list them under
+`environments` and set `metrics.appEnvironment` (e.g. to `ENV.environment`)
+before calling `activateAdapters`. Valid values are whatever your app uses for
+its environment (commonly `development`, `test`, `production`), plus:
+
+- `all` — the default; the adapter is activated in every environment.
+
+`activateAdapters` is idempotent: adapters already active under the same `name`
+are not reinstantiated, so it's safe to call it multiple times as more adapters
+or config become available (see [Activating adapters later](#activating-adapters-later)).
 
 ## Content Security Policy
 
-If you're using [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy), you'll need to modify the content security policy to allow loading of any remote scripts. In `config/environment.js`, add this to the `ENV` hash (modify as necessary):
+If you're using [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy),
+you'll need to modify the content security policy to allow loading of any remote
+scripts. In `config/environment.js`, add this to the `ENV` hash (modify as
+necessary):
 
 ```js
 // example for loading Google Analytics
@@ -314,12 +262,14 @@ contentSecurityPolicy: {
 
 ## Usage
 
-In order to use the addon, you must first [configure](#configuration) it, then inject it into any Object registered in the container that you wish to track. For example, you can call a `trackPage` event across all your analytics services whenever you transition into a route, like so:
+Inject the service into any object registered in the container that you wish to
+track from. For example, you can call `trackPage` across all your analytics
+services whenever you transition into a route:
 
 ```js
 // app/routes/application.js
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class ApplicationRoute extends Route {
   @service metrics;
@@ -338,149 +288,161 @@ export default class ApplicationRoute extends Route {
 }
 ```
 
-If you wish to only call a single service, just specify it's name as the first argument:
+To only call a single service, pass its `name` (the label you registered it
+with) as the first argument:
 
 ```js
-// only invokes the `trackPage` method on the `GoogleAnalyticsAdapter`
+// only invokes `trackPage` on the adapter registered as `GoogleAnalytics`
 metrics.trackPage('GoogleAnalytics', {
   title: 'My Awesome App',
 });
 ```
 
-#### Context
+### Context
 
-Often, you may want to include information like the current user's name with every event or page view that's tracked. Any properties that are set on `metrics.context` will be merged into options for every Service call.
+Often you may want to include information like the current user's name with
+every event or page view that's tracked. Any properties set on
+`metrics.context` are merged into the options for every service call.
 
 ```js
 this.metrics.context.userName = 'Jimbo';
 this.metrics.trackPage({ page: 'page/1' }); // { userName: 'Jimbo', page: 'page/1' }
 ```
 
-### API
+### Service API
 
-#### Service API
+There are four main methods, all with the same argument signature. The
+optional first argument targets a single adapter by its registered `name`;
+omit it to call every activated adapter.
 
-There are 4 main methods implemented by the service, with the same argument signature:
+- `trackPage([name], options)`
 
-- `trackPage([analyticsName], options)`
+  Commonly used to track page views. Because of how single-page apps route,
+  you'll usually call this yourself (e.g. on `routeDidChange`) to track page
+  views.
 
-  This is commonly used by analytics services to track page views. Due to the way Single Page Applications implement routing, you will need to call this on the `activate` hook of each route to track all page views.
+- `trackEvent([name], options)`
 
-- `trackEvent([analyticsName], options)`
+  A general-purpose method for tracking a named event in your application.
 
-  This is a general purpose method for tracking a named event in your application.
+- `identify([name], options)`
 
-- `identify([analyticsName], options)`
+  For analytics services that support identifying a user.
 
-  For analytics services that have identification functionality.
+- `alias([name], options)`
 
-- `alias([analyticsName], options)`
+  For services that implement it, notifies the service that an anonymous user
+  now has a unique identifier.
 
-  For services that implement it, this method notifies the analytics service that an anonymous user now has a unique identifier.
+If an adapter implements a method beyond the four above, call it with `invoke`.
+For example, the Amplitude adapter exposes `optOut`/`optIn`:
 
-If an adapter implements specific methods you wish to call, then you can use `invoke`
-
-- `invoke(method, [analyticsName], options)`
+- `invoke(method, [name], options)`
 
   ```js
-  metrics.invoke('trackLink', 'Piwik', {
-    url: 'my_favorite_link',
-    linkType: 'download',
-  });
+  // Target a single adapter by passing its name *and* an options object — with
+  // only two arguments the second is treated as options, not a name.
+  metrics.invoke('optOut', 'Amplitude', {});
   ```
 
-### Lazy Initialization
+Adapters that don't implement the method are skipped. The `[name]` argument may
+also be an array to target several adapters at once, e.g.
+`metrics.invoke('trackEvent', ['GoogleAnalytics', 'Mixpanel'], { ... })`.
 
-If your app implements dynamic API keys for various analytics integration, you can defer the initialization of the adapters. Instead of configuring `ember-metrics` through `config/environment`, you can call the following from any Object registered in the container:
+### Activating adapters later
+
+Because `activateAdapters` is idempotent, you can call it again at any time —
+for example once a dynamic API key becomes available from a model:
 
 ```js
 // app/routes/application.js
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
+import GoogleAnalytics from 'ember-metrics/metrics-adapters/google-analytics';
 
 export default class ApplicationRoute extends Route {
   @service metrics;
 
   afterModel(model) {
-    const id = model.googleAnalyticsKey;
-
     this.metrics.activateAdapters([
       {
         name: 'GoogleAnalytics',
+        adapter: GoogleAnalytics,
         environments: ['all'],
-        config: {
-          id,
-        },
+        config: { id: model.googleAnalyticsKey },
       },
     ]);
   }
 }
 ```
 
-Because `activateAdapters` is idempotent, you can call it as many times as you'd like. However, it will not reinstantiate existing adapters.
+Adapters already active under the same `name` won't be reinstantiated, so it's
+safe to call this from multiple places as more adapters or config become
+available.
 
-Since ember-metrics now automatically removes all unused adapters, it's also important to force the inclusion of the adapter via `config/environment`. NOTE: If the adapter is already defined in the `metricsAdapters` array of `config/environment` then this step is not necessary.
+## Writing your own adapters
 
-```js
-// config/environment
-module.exports = function(environment) {
-  var ENV = {
-    'ember-metrics': {
-      includeAdapters: ['google-analytics']
-    }
-  };
-
-  return ENV;
-```
-
-## Writing Your Own Adapters
-
-First, generate a new Metrics Adapter:
-
-```sh
-$ ember generate metrics-adapter foo-bar
-```
-
-This creates `app/metrics-adapters/foo-bar.js` and a unit test at `tests/unit/metrics-adapters/foo-bar-test.js`, which you should now customize.
-
-### Required Methods
-
-The standard contracts are optionally defined, but `init` and `willDestroy` must be implemented by your adapter.
-
-#### init
-
-This method is called when an adapter is activated by the service. It is responsible for adding the required script tag used by the integration, and for initializing it.
-
-#### willDestroy
-
-When the adapter is destroyed, it should remove its script tag and property. This is usually defined on the `window`.
-
-### Usage
-
-Once you have implemented your adapter, you can add it to your [app's config](#configuration), like so:
+An adapter is a class that extends `BaseAdapter` and implements, at minimum,
+`install` and `uninstall`:
 
 ```js
-module.exports = function (environment) {
-  var ENV = {
-    metricsAdapters: [
-      {
-        name: 'MyAdapter',
-        environments: ['all'],
-        config: {
-          secret: '29fJs90qnfEa',
-          options: {
-            foo: 'bar',
-          },
-        },
-      },
-    ],
-  };
-};
+// app/metrics-adapters/my-adapter.js
+import BaseAdapter from 'ember-metrics/metrics-adapters/base';
+
+export default class MyAdapter extends BaseAdapter {
+  // Human-readable name used in assertions.
+  toStringExtension() {
+    return 'MyAdapter';
+  }
+
+  // Called when the adapter is activated. Responsible for injecting the
+  // provider's script tag and initializing it. Read config off `this.config`.
+  install() {
+    const { apiKey } = this.config;
+    // ...load and initialize the service using `apiKey`
+  }
+
+  // Called when the adapter/service is torn down. Remove the script tag and
+  // any globals the service created (usually on `window`).
+  uninstall() {
+    // ...clean up
+  }
+
+  // Optional — implement the ones your service supports.
+  identify(options) {}
+  trackEvent(options) {}
+  trackPage(options) {}
+  alias(options) {}
+}
 ```
+
+Then register your class like any bundled adapter:
+
+```js
+import MyAdapter from 'my-app/metrics-adapters/my-adapter';
+
+metrics.activateAdapters([
+  {
+    name: 'MyAdapter',
+    adapter: MyAdapter,
+    environments: ['all'],
+    config: { apiKey: '29fJs90qnfEa' },
+  },
+]);
+```
+
+`ember-metrics` ships TypeScript types. `BaseAdapter`, `AdapterConfig`, and
+`AdapterOptions` are exported from `ember-metrics/metrics-adapters/base`, so you
+can author adapters in TypeScript with full type-checking. The shape of a
+`activateAdapters` entry is exported as `AdapterRegistration` from
+`ember-metrics/services/metrics`.
+
+If you build an adapter for a service others might use, consider publishing it
+as a [community adapter](#community-adapters) and opening a PR to list it here.
 
 ## Contributors
 
-We're grateful to these wonderful contributors who've contributed to `ember-metrics`:
+We're grateful to these wonderful people who've contributed to `ember-metrics`:
 
 [//]: contributor-faces
 
