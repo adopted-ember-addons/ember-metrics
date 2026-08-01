@@ -1,0 +1,1 @@
+{"version":3,"file":"hotjar.d.ts","sourceRoot":"","sources":["../../src/metrics-adapters/hotjar.ts"],"names":[],"mappings":"AACA,OAAO,WAAW,EAAE,EAAE,KAAK,cAAc,EAAE,MAAM,WAAW,CAAC;AAI7D,MAAM,CAAC,OAAO,OAAO,MAAO,SAAQ,WAAW;IAC7C,iBAAiB;IAIjB,OAAO;IAWP,QAAQ,CAAC,OAAO,GAAE,cAAmB;IAMrC,UAAU,CAAC,OAAO,GAAE,cAAmB;IAMvC,SAAS,CAAC,OAAO,GAAE,cAAmB;IAUtC,SAAS;CAKV"}

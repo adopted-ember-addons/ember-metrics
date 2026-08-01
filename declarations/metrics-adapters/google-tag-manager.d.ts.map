@@ -1,0 +1,1 @@
+{"version":3,"file":"google-tag-manager.d.ts","sourceRoot":"","sources":["../../src/metrics-adapters/google-tag-manager.ts"],"names":[],"mappings":"AACA,OAAO,WAAW,EAAE,EAAE,KAAK,cAAc,EAAE,MAAM,WAAW,CAAC;AAM7D,MAAM,CAAC,OAAO,OAAO,gBAAiB,SAAQ,WAAW;IACvD,SAAS,SAAe;IAExB,iBAAiB;IAIjB,OAAO;IAkBP,UAAU,CAAC,OAAO,GAAE,cAAmB;IA8BvC,SAAS,CAAC,OAAO,GAAE,cAAmB;;;IAgBtC,SAAS;CAKV"}

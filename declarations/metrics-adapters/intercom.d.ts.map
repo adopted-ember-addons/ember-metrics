@@ -1,0 +1,1 @@
+{"version":3,"file":"intercom.d.ts","sourceRoot":"","sources":["../../src/metrics-adapters/intercom.ts"],"names":[],"mappings":"AACA,OAAO,WAAW,EAAE,EAAE,KAAK,cAAc,EAAE,MAAM,WAAW,CAAC;AAK7D,MAAM,CAAC,OAAO,OAAO,QAAS,SAAQ,WAAW;IAC/C,MAAM,UAAS;IAEf,iBAAiB;IAIjB,OAAO;IAWP,QAAQ,CAAC,OAAO,GAAE,cAAmB;IAsBrC,UAAU,CAAC,OAAO,GAAE,cAAmB;IAQvC,SAAS,CAAC,OAAO,GAAE,cAAmB;IAOtC,SAAS;CAKV"}
