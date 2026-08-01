@@ -1,5 +1,22 @@
 # Changelog
 
+## Release (2026-07-28)
+
+* ember-metrics 3.0.0 (major)
+
+#### :boom: Breaking Change
+* `ember-metrics`
+  * [#572](https://github.com/adopted-ember-addons/ember-metrics/pull/572) feat: v2 addon format + class-based adapters ([@aklkv](https://github.com/aklkv))
+
+#### :house: Internal
+* `ember-metrics`
+  * [#573](https://github.com/adopted-ember-addons/ember-metrics/pull/573) fix: regenerate release plan ([@aklkv](https://github.com/aklkv))
+  * [#561](https://github.com/adopted-ember-addons/ember-metrics/pull/561) Re-enable embroider-optimized ([@kategengler](https://github.com/kategengler))
+
+#### Committers: 2
+- Alexey Kulakov ([@aklkv](https://github.com/aklkv))
+- Katie Gengler ([@kategengler](https://github.com/kategengler))
+
 ## Release (2025-02-27)
 
 ember-metrics 2.0.0 (major)
