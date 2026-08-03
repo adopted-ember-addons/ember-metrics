@@ -62,7 +62,7 @@ importers:
         version: 2.1.1(supports-color@10.2.2)
       '@glint/ember-tsc':
         specifier: ^1.8.12
-        version: 1.8.12(ember-source@7.1.0(@glimmer/component@2.1.1(supports-color@10.2.2))(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
+        version: 1.8.14(ember-source@7.1.0(@glimmer/component@2.1.1(supports-color@10.2.2))(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
       '@glint/template':
         specifier: ^1.7.8
         version: 1.7.8
@@ -890,6 +890,19 @@ packages:
     peerDependenciesMeta:
       ember-source:
         optional: true
+
+  '@glint/ember-tsc@1.8.14':
+    resolution: {integrity: sha512-m9Tq3LJRR4LbQhqkgZQG3m36NAUaqZ/179yU83i05JATEvuwB54d8P/+Mj1CADrZC3Yh+XTmEA4JetCvo8OkLg==}
+    hasBin: true
+    peerDependencies:
+      ember-source: '>=3.28.0'
+      typescript: '>=5.6.0'
+    peerDependenciesMeta:
+      ember-source:
+        optional: true
+
+  '@glint/template@1.7.10':
+    resolution: {integrity: sha512-dixKlQDF4jMM7AekQ+PPdMZRJy+Jze6ejcV/wUzRJm59nFY+D32zsYxGIm3vVLiIvafhW78QSgAf3KPUrrP5Jg==}
 
   '@glint/template@1.7.8':
     resolution: {integrity: sha512-n8ymxa60inoSKh2BqfHP2eTtmaXgr08mgPKTAujkzD/Ix1cBcTYv0am0FQ5ei3XFprDbrz2OBAF14BmvfoOnVA==}
@@ -6483,10 +6496,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@glint/ember-tsc@1.8.12(ember-source@7.1.0(@glimmer/component@2.1.1(supports-color@10.2.2))(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)':
+  '@glint/ember-tsc@1.8.14(ember-source@7.1.0(@glimmer/component@2.1.1(supports-color@10.2.2))(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)':
     dependencies:
       '@glimmer/syntax': 0.95.0
-      '@glint/template': 1.7.8
+      '@glint/template': 1.7.10
       '@volar/kit': 2.4.28(typescript@6.0.3)
       '@volar/language-core': 2.4.28
       '@volar/language-server': 2.4.28
@@ -6506,6 +6519,8 @@ snapshots:
       ember-source: 7.1.0(@glimmer/component@2.1.1(supports-color@10.2.2))(supports-color@10.2.2)
     transitivePeerDependencies:
       - supports-color
+
+  '@glint/template@1.7.10': {}
 
   '@glint/template@1.7.8': {}
 
