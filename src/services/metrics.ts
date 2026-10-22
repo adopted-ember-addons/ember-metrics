@@ -82,7 +82,8 @@ export default class MetricsService extends Service {
 
   /**
    * Instantiates adapters from passed adapter options and caches them for
-   * future retrieval.
+   * future retrieval. Adapters omitted from the active registrations are
+   * uninstalled before the active set is replaced.
    */
   activateAdapters(
     adapterOptions: AdapterRegistration[] = [],
@@ -107,6 +108,11 @@ export default class MetricsService extends Service {
       if (typeof FastBoot === 'undefined' || adapter.supportsFastBoot) {
         activeAdapters[name] =
           this._adapters[name] || this._activateAdapter({ adapter, config });
+      }
+    }
+    for (const [name, adapter] of Object.entries(this._adapters)) {
+      if (!Object.prototype.hasOwnProperty.call(activeAdapters, name)) {
+        adapter.uninstall();
       }
     }
     this._adapters = activeAdapters;

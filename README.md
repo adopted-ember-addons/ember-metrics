@@ -237,8 +237,9 @@ its environment (commonly `development`, `test`, `production`), plus:
 - `all` — the default; the adapter is activated in every environment.
 
 `activateAdapters` is idempotent: adapters already active under the same `name`
-are not reinstantiated, so it's safe to call it multiple times as more adapters
-or config become available (see [Activating adapters later](#activating-adapters-later)).
+are not reinstantiated. Each call defines the complete active set; registrations
+omitted from a later call are uninstalled. Pass the desired set when calling it
+again as more adapters or config become available (see [Activating adapters later](#activating-adapters-later)).
 
 ## Content Security Policy
 
@@ -376,9 +377,9 @@ export default class ApplicationRoute extends Route {
 }
 ```
 
-Adapters already active under the same `name` won't be reinstantiated, so it's
-safe to call this from multiple places as more adapters or config become
-available.
+Adapters already active under the same `name` won't be reinstantiated. Each
+call defines the complete active set; registrations omitted from a later call
+are uninstalled.
 
 ## Writing your own adapters
 
