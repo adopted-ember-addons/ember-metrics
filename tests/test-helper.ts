@@ -22,7 +22,28 @@ class TestApp extends EmberApp {
 
 Router.map(function () {});
 
+export function isExternalUrl(url: string): boolean {
+  return new URL(url, window.location.href).origin !== window.location.origin;
+}
+
+function preventExternalRequests(): void {
+  const nativeFetch = window.fetch.bind(window);
+  window.fetch = (input, init) => {
+    const url =
+      typeof input === 'string'
+        ? input
+        : input instanceof URL
+          ? input.href
+          : input.url;
+    if (isExternalUrl(url)) {
+      return Promise.resolve(new Response(null, { status: 204 }));
+    }
+    return nativeFetch(input, init);
+  };
+}
+
 export function start() {
+  preventExternalRequests();
   setTesting(true);
   setApplication(
     TestApp.create({
