@@ -1,22 +1,8 @@
 {
   "solution": {
     "ember-metrics": {
-      "impact": "major",
-      "oldVersion": "2.0.0",
-      "newVersion": "3.0.0",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        }
-      ],
-      "pkgJSONPath": "./package.json"
+      "oldVersion": "3.0.0"
     }
   },
-  "description": "## Release (2026-07-28)\n\n* ember-metrics 3.0.0 (major)\n\n#### :boom: Breaking Change\n* `ember-metrics`\n  * [#572](https://github.com/adopted-ember-addons/ember-metrics/pull/572) feat: v2 addon format + class-based adapters ([@aklkv](https://github.com/aklkv))\n\n#### :house: Internal\n* `ember-metrics`\n  * [#573](https://github.com/adopted-ember-addons/ember-metrics/pull/573) fix: regenerate release plan ([@aklkv](https://github.com/aklkv))\n  * [#561](https://github.com/adopted-ember-addons/ember-metrics/pull/561) Re-enable embroider-optimized ([@kategengler](https://github.com/kategengler))\n\n#### Committers: 2\n- Alexey Kulakov ([@aklkv](https://github.com/aklkv))\n- Katie Gengler ([@kategengler](https://github.com/kategengler))\n"
+  "description": "\n\n\n\n"
 }
