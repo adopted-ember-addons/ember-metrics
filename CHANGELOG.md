@@ -1,5 +1,10 @@
 # Changelog
 
+
+
+
+
+
 ## Release (2026-07-28)
 
 * ember-metrics 3.0.0 (major)
