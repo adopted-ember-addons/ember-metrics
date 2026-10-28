@@ -1,0 +1,1 @@
+{"version":3,"file":"facebook-pixel.d.ts","sourceRoot":"","sources":["../../src/metrics-adapters/facebook-pixel.ts"],"names":[],"mappings":"AACA,OAAO,WAAW,EAAE,EAAE,KAAK,cAAc,EAAE,MAAM,WAAW,CAAC;AAK7D,MAAM,CAAC,OAAO,OAAO,aAAc,SAAQ,WAAW;IACpD,iBAAiB;IAIjB,OAAO;IAoCP,UAAU,CAAC,OAAO,GAAE,cAAmB;IAcvC,SAAS,CAAC,OAAO,GAAE,cAAmB;IAMtC,SAAS;CAQV"}
